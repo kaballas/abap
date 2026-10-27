@@ -1,0 +1,4075 @@
+*&---------------------------------------------------------------------*
+*&  Include           ZHUIM_TOP_CLASS
+*&---------------------------------------------------------------------*
+
+*--------------------------------------------------------------------*
+*       CLASS ZCL_TREE_EVENT DEFINITION
+*--------------------------------------------------------------------*
+*
+*--------------------------------------------------------------------*
+CLASS zcl_tree_event DEFINITION.
+**********************************************************************
+  PUBLIC SECTION.
+
+    CLASS-METHODS:
+      handle_user_double_click
+        FOR EVENT node_double_click
+        OF cl_gui_simple_tree
+        IMPORTING node_key,
+
+      handle_user_context_menu_req
+        FOR EVENT node_context_menu_request
+        OF cl_gui_simple_tree
+        IMPORTING node_key menu,
+
+      handle_user_context_menu_sel
+        FOR EVENT node_context_menu_select
+        OF cl_gui_simple_tree
+        IMPORTING node_key fcode,
+
+      handle_user_expand_no_children
+        FOR EVENT expand_no_children
+        OF cl_gui_simple_tree
+        IMPORTING node_key.
+**********************************************************************
+ENDCLASS.                    "ZCL_TREE_EVENT DEFINITION
+
+*--------------------------------------------------------------------*
+*       CLASS ZCL_ALV_EVENT DEFINITION
+*--------------------------------------------------------------------*
+*
+*--------------------------------------------------------------------*
+CLASS zcl_alv_event DEFINITION.
+**********************************************************************
+  PUBLIC SECTION.
+    CLASS-METHODS:
+
+    "Data Changed control
+      handle_data_changed_1002a
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed,
+
+    "Data Changed control
+      handle_data_changed_1002b
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed,
+
+    "Double-click control
+      handle_double_click_1100
+        FOR EVENT double_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row e_column ,
+
+    "Hot spot control
+      handle_hotspot_1100
+        FOR EVENT hotspot_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row_id e_column_id es_row_no ,
+
+    "Double-click control
+      handle_double_click_1300
+        FOR EVENT double_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row e_column ,
+
+    "Hot spot control
+      handle_hotspot_1300
+        FOR EVENT hotspot_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row_id e_column_id es_row_no ,
+
+    "Double-click control
+      handle_double_click_2000
+        FOR EVENT double_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row e_column ,
+
+    "Hot spot control
+      handle_hotspot_2000
+        FOR EVENT hotspot_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row_id e_column_id es_row_no ,
+
+    "Double-click control
+      handle_double_click_2001
+        FOR EVENT double_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row e_column ,
+
+    "Hot spot control
+      handle_hotspot_2001
+        FOR EVENT hotspot_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row_id e_column_id es_row_no ,
+
+    "Double-click control
+      handle_double_click_2002
+        FOR EVENT double_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row e_column ,
+
+    "Hot spot control
+      handle_hotspot_2002
+        FOR EVENT hotspot_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row_id e_column_id es_row_no ,
+
+    "Double-click control
+      handle_double_click_2003
+        FOR EVENT double_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row e_column ,
+
+    "Hot spot control
+      handle_hotspot_2003
+        FOR EVENT hotspot_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row_id e_column_id es_row_no ,
+
+    "Data Changed control
+      handle_data_changed_2105
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed,
+
+    "Double-click control
+      handle_double_click_2105
+        FOR EVENT double_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row e_column ,
+
+    "Selecting a pushbutton in the ALV (Maintain Health Professional)
+      handle_button_click_2105
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3004
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3005
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Description)
+      handle_button_click_3012
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Double-click control
+      handle_double_click_3102
+        FOR EVENT double_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row e_column ,
+
+    "Hot spot control
+      handle_hotspot_3102
+        FOR EVENT hotspot_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row_id e_column_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Description)
+      handle_button_click_3102
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Data Changed control
+      handle_data_changed_3102
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed,
+
+    "Selecting a pushbutton in the ALV (Description)
+      handle_button_click_3103
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Data Changed control
+      handle_data_changed_3103
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed,
+
+    "Selecting a pushbutton in the ALV (Description)
+      handle_button_click_3104
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Data Changed control
+      handle_data_changed_3104
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed,
+
+    "Hot spot control
+      handle_hotspot_3105
+        FOR EVENT hotspot_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row_id e_column_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3105
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3107
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3108
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3109
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3110
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Hot spot control
+      handle_hotspot_3203
+        FOR EVENT hotspot_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row_id e_column_id es_row_no ,
+
+    "Hot spot control
+      handle_hotspot_3205
+        FOR EVENT hotspot_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row_id e_column_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3205
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3304
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3305
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3307
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3309
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3310
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3402
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3404
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3405
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3409
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3410
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3411
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3412
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3414
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3415
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3416
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV
+      handle_button_click_3417
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV
+      handle_button_click_4103
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV
+      handle_button_click_4105
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Liability Letter)
+      handle_button_click_3602
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Legal Request)
+      handle_button_click_3607
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Legal Request)
+      handle_button_click_3610
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Legal Request)
+      handle_button_click_3611
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Data Changed control
+      handle_data_changed_3707
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3809
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Update/Copy)
+      handle_button_click_3909
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Data Changed control
+      handle_data_changed_4005
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed,
+
+    "Data Changed control
+      handle_data_changed_4005_1
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed,
+
+    "Selecting a pushbutton in the ALV (Description)
+      handle_button_click_4006
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Description)
+      handle_button_click_4007
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "Data Changed control
+      handle_data_changed_4007
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed,
+
+    "Selecting a pushbutton in the ALV (Description)
+      handle_button_click_5000
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no ,
+
+    "User defined search help in the ALV table
+      handle_on_f4_5000
+        FOR EVENT onf4
+        OF cl_gui_alv_grid
+        IMPORTING e_fieldname
+                  es_row_no
+                  er_event_data
+                  et_bad_cells
+                  e_display,
+
+    "Data Changed control
+      handle_data_changed_5000
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed ,
+
+    "User defined search help in the ALV table
+      handle_on_f4_5100
+        FOR EVENT onf4
+        OF cl_gui_alv_grid
+        IMPORTING e_fieldname
+                  es_row_no
+                  er_event_data
+                  et_bad_cells
+                  e_display,
+
+    "Data Changed control
+      handle_data_changed_5100
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed ,
+
+    "Selecting a pushbutton in the ALV (Comments)
+      handle_button_click_6000
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no,
+
+    "Selecting a pushbutton in the ALV (Comments)
+      handle_button_click_8100
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no,
+
+    "Data Changed control
+      handle_data_changed_9600
+        FOR EVENT data_changed
+        OF cl_gui_alv_grid
+        IMPORTING er_data_changed,
+
+    "Hot spot control
+      handle_hotspot_9600
+        FOR EVENT hotspot_click
+        OF cl_gui_alv_grid
+        IMPORTING e_row_id e_column_id es_row_no ,
+
+    "Selecting a pushbutton in the ALV (Comments)
+      handle_button_click_9600
+        FOR EVENT button_click
+        OF cl_gui_alv_grid
+        IMPORTING es_col_id es_row_no.
+
+**********************************************************************
+ENDCLASS.                    "ZCL_ALV_EVENT DEFINITION
+
+*--------------------------------------------------------------------*
+*       CLASS ZCL_TREE_EVENT IMPLEMENTATION
+*--------------------------------------------------------------------*
+*       ........                                                      *
+*--------------------------------------------------------------------*
+CLASS zcl_tree_event  IMPLEMENTATION.
+**********************************************************************
+  METHOD  handle_user_double_click.
+*--------------------------------------------------------------------*
+    w_node_12 = node_key.
+    PERFORM get_employee  USING    sy-uname
+                          CHANGING w_user_pernr
+                                   w_user_name.
+
+    IF sy-tcode = 'ZIM_MGR'
+    OR sy-tcode = 'ZIM_FTCTL'
+    OR sy-tcode = 'ZIM_MGRDEP'
+    OR sy-tcode = 'ZIM_DEP'.
+      w_rpt_restrict = abap_true.
+    ELSE.
+      w_rpt_restrict = ' '.
+    ENDIF.
+
+*   PERFORM read_tbl_menu.
+
+    CASE node_key.
+      WHEN 'TABLE_A'.
+        CALL FUNCTION 'Z_OLIMS_HEALTH_OVERVIEW'.
+      WHEN 'TABLE_B'.
+        CALL FUNCTION 'Z_OLIMS_PROVIDER_OVERVIEW'.
+      WHEN 'TABLE_C'.
+        CALL FUNCTION 'Z_OLIMS_INSURER_OVERVIEW'.
+      WHEN 'TABLE_D'.
+        CALL TRANSACTION 'ZWC_SM30_ZWCSTAT_DIS'.
+      WHEN 'TABLE_1'.
+        CALL TRANSACTION 'ZIM_SM30_IMA'.
+      WHEN 'TABLE_2'.
+        CALL TRANSACTION 'ZIM_SM30_ORG'.
+      WHEN 'TABLE_3'.
+        CALL TRANSACTION 'ZIM_SM30_ACTION'.
+      WHEN 'TABLE_4'.
+        CALL TRANSACTION 'ZIM_SM30_INS'.
+      WHEN 'TABLE_5'.
+        CALL TRANSACTION 'ZIM_SM30_MED_PROF'.
+      WHEN 'TABLE_6'.
+        CALL TRANSACTION 'ZIM_SM30_SERVICE'.
+      WHEN 'TABLE_7'.
+        CALL TRANSACTION 'ZIM_SM30_BEN'.
+      WHEN 'TABLE_8'.
+        CALL TRANSACTION 'ZIM_SM30_REM'.
+      WHEN 'TABLE_9'.
+        CALL TRANSACTION 'ZIM_SM30_REQ'.
+      WHEN 'TABLE_10'.
+        CALL TRANSACTION 'ZIM_SM30_GOAL'.
+      WHEN 'TABLE_11'.
+        CALL TRANSACTION 'ZIM_SM30_CM_CAT'.
+      WHEN 'TABLE_12'.
+        CALL TRANSACTION 'ZIM_SM30_AGENDA'.
+      WHEN 'TABLE_13A'.
+        CALL TRANSACTION 'ZIM_SM30_USER'.
+      WHEN 'TABLE_13B'.
+        CALL TRANSACTION 'ZIM_SM30_CAT'.
+      WHEN 'TABLE_13C'.
+        CALL TRANSACTION 'ZIM_SM30_MEET'.
+      WHEN 'TABLE_13D'.
+        CALL TRANSACTION 'ZIM_SM30_NOTE'.
+      WHEN 'RPT1A'.
+        SUBMIT zhrim_inc_statistics AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPT1B'.
+        SUBMIT zhrim_inc_contribute AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPT2A'.
+        SUBMIT zhrim_im_status AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2B'.
+        SUBMIT zhrim_im_3_point AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2C'.
+        SUBMIT zhrim_im_case_statistics AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2D'.
+        SUBMIT zhrim_im_inj_cause AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2E'.
+        SUBMIT zhrim_im_letter_sent AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2F'.
+        SUBMIT zhrim_im_info_consent AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2G'.
+        SUBMIT zhrim_im_imp_provided AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2H'.
+        SUBMIT zhrim_notes_overview_im AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2I'.
+        SUBMIT zhrim_im_med_cert AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2J'.
+        SUBMIT zhrim_im_rtwp AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2K' OR 'RPT4B'.
+        SUBMIT zhrim_im_ext_prov AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2L'.
+        SUBMIT zhrim_im_rehab AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2M'.
+        SUBMIT zhrim_im_rosa AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2N'.
+        SUBMIT zhrim_im_erg  AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2O'.
+        SUBMIT zhrim_im_med_cert_status  AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2OA'.
+        SUBMIT zhrim_im_med_cert_status_all  AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2P'.
+        SUBMIT zhrim_im_meeting_stats AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2Q'.
+        SUBMIT zhrim_overdue_list_new AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPT2R'.
+        SUBMIT zhrim_im_detail_case_report AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2S'.
+        SUBMIT zhrim_im_contact_report AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2T'.
+        SUBMIT zhrim_audit_report AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2U'.
+        SUBMIT zhrim_im_claim_status AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2V'.
+        SUBMIT zhrim_im_reopened AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2W'.
+        SUBMIT zhrim_im_misconduct AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT2X'.
+        SUBMIT zhrim_strategies_detail AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPT3A'.
+        SUBMIT zhrim_im_closure_stats AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT3B'.
+        SUBMIT zhrim_im_md_by_month AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT3C'.
+        SUBMIT zhrim_im_md_benefits_by_month AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT4A'.
+        SUBMIT zhrim_im_ftc_submissions AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT5A'.
+        SUBMIT zhrim_im_health_prac AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT6A'.
+        SUBMIT zhrwc_recoup_rpt AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPT6B'.
+        SUBMIT zhrim_leg_requests_statistics AND RETURN
+        VIA SELECTION-SCREEN.
+*              WITH p_rest = w_rpt_restrict.
+*              WITH p_ima  = w_user_pernr.
+      WHEN 'RPT6C'.
+        SUBMIT zhrim_leg_open_requests AND RETURN
+        VIA SELECTION-SCREEN.
+*              WITH p_rest = w_rpt_restrict
+*              WITH p_ima  = w_user_pernr.
+      WHEN 'RPT6D'.
+        SUBMIT zhrim_notes_overview_leg AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPT6E'.
+        SUBMIT zhrim_leg_wid_settlements AND RETURN
+        VIA SELECTION-SCREEN.
+*              WITH p_rest = w_rpt_restrict
+*              WITH p_ima  = w_user_pernr.
+      WHEN 'RPT6F'.
+        SUBMIT zhrim_leg_pt_open_cases AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT6G'.
+        SUBMIT zhrim_leg_teleconference AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPT8A'.
+        SUBMIT zhrim_im_ftcax_referrals AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT8B'.
+        SUBMIT zhrim_im_ftcax_results AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT8C'.
+        SUBMIT zhrim_im_ftcax_status AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT8D'.
+        SUBMIT zhrim_im_ftcax_appeals AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9A'.
+        SUBMIT zhrim_im_deploy_referrals AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9B'.
+        SUBMIT zhrim_im_deploy_open AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9C'.
+        SUBMIT zhrim_im_deploy_plan_meet AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9D'.
+        SUBMIT zhrim_im_deploy_placed AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9E'.
+        SUBMIT zhrim_im_deploy_avg_time AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9F'.
+        SUBMIT zhrim_im_deploy_proposed AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9G'.
+        SUBMIT zhrim_im_deploy_6_mths AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9H'.
+        SUBMIT zhrim_im_deploy_review AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9I'.
+        SUBMIT zhrim_im_deploy_meetings AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9J'.
+        SUBMIT zhrim_im_deploy_corres AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9K'.
+        SUBMIT zhrim_im_deploy_md   AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9L'.
+        SUBMIT zhrim_im_deploy_closure AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima  = w_user_pernr.
+      WHEN 'RPT9M'.
+        SUBMIT zhr_prd_trd_details AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPT9N'.
+        SUBMIT zhr_prd_trd_statistics AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPT9O'.
+        SUBMIT zhrim_notes_overview_dep AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPT9P'.
+        SUBMIT zhrim_dep_detail_case_report AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPTSCU1'.
+        SUBMIT zhrim_pre88_status AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPTSCU2'.
+        SUBMIT zhrim_pre88_case_statistics AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPTSCU3'.
+        SUBMIT zhrim_pre88_claim_statistics AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPTSCU4'.
+        SUBMIT zhrim_pre88_payments AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPTSCUA1'.
+        SUBMIT zhrim_scu_detail_case_report AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPTSCUA2'.
+        SUBMIT zhrim_notes_overview_scu AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPTPREMD1'.
+        SUBMIT zhrmd_pre88_status AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPTPREMD2'.
+        SUBMIT zhrmd_pre88_case_statistics AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RPTPREMD3'.
+        SUBMIT zhrmd_pre88_psac AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT1'.
+        SUBMIT zhrdd_stat_pay_0014_error AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT2'.
+        SUBMIT zhrdd_redpay_noleave AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT3'.
+        SUBMIT zhrdd_wc_no_it0014 AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT4'.
+        SUBMIT zhrdd_5501_without_0014_error AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT5'.
+        SUBMIT zhrdd_mc_with_att_leave AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT6'.
+        SUBMIT zhrdd_wcleave_dec_claim AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT7'.
+        SUBMIT zhrdd_wc_9197_leave AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT8'.
+        SUBMIT zhrdd_overlap_medcert AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT9'.
+        SUBMIT zhrdd_admin_flex_no_leave AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT10'.
+        SUBMIT zprwc_unsworn_act_hrs_mismatch AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT11'.
+        SUBMIT zhrwc_topup_rpt AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PAYRPT12'.
+        SUBMIT zhrdd_9wco_reduction AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT1'.
+        SUBMIT zhrdd_dep_decl_due_2_expire AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT2'.
+        SUBMIT zhrdd_comp_earnings AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT3'.
+        PERFORM call_7030.
+      WHEN 'CMRPT4'.
+        SUBMIT zhrdd_ip_status AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT5'.
+        SUBMIT zhrdd_overdue_list_wc AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT6'.
+        SUBMIT zhrdd_overdue_list_ip AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT7'.
+        SUBMIT zhrdd_no_date_of_disablement AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT8' OR 'IPRPT5'.
+        SUBMIT zhrdd_cm_detail_case_report AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT9'.
+        SUBMIT zhrdd_admin_new_award AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT10'.
+        SUBMIT zhrim_cm_incident_list AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT11' OR 'IPRPT8'.
+        SUBMIT zhrdd_audit_report AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT12'.
+        SUBMIT zprwc_unsworn_ent_prd_monitor AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT13'.
+        SUBMIT zp_earnings_18 AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT14'.
+        PERFORM call_7060.
+      WHEN 'CMRPT15'.
+        SUBMIT zhr_wcearningnew_18 AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT16'.
+        SUBMIT zhrim_notes_overview_cm AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT17'.
+        SUBMIT zhrwc_claim_no_doc AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT18'.
+        SUBMIT zhrim_im_cert_date AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CMRPT19'.
+        SUBMIT zhuim_create_mc_reminder AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'IPRPT1'.
+        SUBMIT z_pbri_super_fund AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'IPRPT2'.
+        SUBMIT z_pbri_outbound_leave AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'IPRPT3'.
+        SUBMIT zhrdd_billing_interface AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'IPRPT4'.
+        SUBMIT zhrdd_billing_interface_v2 AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'IPRPT6'.
+        SUBMIT zhrdd_current_mc_details AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'IPRPT7'.
+        SUBMIT zhrdd_ip_exceed_75 AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'IPRPT9'.
+        SUBMIT zhrdd_pbri_eligibility AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'IPRPT10'.
+        SUBMIT zhrdd_pbri_tal_report AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'IPRPT11'.
+        SUBMIT zhrdd_ip_downgrade AND RETURN
+        VIA SELECTION-SCREEN.
+* Start of DEVK9HRFYO CR3248
+      WHEN 'EPSSPT1'.
+        CALL TRANSACTION 'ZEPSS_REP01'.
+* End of DEVK9HRFYO CR3248
+* Start CR3360
+      WHEN 'EPSSPT2'.
+        CALL TRANSACTION 'ZEPSS_REP02'.
+* End CR 3360
+      WHEN 'RECOUP_A'.
+        SUBMIT zhrdd_recoup_recon AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RECOUP_1'.
+        SUBMIT zhjdd_recoup_eml AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RECOUP_2'.
+        SUBMIT zhjdd_refund_eml AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RECOUP_R1'.
+        SUBMIT zhrim_recoup_rpt AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RECOUP_R2'.
+        PERFORM call_gao_report.
+      WHEN 'RECEIPT1'.
+        SUBMIT zfjgleml_receipt_new AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RECEIPT2'.
+        CALL TRANSACTION 'ZWC_MISMATCH' AND SKIP FIRST SCREEN.
+      WHEN 'RECEIPT3'.
+        SUBMIT zhrwc_receipts_rpt AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'RECEIPT4'.
+        CALL TRANSACTION 'ZWC_MIS_EMP'.
+      WHEN 'RECEIPT11'.
+        SUBMIT zhrwc_eml_liability_rpt AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'INCID_1'.
+        PERFORM call_1000.
+      WHEN 'INCID_2'.
+        PERFORM incident_overview.
+      WHEN 'INCID_3'.
+        PERFORM nearmiss_overview.
+      WHEN 'INCID_4'.
+        PERFORM historical_incidents.
+      WHEN 'INCID_5'.
+        SUBMIT zhcdd_full_conversion  AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'INCID_6'.
+        PERFORM p902_template.
+      WHEN 'IM_1'.
+        PERFORM call_2000.
+      WHEN 'IM_1A'.
+        PERFORM call_2001.
+      WHEN 'IM_1B'.
+        PERFORM call_2002.
+      WHEN 'IM_1C'.
+        PERFORM call_2003.
+      WHEN 'IM_2'.
+        PERFORM call_3000.
+      WHEN 'IM_2A'.
+        PERFORM call_3001.
+      WHEN 'IM_2B'.
+        PERFORM call_3002.
+      WHEN 'IM_2C'.
+        PERFORM call_3003.
+      WHEN 'IM_3'.
+        PERFORM call_3010.
+      WHEN 'IM_4'.
+        PERFORM call_3014.
+      WHEN 'MED_1'.
+        PERFORM call_3013.
+      WHEN 'DEP_1'.
+        PERFORM call_3004.
+      WHEN 'DEP_2'.
+        PERFORM call_3013a.
+      WHEN 'IM_5'.
+        CALL FUNCTION 'Z_OLIMS_LEG_REQ_OVERVIEW'
+          EXPORTING
+            i_action   = 'U'
+            i_req_area = 'L'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      WHEN 'IM_6'.
+        CALL FUNCTION 'Z_OLIMS_LEG_REQ_OUTSTANDING'
+          EXPORTING
+            i_action   = 'U'
+            i_req_area = 'L'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      WHEN 'IM_7'.
+        PERFORM call_3015.
+      WHEN 'PREPAY_1'.
+        SUBMIT zprwc_unsworn_act_hrs_mismatch AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PREPAY_2'.
+        SUBMIT zhuwc_calc_unsworn_entitlement AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CM_1'.
+        PERFORM call_3005.
+      WHEN 'CM_2' OR 'CM_CM_2'.
+        PERFORM call_3013b.
+      WHEN 'PY2_1' OR 'CM_PY2_1'.
+        PERFORM call_3013c.
+      WHEN 'PY3_1'.
+        CALL TRANSACTION 'Z9078_416_REC_UPD'.
+      WHEN 'PY4_1'.
+        CALL TRANSACTION 'ZTALSA'.
+      WHEN 'PY4_2'.
+        SUBMIT zhjim_upload_self_managed AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CM_2U' OR 'CM_CM_2U'.
+        SUBMIT zhjim_upload_section_49 AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'PY2_1U' OR 'CM_PY2_1U'.
+        SUBMIT zhjim_upload_ip_makeup AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'CNO_1'.
+        SUBMIT zeml_claims_upld_inbound AND RETURN
+        VIA SELECTION-SCREEN.
+      WHEN 'FTC_1'.
+        PERFORM call_3020.
+      WHEN 'FTC_2'.
+        PERFORM call_3030.
+      WHEN 'MDU_1'.
+        PERFORM call_3040.
+      WHEN 'MDU_2'.
+        PERFORM call_3045.
+      WHEN 'ERG_1'.
+        PERFORM call_5000.
+      WHEN 'MEET_1'.
+        CALL FUNCTION 'Z_OLIMS_MEETING_CREATE'.
+      WHEN 'MEET_2'.
+        SUBMIT zhrim_meeting_notes AND RETURN
+        VIA SELECTION-SCREEN
+        WITH p_rest = w_rpt_restrict
+        WITH p_ima2 = w_user_pernr
+        WITH p_ima  = w_user_pernr.
+      WHEN 'REM_1'.
+        PERFORM call_5100.
+      WHEN 'LET01'.
+        CALL FUNCTION 'Z_MAINTAIN_LETTERS'
+          EXPORTING
+            ltr_system     = 'I1'
+            ltr_tdtexttype = 'RTF'.
+      WHEN 'LET02'.
+        CALL FUNCTION 'Z_MAINTAIN_LETTERS'
+          EXPORTING
+            ltr_system     = 'I1'
+            ltr_tdtexttype = ' '.
+      WHEN 'LET01M'.
+        CALL FUNCTION 'Z_MAINTAIN_LETTERS'
+          EXPORTING
+            ltr_system     = 'I2'
+            ltr_tdtexttype = 'RTF'.
+      WHEN 'LET02M'.
+        CALL FUNCTION 'Z_MAINTAIN_LETTERS'
+          EXPORTING
+            ltr_system     = 'I2'
+            ltr_tdtexttype = ' '.
+      WHEN 'LET03'.
+        CALL TRANSACTION 'ZIM_SM30_CORRES'.
+      WHEN 'LET04'.
+        CALL SCREEN 9600.
+      WHEN 'DEPA_1'.
+        PERFORM call_4000.
+      WHEN 'DEPA_2'.
+        PERFORM call_3016.
+    ENDCASE.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_USER_DOUBLE_CLICK
+
+
+  METHOD  handle_user_context_menu_req.
+*--------------------------------------------------------------------*
+    w_node_12 = node_key.
+    PERFORM read_tbl_menu.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "handle_user_context_menu_req
+
+
+  METHOD  handle_user_context_menu_sel.
+*--------------------------------------------------------------------*
+    w_node_12 = node_key.
+    PERFORM read_tbl_menu.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "handle_user_context_menu_sel
+
+
+  METHOD handle_user_expand_no_children.
+*--------------------------------------------------------------------*
+    REFRESH node_table.
+    CLEAR node_table.
+    PERFORM add_nodes_user.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_USER_EXPAND_NO_CHILDREN
+
+**********************************************************************
+ENDCLASS.                    "ZCL_TREE_EVENT IMPLEMENTATION
+
+
+*--------------------------------------------------------------------*
+*       CLASS ZCL_ALV_EVENT IMPLEMENTATION
+*--------------------------------------------------------------------*
+*       ........                                                      *
+*--------------------------------------------------------------------*
+CLASS zcl_alv_event  IMPLEMENTATION.
+**********************************************************************
+  METHOD  handle_data_changed_1002a.
+*--------------------------------------------------------------------*
+    w_changed = abap_true.
+
+    PERFORM handle_data_changed_1002a  USING er_data_changed.
+
+    PERFORM refresh_inc_inj_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_1002a
+
+
+  METHOD  handle_data_changed_1002b.
+*--------------------------------------------------------------------*
+    w_changed = abap_true.
+
+    PERFORM handle_data_changed_1002b  USING er_data_changed.
+
+    PERFORM refresh_inc_nat_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_1002a
+
+
+  METHOD  handle_double_click_1100.
+*--------------------------------------------------------------------*
+    CALL METHOD inc_sel_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab3_col_info
+        es_row_no   = gr_outtab3_row_no.
+
+    IF e_row GT 0.
+      READ TABLE gt_outtab3 INTO gr_outtab3 INDEX e_row.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 1100.
+      PERFORM call_1000_a USING gr_outtab3-pernr
+            gr_outtab3-identnr.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_DOUBLE_CLICK_1100
+
+
+*--Handle Hotspot Click
+  METHOD handle_hotspot_1100 .
+*--------------------------------------------------------------------*
+    CALL METHOD inc_sel_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab3_col_info
+        es_row_no   = gr_outtab3_row_no.
+
+    IF es_row_no-row_id GT 0.
+      READ TABLE gt_outtab3 INTO gr_outtab3 INDEX es_row_no-row_id.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 1100.
+      PERFORM call_1000_a USING gr_outtab3-pernr
+            gr_outtab3-identnr.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD .                    "handle_hotspot_1100
+
+
+  METHOD  handle_double_click_1300.
+*--------------------------------------------------------------------*
+    CALL METHOD nm_sel_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab13_col_info
+        es_row_no   = gr_outtab13_row_no.
+
+    IF e_row GT 0.
+      READ TABLE gt_outtab13 INTO gr_outtab13 INDEX e_row.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 1300.
+      PERFORM call_1000_b USING gr_outtab13-pernr
+            gr_outtab13-identnr.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_DOUBLE_CLICK_1300
+
+
+*--Handle Hotspot Click
+  METHOD handle_hotspot_1300 .
+*--------------------------------------------------------------------*
+    CALL METHOD nm_sel_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab13_col_info
+        es_row_no   = gr_outtab13_row_no.
+
+    IF es_row_no-row_id GT 0.
+      READ TABLE gt_outtab13 INTO gr_outtab13 INDEX es_row_no-row_id.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 1300.
+      PERFORM call_1000_b USING gr_outtab13-pernr
+            gr_outtab13-identnr.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD .                    "handle_hotspot_1300
+
+
+  METHOD  handle_double_click_2000.
+*--------------------------------------------------------------------*
+    CALL METHOD init_ass_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab4_col_info
+        es_row_no   = gr_outtab4_row_no.
+
+    IF e_row GT 0.
+      READ TABLE gt_outtab4 INTO gr_outtab4 INDEX e_row.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 2000.
+      PERFORM call_1000_a USING gr_outtab4-pernr
+            gr_outtab4-incident.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_DOUBLE_CLICK_2000
+
+
+*--Handle Hotspot Click
+  METHOD handle_hotspot_2000 .
+*--------------------------------------------------------------------*
+    CALL METHOD init_ass_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab4_col_info
+        es_row_no   = gr_outtab4_row_no.
+
+    IF es_row_no-row_id GT 0.
+      READ TABLE gt_outtab4 INTO gr_outtab4 INDEX es_row_no-row_id.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 2000.
+      PERFORM call_1000_a USING gr_outtab4-pernr
+            gr_outtab4-incident.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD .                    "handle_hotspot_2000
+
+
+  METHOD  handle_double_click_2001.
+*--------------------------------------------------------------------*
+    CALL METHOD init_ass_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab4_col_info
+        es_row_no   = gr_outtab4_row_no.
+
+    IF e_row GT 0.
+      READ TABLE gt_outtab4 INTO gr_outtab4 INDEX e_row.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 2001.
+      PERFORM call_1000_a USING gr_outtab4-pernr
+            gr_outtab4-incident.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_DOUBLE_CLICK_2001
+
+
+*--Handle Hotspot Click
+  METHOD handle_hotspot_2001 .
+*--------------------------------------------------------------------*
+    CALL METHOD init_ass_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab4_col_info
+        es_row_no   = gr_outtab4_row_no.
+
+    IF es_row_no-row_id GT 0.
+      READ TABLE gt_outtab4 INTO gr_outtab4 INDEX es_row_no-row_id.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 2001.
+      PERFORM call_1000_a USING gr_outtab4-pernr
+            gr_outtab4-incident.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD .                    "handle_hotspot_2001
+
+
+  METHOD  handle_double_click_2002.
+*--------------------------------------------------------------------*
+    CALL METHOD init_ass_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab4_col_info
+        es_row_no   = gr_outtab4_row_no.
+
+    IF e_row GT 0.
+      READ TABLE gt_outtab4 INTO gr_outtab4 INDEX e_row.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 2002.
+      PERFORM call_1000_a USING gr_outtab4-pernr
+            gr_outtab4-incident.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_DOUBLE_CLICK_2002
+
+
+*--Handle Hotspot Click
+  METHOD handle_hotspot_2002 .
+*--------------------------------------------------------------------*
+    CALL METHOD init_ass_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab4_col_info
+        es_row_no   = gr_outtab4_row_no.
+
+    IF es_row_no-row_id GT 0.
+      READ TABLE gt_outtab4 INTO gr_outtab4 INDEX es_row_no-row_id.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 2002.
+      PERFORM call_1000_a USING gr_outtab4-pernr
+            gr_outtab4-incident.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD .                    "handle_hotspot_2002
+
+
+  METHOD  handle_double_click_2003.
+*--------------------------------------------------------------------*
+    CALL METHOD init_ass_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab4_col_info
+        es_row_no   = gr_outtab4_row_no.
+
+    IF e_row GT 0.
+      READ TABLE gt_outtab4 INTO gr_outtab4 INDEX e_row.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 2003.
+      PERFORM call_1000_a USING gr_outtab4-pernr
+            gr_outtab4-incident.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_DOUBLE_CLICK_2003
+
+
+*--Handle Hotspot Click
+  METHOD handle_hotspot_2003 .
+*--------------------------------------------------------------------*
+    CALL METHOD init_ass_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab4_col_info
+        es_row_no   = gr_outtab4_row_no.
+
+    IF es_row_no-row_id GT 0.
+      READ TABLE gt_outtab4 INTO gr_outtab4 INDEX es_row_no-row_id.
+      w_1000_action = 'DISP'.
+      w_1000_from   = 2003.
+      PERFORM call_1000_a USING gr_outtab4-pernr
+            gr_outtab4-incident.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD .                    "handle_hotspot_2003
+
+
+  METHOD  handle_data_changed_2105.
+*--------------------------------------------------------------------*
+    w_2100_changed = abap_true.
+
+    PERFORM handle_data_changed_2105  USING er_data_changed.
+
+    PERFORM refresh_med_prac_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_2105
+
+
+  METHOD  handle_double_click_2105.
+*--------------------------------------------------------------------*
+    CALL METHOD med_prac_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab6_col_info
+        es_row_no   = gr_outtab6_row_no.
+
+    IF e_row GT 0.
+      READ TABLE gt_outtab6 INTO gr_outtab6 INDEX e_row.
+      PERFORM maintain_health_professional USING 'D'
+      CHANGING gr_outtab6-med_prac.
+
+      gr_outtab6-name  = zim_med-name.
+      gr_outtab6-phone = zim_med-phone.
+      gr_outtab6-fax   = zim_med-fax.
+      gr_outtab6-health_prof = zim_med-health_prof.
+      MODIFY gt_outtab6 FROM gr_outtab6 INDEX e_row.
+
+      PERFORM refresh_med_prac_alv_total.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_DOUBLE_CLICK_2105
+
+
+  METHOD  handle_button_click_2105.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab6 INTO gr_outtab6 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'INS_ICON'.
+      PERFORM maintain_health_professional USING 'I'
+      CHANGING gr_outtab6-med_prac.
+    ELSE.
+      PERFORM maintain_health_professional USING 'U'
+      CHANGING gr_outtab6-med_prac.
+    ENDIF.
+    gr_outtab6-name = zim_med-name.
+    gr_outtab6-phone = zim_med-phone.
+    gr_outtab6-fax   = zim_med-fax.
+    gr_outtab6-email = zim_med-email.
+    gr_outtab6-health_prof = zim_med-health_prof.
+    SELECT SINGLE health_desc
+    INTO  gr_outtab6-health_desc
+    FROM  zim_med_proft
+    WHERE sprsl = 'E'
+    AND health_prof = gr_outtab6-health_prof.
+    IF gr_outtab6-ntd = abap_true.
+      zim_in_mast-ntd = gr_outtab6-med_prac.
+      w_ntd_name      = zim_med-name.
+      w_ntd_phone     = zim_med-phone.
+    ENDIF.
+    IF gr_outtab6-nts = abap_true.
+      zim_in_mast-nts = gr_outtab6-med_prac.
+      w_nts_name      = zim_med-name.
+      w_nts_phone     = zim_med-phone.
+    ENDIF.
+    MODIFY gt_outtab6 FROM gr_outtab6 INDEX es_row_no-row_id.
+
+    PERFORM refresh_med_prac_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_2105
+
+
+  METHOD  handle_button_click_3004.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab34 INTO gr_outtab34 INDEX es_row_no-row_id.
+    zim_in_mast-pernr    = gr_outtab34-pernr.
+    zim_in_mast-incident = gr_outtab34-incident.
+    CONCATENATE gr_outtab34-vorna gr_outtab34-nachn
+    INTO w_emp_name SEPARATED BY ' '.
+    IF es_col_id-fieldname = 'UPD_ICON'.
+      IF gr_outtab34-stat_from_date IS NOT INITIAL.
+        w_3000_refresh = abap_true.
+        PERFORM maintain_dependents USING 'U'
+              gr_outtab34-stat_from_date.
+      ELSE.
+        MESSAGE e999 WITH 'No Stat Dec has been created'.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab34-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'No Document has'
+        'been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab34-pernr
+            i_incident   = gr_outtab34-incident
+            i_doc_unique = gr_outtab34-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'EMAIL_ICON'.
+      REFRESH r_cat.
+      PERFORM add_r_cat USING 'DA'.
+      CLEAR w_canc.
+      PERFORM retrieve_in_mast USING gr_outtab34-pernr
+            gr_outtab34-incident.
+      PERFORM correspondence USING gr_outtab34-pernr
+            gr_outtab34-incident
+            'DEPS'
+            abap_true.
+      IF w_canc IS INITIAL.
+        SELECT SINGLE * FROM zim_in_cm
+        INTO rec_zim_in_cm
+        WHERE pernr = gr_outtab34-pernr
+        AND incident = gr_outtab34-incident.
+        IF sy-subrc = 0.
+          rec_zim_in_cm-depend_sent = sy-datum.
+          w_action = 'U'.
+          UPDATE zim_in_cm FROM rec_zim_in_cm.
+          IF sy-subrc NE 0.
+            w_subrc = sy-subrc.
+            ROLLBACK WORK.
+            MESSAGE e999 WITH
+            'Error occurred when updating ZIM_IN_CM'
+            'Return code ' w_subrc.
+          ELSE.
+            zim_in_cm = rec_zim_in_cm.
+            PERFORM update_in_cm_log USING w_action.
+            gr_outtab34-depend_sent = sy-datum.
+            MODIFY gt_outtab34 FROM gr_outtab34 INDEX es_row_no-row_id.
+          ENDIF.
+        ENDIF.
+      ENDIF.
+      PERFORM refresh_dep2_sel_alv_total.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3004
+
+
+  METHOD  handle_button_click_3005.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab31 INTO gr_outtab31 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'DEL_ICON'.
+      PERFORM delete_record_popup.
+      IF w_exit = abap_true.
+        DELETE FROM zim_in_cert_ben
+        WHERE pernr    = gr_outtab31-pernr
+        AND incident = gr_outtab31-incident
+        AND seq_no   = gr_outtab31-seq_no.
+        IF sy-subrc NE 0.
+          w_subrc = sy-subrc.
+          ROLLBACK WORK.
+          MESSAGE e999 WITH
+          'Error occurred when updating ZIM_IN_CERT_BEN'
+          'Return code ' w_subrc.
+        ELSE.
+          DELETE gt_outtab31 INDEX es_row_no-row_id.
+          MESSAGE i999 WITH 'The record has been'
+          'successfully deleted'.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'GEN_ICON'.
+      zim_in_mast-pernr    = gr_outtab31-pernr.
+      zim_in_mast-incident = gr_outtab31-incident.
+      IF w_gao = gr_outtab31-pernr.
+        MESSAGE e999 WITH
+        'P905 records cannot be processed for yourself'.
+      ENDIF.
+      IF gr_outtab31-wclmn IS INITIAL.
+        MESSAGE e999 WITH 'No Claim Number has been assigned'
+        'to the incident.'
+        'Contact ECC-WC to correct the'
+        'Claim Number.'.
+      ENDIF.
+      IF gr_outtab31-wclmn(1) = ' '.
+        MESSAGE e999 WITH 'The first character of the Claim'
+        'Number cannot be a Space.'
+        'Contact ECC-WC to correct the'
+        'Claim Number.'.
+      ENDIF.
+      PERFORM lock_im_pernr USING zim_in_mast-pernr.
+      PERFORM maintain_wc_benefits USING 'I'
+            gr_outtab31-date_from
+            gr_outtab31-date_to
+            gr_outtab31-seq_no.
+      SELECT SINGLE * FROM zim_in_cert_ben
+      INTO rec_zim_in_cert_ben
+      WHERE pernr    = gr_outtab31-pernr
+      AND incident = gr_outtab31-incident
+      AND seq_no   = gr_outtab31-seq_no.
+      IF sy-subrc NE 0.
+        DELETE gt_outtab31 INDEX es_row_no-row_id.
+      ENDIF.
+      PERFORM unlock_im_pernr USING zim_in_mast-pernr.
+    ENDIF.
+
+    PERFORM refresh_mc2_sel_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3005
+
+
+  METHOD  handle_button_click_3012.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab26 INTO gr_outtab26 INDEX es_row_no-row_id.
+    CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT_2'
+      EXPORTING
+        i_pernr    = gr_outtab26-pernr
+        i_incident = gr_outtab26-incident
+        i_doc_id   = gr_outtab26-att_doc_id.
+    IF sy-subrc <> 0.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3012
+
+
+*--Handle Hotspot Click
+  METHOD handle_hotspot_3102 .
+*--------------------------------------------------------------------*
+    CALL METHOD serv_req_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab8_col_info
+        es_row_no   = gr_outtab8_row_no.
+
+    IF es_row_no-row_id GT 0.
+      IF e_column_id-fieldname = 'PROV_CODE'.
+        READ TABLE gt_outtab8 INTO gr_outtab8 INDEX es_row_no-row_id.
+        PERFORM maintain_provider USING 'D'
+        CHANGING gr_outtab8-prov_code.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD .                    "handle_hotspot_3102
+
+
+  METHOD  handle_double_click_3102.
+*--------------------------------------------------------------------*
+    CALL METHOD serv_req_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab8_col_info
+        es_row_no   = gr_outtab8_row_no.
+
+    IF e_row GT 0.
+      IF w_request = 'E'.
+        READ TABLE gt_outtab8 INTO gr_outtab8 INDEX e_row.
+        PERFORM maintain_provider USING 'D'
+        CHANGING gr_outtab8-prov_code.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_DOUBLE_CLICK_3102
+
+
+  METHOD  handle_button_click_3102.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab8 INTO gr_outtab8 INDEX es_row_no-row_id.
+    IF w_3100_action = 'DISP'.
+      w_call_act = abap_true.
+    ELSE.
+      w_call_act = ' '.
+    ENDIF.
+    IF es_col_id-fieldname = 'DESC_ICON'.
+      CONCATENATE 'EXT' w_request INTO w_req_key.
+      PERFORM process_descripiton USING w_req_key
+            gr_outtab8-seq_no
+            w_call_act.
+      CONCATENATE zim_in_mast-pernr zim_in_mast-incident
+      w_req_key gr_outtab8-seq_no
+      INTO w_text_key.
+      PERFORM check_text      USING    w_text_key
+      CHANGING w_exists.
+      IF w_exists = abap_true.
+        gr_outtab8-desc_icon = icon_text_act.
+      ELSE.
+        gr_outtab8-desc_icon = icon_text_ina.
+      ENDIF.
+      MODIFY gt_outtab8 FROM gr_outtab8 INDEX es_row_no-row_id.
+    ELSEIF es_col_id-fieldname = 'EMAIL_ICON'.
+      CONCATENATE 'EXT' w_request gr_outtab8-seq_no
+      INTO w_doc_unique.
+      PERFORM resend_corro USING w_doc_unique.
+      IF w_no_resend = abap_true.
+        PERFORM get_notes_for_letter  USING w_doc_unique.
+        IF w_request = 'E'.
+          REFRESH r_cat.
+          PERFORM add_r_cat USING '10'.
+          w_prov_code = gr_outtab8-prov_code.
+          PERFORM correspondence USING zim_in_mast-pernr
+                zim_in_mast-incident
+                w_doc_unique
+                abap_true.
+          CLEAR w_prov_code.
+        ELSEIF w_request = 'R'.
+          REFRESH r_cat.
+          PERFORM add_r_cat USING '11'.
+          PERFORM correspondence USING zim_in_mast-pernr
+                zim_in_mast-incident
+                w_doc_unique
+                abap_true.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+    PERFORM refresh_serv_req_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3102
+
+
+  METHOD  handle_data_changed_3102.
+*--------------------------------------------------------------------*
+    w_3100_changed = abap_true.
+
+    PERFORM handle_data_changed_3102  USING er_data_changed.
+
+    PERFORM refresh_serv_req_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_3102
+
+
+  METHOD  handle_button_click_3103.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab9 INTO gr_outtab9 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'DESC_ICON'.
+      w_req_key = 'REHAB'.
+      IF w_3100_action = 'DISP'.
+        w_call_act = abap_true.
+      ELSE.
+        w_call_act = ' '.
+      ENDIF.
+      PERFORM call_notes USING gr_outtab9-pernr
+            gr_outtab9-incident
+            w_req_key
+            gr_outtab9-seq_no
+            w_call_act.
+      CONCATENATE zim_in_mast-pernr zim_in_mast-incident
+      w_req_key gr_outtab9-seq_no
+      INTO w_text_key.
+      PERFORM check_text      USING    w_text_key
+      CHANGING w_exists.
+      IF w_exists = abap_true.
+        gr_outtab9-desc_icon = icon_text_act.
+      ELSE.
+        gr_outtab9-desc_icon = icon_text_ina.
+      ENDIF.
+      MODIFY gt_outtab9 FROM gr_outtab9 INDEX es_row_no-row_id.
+      PERFORM refresh_rehab_req_alv_total.
+    ELSEIF es_col_id-fieldname = 'EMAIL_ICON'.
+      CONCATENATE 'REHAB' gr_outtab9-seq_no
+      INTO w_doc_unique.
+      PERFORM resend_corro USING w_doc_unique.
+      IF w_no_resend = abap_true.
+        PERFORM get_notes_for_letter  USING w_doc_unique.
+        MOVE-CORRESPONDING gr_outtab9 TO rec_zim_in_rehab.
+        REFRESH r_cat.
+        PERFORM add_r_cat USING '14'.
+        PERFORM correspondence USING zim_in_mast-pernr
+              zim_in_mast-incident
+              w_doc_unique
+              abap_true.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3103
+
+
+  METHOD  handle_data_changed_3103.
+*--------------------------------------------------------------------*
+    w_3100_changed = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_3103
+
+
+  METHOD  handle_button_click_3104.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab10 INTO gr_outtab10 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'DESC_ICON'.
+      w_req_key = 'ERG'.
+      IF w_3100_action = 'DISP'.
+        w_call_act = abap_true.
+      ELSE.
+        w_call_act = ' '.
+      ENDIF.
+      PERFORM call_notes USING gr_outtab10-pernr
+            gr_outtab10-incident
+            w_req_key
+            gr_outtab10-seq_no
+            w_call_act.
+      CONCATENATE zim_in_mast-pernr zim_in_mast-incident
+      w_req_key gr_outtab10-seq_no
+      INTO w_text_key.
+      PERFORM check_text      USING    w_text_key
+      CHANGING w_exists.
+      IF w_exists = abap_true.
+        gr_outtab10-desc_icon = icon_text_act.
+      ELSE.
+        gr_outtab10-desc_icon = icon_text_ina.
+      ENDIF.
+      MODIFY gt_outtab10 FROM gr_outtab10 INDEX es_row_no-row_id.
+      PERFORM refresh_erg_ass_alv_total.
+    ELSEIF es_col_id-fieldname = 'EMAIL_ICON'.
+      CONCATENATE 'ERG' gr_outtab10-seq_no
+      INTO w_doc_unique.
+      PERFORM resend_corro USING w_doc_unique.
+      IF w_no_resend = abap_true.
+        PERFORM get_notes_for_letter  USING w_doc_unique.
+        REFRESH r_cat.
+        PERFORM add_r_cat USING '13'.
+        PERFORM correspondence USING zim_in_mast-pernr
+              zim_in_mast-incident
+              w_doc_unique
+              abap_true.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'IMP_ICON1'.
+      PERFORM upload_doc2 USING 'ERGC'
+                                gr_outtab10-seq_no
+                                '13'
+                                gr_outtab10-pernr
+                                gr_outtab10-incident.
+      IF w_canc IS INITIAL.
+        w_3104_refresh = abap_true.
+        gr_outtab10-erg_rec_date = sy-datum.
+        MODIFY gt_outtab10 FROM gr_outtab10 INDEX es_row_no-row_id.
+        PERFORM save_erg.
+        PERFORM refresh_erg_ass_alv_total.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'IMP_ICON2'.
+      PERFORM upload_doc2 USING 'ERGA'
+                                gr_outtab10-seq_no
+                                '16'
+                                gr_outtab10-pernr
+                                gr_outtab10-incident.
+      w_3104_refresh = abap_true.
+    ELSEIF es_col_id-fieldname = 'DISP_ICON1'.
+      IF gr_outtab10-count_1 GT 1.
+        CONCATENATE 'ERGC' gr_outtab10-seq_no
+                    INTO w_doc_unique.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab10-pernr
+            i_incident   = gr_outtab10-incident
+            i_direction  = 'I'
+            i_doc_unique = w_doc_unique.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ELSEIF gr_outtab10-count_1 = 1.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT_2'
+          EXPORTING
+            i_pernr    = gr_outtab10-pernr
+            i_incident = gr_outtab10-incident
+            i_doc_id   = gr_outtab10-att_doc_id1.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ELSE.
+        MESSAGE e999 WITH 'No document has been attached'.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'DISP_ICON2'.
+      IF gr_outtab10-count_2 GT 1.
+        CONCATENATE 'ERGA' gr_outtab10-seq_no
+                    INTO w_doc_unique.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab10-pernr
+            i_incident   = gr_outtab10-incident
+            i_direction  = 'I'
+            i_doc_unique = w_doc_unique.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ELSEIF gr_outtab10-count_2 = 1.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT_2'
+          EXPORTING
+            i_pernr    = gr_outtab10-pernr
+            i_incident = gr_outtab10-incident
+            i_doc_id   = gr_outtab10-att_doc_id2.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ELSE.
+        MESSAGE e999 WITH 'No document has been attached'.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3104
+
+
+  METHOD  handle_data_changed_3104.
+*--------------------------------------------------------------------*
+    w_3100_changed = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_3104
+
+
+*--Handle Hotspot Click
+  METHOD handle_hotspot_3105 .
+*--------------------------------------------------------------------*
+    CALL METHOD meet_sel_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab11_col_info
+        es_row_no   = gr_outtab11_row_no.
+
+    IF es_row_no-row_id GT 0.
+      IF e_column_id-fieldname = 'MEET_DATE'.
+        READ TABLE gt_outtab11 INTO gr_outtab11 INDEX es_row_no-row_id.
+        IF w_3100_action = 'DISP' OR w_4001_action = 'DISP'.
+          w_call_act = 'D'.
+        ELSE.
+*          IF w_4001_action IS NOT INITIAL.
+*            w_call_act = 'D'.
+*          ELSE.
+*            w_call_act = 'U'.
+*          ENDIF.
+          w_call_act = 'U'.
+        ENDIF.
+        PERFORM maintain_meeting USING w_call_act
+              gr_outtab11-meet_type
+              gr_outtab11-meet_seq_no.
+      ENDIF.
+    ENDIF.
+
+    w_3105_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD .                    "handle_hotspot_3105
+
+
+  METHOD  handle_button_click_3105.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab11 INTO gr_outtab11 INDEX es_row_no-row_id.
+
+    IF gr_outtab11-meet_type NOT IN g_update_m_range.
+      MESSAGE i999 WITH 'You do not have access'
+                        'to Copy the meeting'.
+    ELSE.
+      PERFORM maintain_meeting USING 'C'
+            gr_outtab11-meet_type
+            gr_outtab11-meet_seq_no.
+    ENDIF.
+
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3107
+
+
+  METHOD  handle_button_click_3107.
+
+    DATA: lv_def_claim    TYPE boole_d,
+             lv_date1_c      TYPE char10,
+             lv_date2_c      TYPE char10,
+             lv_str          TYPE string.
+
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab19 INTO gr_outtab19 INDEX es_row_no-row_id.
+    IF w_3100_action = 'DISP' OR w_4001_action = 'DISP' OR
+       w_2200_action = 'DISP' OR w_3600_action = 'DISP'.
+      w_call_act = 'D'.
+    ELSE.
+      IF w_4001_action IS NOT INITIAL.
+        w_call_act = 'D'.
+      ELSE.
+        w_call_act = 'U'.
+      ENDIF.
+    ENDIF.
+
+    IF es_col_id-fieldname = 'UPD_ICON'.
+*     primary claim
+*      perform  get_prim_claim.
+*      if gr_prim_claim->get_primary_claims_incident( ) is initial and
+*      w_unsworn_claim eq space and
+*      w_call_act = 'U'.
+*        message i999(zz) with
+*        'P905 records cannot be generated as no '
+*        'primary claim exists for this incident.'
+*        'Please ensure certificate is added to the'
+*        ' correct claim '.
+*      endif.
+
+*tvermeulen
+
+      IF zim_in_mast-hod NE abap_true AND
+         zim_in_mast-inc_type NE 'N'.
+
+        CALL METHOD zcl_olims_prim_claim=>get_def_claim_flag
+          EXPORTING
+            iv_pernr     = gr_outtab19-pernr
+            iv_incident  = gr_outtab19-incident
+            iv_begda     = gr_outtab19-date_from
+            iv_endda     = gr_outtab19-date_to
+          RECEIVING
+            rv_def_claim = lv_def_claim.
+        IF lv_def_claim IS  INITIAL AND
+           w_call_act = 'U'.
+          WRITE gr_outtab19-date_from TO lv_date1_c.
+          WRITE gr_outtab19-date_to TO lv_date2_c.
+          CONCATENATE lv_date1_c lv_date2_c INTO lv_str SEPARATED BY ' - '.
+          lv_str = lv_str && ' .  Please ensure'.
+          MESSAGE i999 WITH  'P905 records cannot be generated as '
+                             'no primary claim exists for between '
+                             lv_str
+                             'certificate is added to the correct claim'
+                             DISPLAY LIKE 'E'.
+
+        ENDIF.
+      ENDIF.
+*******tvermeulen
+
+      IF gr_outtab19-cert_type = 'M'.
+        PERFORM maintain_mc USING w_call_act
+                                  gr_outtab19-seq_no.
+      ELSE.
+        PERFORM maintain_cap USING w_call_act
+                                  gr_outtab19-seq_no.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'COPY_ICON'.
+*     primary claim
+      PERFORM  get_prim_claim.
+*      if gr_prim_claim->get_primary_claims_incident( ) is initial and
+*      w_unsworn_claim eq space and
+*      w_call_act = 'U'.
+*        message i999(zz) with
+*        'P905 records cannot be generated as no '
+*        'primary claim exists for this incident.'
+*        'Please ensure certificate is added to the'
+*        ' correct claim '.
+*      endif.
+
+
+      IF zim_in_mast-hod NE abap_true AND
+         zim_in_mast-inc_type NE 'N'.
+        CALL METHOD zcl_olims_prim_claim=>get_def_claim_flag
+          EXPORTING
+            iv_pernr     = gr_outtab19-pernr
+            iv_incident  = gr_outtab19-incident
+            iv_begda     = gr_outtab19-date_from
+            iv_endda     = gr_outtab19-date_to
+          RECEIVING
+            rv_def_claim = lv_def_claim.
+        IF lv_def_claim IS  INITIAL.
+          WRITE gr_outtab19-date_from TO lv_date1_c.
+          WRITE gr_outtab19-date_to TO lv_date2_c.
+          CONCATENATE lv_date1_c lv_date2_c INTO lv_str SEPARATED BY ' - '.
+          lv_str = lv_str && ' .Please ensure'.
+          MESSAGE i999 WITH ' P905 records cannot be generated as '
+                             'no primary claim exists for between '
+                             lv_str
+                             ' certificate is added to the correct claim'
+                             DISPLAY LIKE 'E'.
+
+        ENDIF.
+      ENDIF.
+
+
+      IF gr_outtab19-cert_type = 'M'.
+        PERFORM maintain_mc USING 'C'
+              gr_outtab19-seq_no.
+      ELSE.
+        PERFORM maintain_cap USING 'C'
+              gr_outtab19-seq_no.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'GEN_ICON'.
+*     primary claim
+      PERFORM  get_prim_claim.
+      IF gr_outtab19-status = 'P'.
+        MESSAGE e999 WITH 'A P905 cannot not be generated for'
+        'a PID Certificate'.
+      ELSEIF gr_outtab19-inactive = abap_true.
+        MESSAGE e999 WITH 'A P905 cannot not be generated for'
+        'an Inactive Certificate'.
+*      elseif gr_outtab19-cert_type = 'M'.
+*        message e999 with 'A P905 cannot not be generated for'
+*        'a Medical Certificate'.
+      ELSEIF w_ins-claim_no IS INITIAL.
+        MESSAGE e999 WITH 'No Claim Number has been assigned'
+        'to the incident.'.
+      ELSEIF w_ins-claim_no(1) = ' '.
+        MESSAGE e999 WITH 'The first character of the Claim'
+        'Number cannot be a Space.'.
+*      ELSEIF gr_prim_claim->get_primary_claims_incident( ) IS INITIAL.
+*        MESSAGE e999 WITH 'Please maintain Primary Claim '
+*                          'date range before processing P905'.
+      ELSE.
+        PERFORM maintain_wc_benefits USING 'I'
+              gr_outtab19-date_from
+              gr_outtab19-date_to
+              gr_outtab19-seq_no.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'IMP_ICON'.
+      IF gr_outtab19-cert_type = 'M'.
+        PERFORM upload_doc USING 'MC'
+              gr_outtab19-seq_no
+              '61'.
+      ELSE.
+        PERFORM upload_doc USING 'CAP'
+              gr_outtab19-seq_no
+              '60'.
+      ENDIF.
+      w_3707_refresh = abap_true.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab19-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'No Document has'
+        'been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab19-pernr
+            i_incident   = gr_outtab19-incident
+            i_doc_unique = gr_outtab19-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'EMAIL_ICON'.
+*     PERFORM check_wc_status.
+      IF gr_outtab19-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'A Medical Certificate has'
+        'not been imported'.
+      ELSE.
+        CLEAR w_canc.
+        IF gr_outtab19-cert_type = 'M'.
+          CONCATENATE 'MC' gr_outtab19-seq_no INTO w_doc_unique.
+        ELSE.
+          CONCATENATE 'CAP' gr_outtab19-seq_no INTO w_doc_unique.
+        ENDIF.
+        PERFORM correspondence_send_in USING zim_in_mast-pernr
+              gr_outtab19-incident
+              w_doc_unique
+              ' '.
+        IF w_canc IS INITIAL.
+          IF gr_outtab19-cert_type = 'M'.
+            SELECT SINGLE * FROM zim_in_cert
+            INTO rec_zim_in_cert
+            WHERE pernr    = gr_outtab19-pernr
+            AND incident = gr_outtab19-incident
+            AND seq_no   = gr_outtab19-seq_no.
+            IF sy-subrc = 0.
+              rec_zim_in_cert-mc_sent = sy-datum.
+              w_action = 'U'.
+              UPDATE zim_in_cert FROM rec_zim_in_cert.
+              IF sy-subrc NE 0.
+                w_subrc = sy-subrc.
+                ROLLBACK WORK.
+                MESSAGE e999 WITH
+                'Error occurred when updating ZIM_IN_CERT'
+                'Return code ' w_subrc.
+              ELSE.
+                zim_in_cert = rec_zim_in_cert.
+                PERFORM update_in_cert_log USING w_action.
+                gr_outtab19-mc_sent = sy-datum.
+                MODIFY gt_outtab19 FROM gr_outtab19 INDEX es_row_no-row_id.
+              ENDIF.
+            ENDIF.
+          ELSE.
+            SELECT SINGLE * FROM zim_in_cap
+            INTO rec_zim_in_cap
+            WHERE pernr    = gr_outtab19-pernr
+            AND incident = gr_outtab19-incident
+            AND seq_no   = gr_outtab19-seq_no.
+            IF sy-subrc = 0.
+              rec_zim_in_cap-cap_sent = sy-datum.
+              w_action = 'U'.
+              UPDATE zim_in_cap FROM rec_zim_in_cap.
+              IF sy-subrc NE 0.
+                w_subrc = sy-subrc.
+                ROLLBACK WORK.
+                MESSAGE e999 WITH
+                'Error occurred when updating ZIM_IN_CAP'
+                'Return code ' w_subrc.
+              ELSE.
+                zim_in_cap = rec_zim_in_cap.
+                PERFORM update_in_cap_log USING w_action.
+                gr_outtab19-mc_sent = sy-datum.
+                MODIFY gt_outtab19 FROM gr_outtab19 INDEX es_row_no-row_id.
+              ENDIF.
+            ENDIF.
+          ENDIF.
+        ENDIF.
+        PERFORM refresh_mc_sel_alv_total.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3107
+
+
+  METHOD  handle_button_click_3108.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab20 INTO gr_outtab20 INDEX es_row_no-row_id.
+    IF w_3100_action = 'DISP' OR
+    w_3300_action = 'DISP' OR
+    w_4001_action = 'DISP'.
+      w_call_act = 'D'.
+    ELSE.
+      IF w_4001_action IS NOT INITIAL.
+        w_call_act = 'D'.
+      ELSE.
+        w_call_act = 'U'.
+      ENDIF.
+    ENDIF.
+    IF es_col_id-fieldname = 'UPD_ICON'.
+      PERFORM maintain_rtwp USING w_call_act
+            gr_outtab20-seq_no
+            gr_outtab20-category.
+    ELSEIF es_col_id-fieldname = 'COPY_ICON'.
+      PERFORM maintain_rtwp USING 'C'
+            gr_outtab20-seq_no
+            gr_outtab20-category.
+    ELSEIF es_col_id-fieldname = 'CONV_ICON'.
+      IF gr_outtab20-category NE 'P' AND
+      gr_outtab20-category NE 'H'.
+        MESSAGE e999 WITH 'Only Proposed Return To Work'
+        'Plans can be converted'.
+      ELSE.
+        IF gr_outtab20-category = 'P'.
+          PERFORM maintain_rtwp USING abap_true
+                gr_outtab20-seq_no
+                'I'.
+        ELSE.
+          PERFORM maintain_rtwp USING abap_true
+                gr_outtab20-seq_no
+                'G'.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'EMAIL_ICON'.
+      IF zim_in_mast-full_case_mgmt IS INITIAL.
+        CONCATENATE 'RTWP' gr_outtab20-seq_no INTO w_doc_unique.
+        PERFORM correspondence_send USING zim_in_mast-pernr
+              gr_outtab20-incident
+              w_doc_unique
+              ' '.
+      ELSE.
+        PERFORM send_imp_rtwp USING gr_outtab20-seq_no
+                                    gr_outtab20-category.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3108
+
+
+  METHOD  handle_button_click_3109.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab27 INTO gr_outtab27 INDEX es_row_no-row_id.
+    IF gr_outtab27-user_group NE g_user_group AND
+       zim_in_mast-hod IS NOT INITIAL.
+      MESSAGE e999 WITH 'You do not have access to display'
+                        'the Medical Report'.
+    ELSE.
+      IF w_3100_action = 'DISP' OR w_4001_action = 'DISP' OR
+         w_3600_action = 'DISP'.
+        w_call_act = 'D'.
+      ELSE.
+        IF w_4001_action IS NOT INITIAL.
+          w_call_act = 'D'.
+        ELSE.
+          w_call_act = 'U'.
+        ENDIF.
+      ENDIF.
+      IF es_col_id-fieldname = 'UPD_ICON'.
+        PERFORM maintain_mr USING w_call_act
+                                  gr_outtab27-seq_no.
+      ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+        IF gr_outtab27-doc_unique  IS INITIAL.
+          MESSAGE e999 WITH 'No Medical Report has'
+                            'been imported'.
+        ELSE.
+          CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+            EXPORTING
+              i_pernr      = gr_outtab27-pernr
+              i_incident   = gr_outtab27-incident
+              i_doc_unique = gr_outtab27-doc_unique
+              i_direction  = 'I'.
+          IF sy-subrc <> 0.
+          ENDIF.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3109
+
+
+  METHOD  handle_button_click_3110.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab53 INTO gr_outtab53 INDEX es_row_no-row_id.
+
+    PERFORM call_welfare_contact USING gr_outtab53-pernr
+                                       gr_outtab53-contact_no.
+
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3110
+
+
+*--Handle Hotspot Click
+  METHOD handle_hotspot_3203 .
+*--------------------------------------------------------------------*
+    CALL METHOD wcrec_sel_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab21_col_info
+        es_row_no   = gr_outtab21_row_no.
+
+    IF es_row_no-row_id GT 0.
+      READ TABLE gt_outtab21 INTO gr_outtab21 INDEX es_row_no-row_id.
+      IF gr_outtab21-date_processed IS INITIAL.
+        CALL FUNCTION 'Z_OLIMS_WC_RECOUP_NEW'
+          EXPORTING
+            i_action         = 'D'
+            i_pernr          = gr_outtab21-pernr
+            i_seqnr          = gr_outtab21-seqnr
+            i_wc_week        = gr_outtab21-wc_week
+            i_incident       = gr_outtab21-incident
+            i_wc_section     = gr_outtab21-wc_section
+          EXCEPTIONS
+            recoup_not_found = 1
+            invalid_action   = 2
+            OTHERS           = 3.
+        IF sy-subrc <> 0.
+          IF sy-subrc = 1.
+            MESSAGE e999 WITH 'Recoup Not Found'.
+          ELSEIF sy-subrc = 2.
+            MESSAGE e999 WITH 'Invalid Action'.
+          ELSE.
+            MESSAGE e999 WITH 'Error Displaying the Recoup'.
+          ENDIF.
+        ENDIF.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_WC_RECOUP'
+          EXPORTING
+            i_action         = 'U'
+            i_date           = gr_outtab21-date_processed
+            i_run            = gr_outtab21-run_no
+            i_seq            = gr_outtab21-seq_no
+          EXCEPTIONS
+            recoup_not_found = 1
+            invalid_action   = 2
+            OTHERS           = 3.
+        IF sy-subrc <> 0.
+          IF sy-subrc = 1.
+            MESSAGE e999 WITH 'Recoup Not Found'.
+          ELSEIF sy-subrc = 2.
+            MESSAGE e999 WITH 'Invalid Action'.
+          ELSE.
+            MESSAGE e999 WITH 'Error Displaying the Recoup'.
+          ENDIF.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD .                    "handle_hotspot_3203
+
+
+*--Handle Hotspot Click
+  METHOD handle_hotspot_3205 .
+*--------------------------------------------------------------------*
+    CALL METHOD meet2_sel_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab112_col_info
+        es_row_no   = gr_outtab112_row_no.
+
+    IF es_row_no-row_id GT 0.
+      IF e_column_id-fieldname = 'MEET_DATE'.
+        READ TABLE gt_outtab112 INTO gr_outtab112 INDEX es_row_no-row_id.
+        IF w_3200_action = 'DISP'.
+          w_call_act = 'D'.
+        ELSE.
+          w_call_act = 'U'.
+        ENDIF.
+        PERFORM maintain_meeting USING w_call_act
+              gr_outtab112-meet_type
+              gr_outtab112-meet_seq_no.
+      ENDIF.
+    ENDIF.
+
+    w_3205_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD .                    "handle_hotspot_3205
+
+
+  METHOD  handle_button_click_3205.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab112 INTO gr_outtab112 INDEX es_row_no-row_id.
+
+    IF gr_outtab112-meet_type NOT IN g_update_m_range.
+      MESSAGE i999 WITH 'You do not have access'
+                        'to Copy the meeting'.
+    ELSE.
+      PERFORM maintain_meeting USING 'C'
+            gr_outtab112-meet_type
+            gr_outtab112-meet_seq_no.
+    ENDIF.
+
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3107
+
+
+  METHOD  handle_button_click_3304.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab22 INTO gr_outtab22 INDEX es_row_no-row_id.
+    IF w_3300_action = 'DISP' OR
+       w_3600_action = 'DISP'.
+      w_call_act = 'D'.
+    ELSE.
+      w_call_act = 'U'.
+    ENDIF.
+    IF es_col_id-fieldname = 'UPD_ICON'.
+      PERFORM maintain_imep USING zim_in_mast-pernr
+            zim_in_mast-incident
+            gr_outtab22-seq_no
+            w_call_act.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3304
+
+
+  METHOD  handle_button_click_3305.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab23 INTO gr_outtab23 INDEX es_row_no-row_id.
+    IF w_3300_action = 'DISP'.
+      w_call_act = 'D'.
+    ELSE.
+      w_call_act = 'U'.
+    ENDIF.
+    IF es_col_id-fieldname = 'UPD_ICON'.
+      PERFORM maintain_ftc  USING zim_in_mast-pernr
+            zim_in_mast-incident
+            w_call_act.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3305
+
+
+  METHOD  handle_button_click_3307.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab24 INTO gr_outtab24 INDEX es_row_no-row_id.
+    w_call_act = 'D'.
+    IF es_col_id-fieldname = 'DISP_ICON'.
+      CALL FUNCTION 'Z_OLIMS_MD'
+        EXPORTING
+          i_action   = 'D'
+          i_pernr    = gr_outtab24-pernr
+          i_incident = gr_outtab24-incident.
+      IF sy-subrc <> 0.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3307
+
+
+  METHOD  handle_button_click_3309.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab28 INTO gr_outtab28 INDEX es_row_no-row_id.
+    IF w_3300_action = 'DISP'.
+      w_call_act = 'D'.
+    ELSE.
+      w_call_act = 'U'.
+    ENDIF.
+    IF es_col_id-fieldname = 'UPD_ICON'.
+      PERFORM maintain_ftcax USING zim_in_mast-pernr
+            zim_in_mast-incident
+            gr_outtab28-seq_no
+            w_call_act.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3309
+
+
+  METHOD  handle_button_click_3310.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab40 INTO gr_outtab40 INDEX es_row_no-row_id.
+    IF w_3300_action = 'DISP'.
+      w_call_act = 'D'.
+    ELSE.
+      w_call_act = 'U'.
+    ENDIF.
+    IF es_col_id-fieldname = 'UPD_ICON'.
+      PERFORM maintain_depref  USING  zim_in_mast-pernr
+            zim_in_mast-incident
+            w_call_act.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3310
+
+
+  METHOD  handle_button_click_3402.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab29 INTO gr_outtab29 INDEX es_row_no-row_id.
+    IF w_3400_action = 'DISP'.
+      w_call_act = 'D'.
+    ELSE.
+      w_call_act = 'U'.
+    ENDIF.
+    IF es_col_id-fieldname = 'UPD_ICON'.
+      PERFORM maintain_dependents USING w_call_act
+            gr_outtab29-stat_from_date.
+    ELSEIF es_col_id-fieldname = 'COPY_ICON'.
+      PERFORM maintain_dependents USING 'C'
+            gr_outtab29-stat_from_date.
+    ELSEIF es_col_id-fieldname = 'DEL_ICON'.
+      PERFORM maintain_dependents USING 'Z'
+            gr_outtab29-stat_from_date.
+    ELSEIF es_col_id-fieldname = 'IMP_ICON'.
+      PERFORM upload_doc USING 'DEP'
+            gr_outtab29-stat_from_date
+            'D1'.
+      w_3402_refresh = abap_true.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab29-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'No Document has'
+        'been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab29-pernr
+            i_incident   = zim_in_mast-incident
+            i_doc_unique = gr_outtab29-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'EMAIL_ICON'.
+      IF gr_outtab29-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'A Dependent Declaration has'
+        'not been imported'.
+      ELSE.
+        CLEAR w_canc.
+        CONCATENATE 'DEP' gr_outtab29-stat_from_date INTO w_doc_unique.
+        PERFORM correspondence_send_in USING zim_in_mast-pernr
+              zim_in_mast-incident
+              w_doc_unique
+              ' '.
+        IF w_canc IS INITIAL.
+          SELECT SINGLE * FROM zim_depend
+          INTO rec_zim_depend
+          WHERE pernr  = gr_outtab29-pernr
+          AND seq_no = gr_outtab29-seq_no.
+          IF sy-subrc = 0.
+            rec_zim_depend-depend_sent_eml = sy-datum.
+            w_action = 'U'.
+            UPDATE zim_depend FROM rec_zim_depend.
+            IF sy-subrc NE 0.
+              w_subrc = sy-subrc.
+              ROLLBACK WORK.
+              MESSAGE e999 WITH
+              'Error occurred when updating ZIM_DEPEND'
+              'Return code ' w_subrc.
+            ELSE.
+              zim_depend = rec_zim_depend.
+              PERFORM update_depend_log USING w_action.
+              gr_outtab29-depend_sent_eml = sy-datum.
+              MODIFY gt_outtab29 FROM gr_outtab29 INDEX es_row_no-row_id.
+            ENDIF.
+          ENDIF.
+        ENDIF.
+        PERFORM refresh_dep_sel_alv_total.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3402
+
+
+  METHOD  handle_button_click_3404.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab30 INTO gr_outtab30 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'DEL_ICON'.
+      PERFORM delete_record_popup.
+      IF w_exit = abap_true.
+        w_action           = 'D'.
+        DELETE FROM zim_in_claim
+        WHERE pernr      = gr_outtab30-pernr
+        AND incident   = gr_outtab30-incident
+        AND claim_type = gr_outtab30-claim_type
+        AND begda      = gr_outtab30-begda
+        AND endda      = gr_outtab30-endda.
+        IF sy-subrc NE 0.
+          w_subrc = sy-subrc.
+          ROLLBACK WORK.
+          MESSAGE e999 WITH 'Error occurred when updating ZIM_IN_CLAIM'
+          'Return code ' w_subrc.
+        ELSE.
+          MOVE-CORRESPONDING gr_outtab30 TO zim_in_claim.
+          PERFORM update_in_claim_log USING w_action.
+          WRITE gr_outtab30-begda TO w_text1.
+          WRITE gr_outtab30-endda TO w_text2.
+          CONCATENATE 'The Claim Status record from' w_text1
+          'to' w_text2
+          INTO w_text1 SEPARATED BY ' '.
+          CONCATENATE 'for' gr_outtab30-status_desc
+          'has been deleted'
+          INTO w_text2 SEPARATED BY ' '.
+          IF w_claim_type = 'W'.
+            PERFORM update_notes_cm USING w_text1
+                  w_text2
+                  'WC'.
+            PERFORM check_med_cert USING 'C'
+                  gr_outtab30-begda
+                  gr_outtab30-endda.
+          ELSEIF w_claim_type = 'I'.
+            PERFORM update_notes_cm USING w_text1
+                  w_text2
+                  'IP'.
+          ELSEIF w_claim_type = 'S'.
+            PERFORM update_notes_cm USING w_text1
+                  w_text2
+                  'SI'.
+          ENDIF.
+          DELETE gt_outtab30 INDEX es_row_no-row_id.
+          PERFORM call_delete_unique USING gr_outtab30-doc_unique.
+          CLEAR zim_in_claim.
+          MESSAGE i999 WITH 'The record has been'
+          'successfully deleted'.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'IMP_ICON'.
+      CONCATENATE 'CS' gr_outtab30-claim_type INTO w_doc_unique.
+      IF gr_outtab30-stat = '5'.
+        PERFORM upload_doc USING w_doc_unique
+              gr_outtab30-seq_no
+              'DE'.
+      ELSEIF gr_outtab30-stat = '7'.
+        PERFORM upload_doc USING w_doc_unique
+              gr_outtab30-seq_no
+              'DD'.
+      ELSEIF gr_outtab30-stat = '4'.
+        PERFORM upload_doc USING w_doc_unique
+              gr_outtab30-seq_no
+              'DF'.
+      ELSE.
+        PERFORM upload_doc USING w_doc_unique
+              gr_outtab30-seq_no
+              'D2'.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab30-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'No Document has'
+        'been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab30-pernr
+            i_incident   = gr_outtab30-incident
+            i_doc_unique = gr_outtab30-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'EMAIL_ICON'.
+      IF w_claim_type = 'W'.
+        IF  gr_outtab30-stat NE '4' AND
+        gr_outtab30-stat NE '5' AND
+        gr_outtab30-stat NE '7'.
+          MESSAGE e999 WITH 'The Notification of Liability is'
+          'only sent for Reasonably Excused'
+          'and Declined claims and Accepted'
+          'Claims'.
+        ELSE.
+          IF gr_outtab30-doc_unique  IS INITIAL.
+            MESSAGE e999 WITH 'A Notification of Liability has'
+            'not been imported'.
+          ELSE.
+            CLEAR w_canc.
+            CONCATENATE 'CS' gr_outtab30-claim_type
+            gr_outtab30-seq_no INTO w_doc_unique.
+            PERFORM correspondence_send_in USING zim_in_mast-pernr
+                  zim_in_mast-incident
+                  w_doc_unique
+                  ' '.
+            IF w_canc IS INITIAL.
+              SELECT SINGLE * FROM zim_in_claim
+              INTO rec_zim_in_claim
+              WHERE pernr      = gr_outtab30-pernr
+              AND incident   = gr_outtab30-incident
+              AND claim_type = gr_outtab30-claim_type
+              AND begda      = gr_outtab30-begda
+              AND endda      = gr_outtab30-endda.
+              IF sy-subrc = 0.
+                rec_zim_in_claim-sent_date = sy-datum.
+                w_action = 'U'.
+                UPDATE zim_in_claim FROM rec_zim_in_claim.
+                IF sy-subrc NE 0.
+                  w_subrc = sy-subrc.
+                  ROLLBACK WORK.
+                  MESSAGE e999 WITH
+                  'Error occurred when updating ZIM_IN_CLAIM'
+                  'Return code ' w_subrc.
+                ELSE.
+                  zim_in_claim = rec_zim_in_claim.
+                  PERFORM update_in_claim_log USING w_action.
+                  gr_outtab30-sent_date = sy-datum.
+                  MODIFY gt_outtab30 FROM gr_outtab30
+                  INDEX es_row_no-row_id.
+                ENDIF.
+              ENDIF.
+            ENDIF.
+          ENDIF.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+    w_3404_refresh = abap_true.
+    w_2209_refresh = abap_true.
+    w_3602_refresh = abap_true.
+    w_4102_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3404
+
+
+  METHOD  handle_button_click_3405.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab32 INTO gr_outtab32 INDEX es_row_no-row_id.
+    IF w_3400_action = 'DISP'.
+      w_call_act = 'D'.
+    ELSE.
+      w_call_act = ' '.
+    ENDIF.
+    IF es_col_id-fieldname = 'DEL_ICON'.
+      PERFORM delete_record_popup.
+      IF w_exit = abap_true.
+        w_action           = 'D'.
+        DELETE FROM zim_in_rec_amt
+        WHERE pernr       = gr_outtab32-pernr
+        AND incident    = gr_outtab32-incident
+        AND amount_type = gr_outtab32-amount_type
+        AND begda       = gr_outtab32-begda
+        AND endda       = gr_outtab32-endda.
+        IF sy-subrc NE 0.
+          w_subrc = sy-subrc.
+          ROLLBACK WORK.
+          MESSAGE e999 WITH 'Error occurred when updating ZIM_IN_REC_AMT'
+          'Return code ' w_subrc.
+        ELSE.
+          MOVE-CORRESPONDING gr_outtab32 TO zim_in_rec_amt.
+          PERFORM update_in_rec_amt_log USING w_action.
+          WRITE gr_outtab32-begda TO w_text1.
+          WRITE gr_outtab32-endda TO w_text2.
+          CONCATENATE 'The Fixed Amount record from' w_text1
+          'to' w_text2
+          INTO w_text1 SEPARATED BY ' '.
+          WRITE gr_outtab32-amount TO w_text2 LEFT-JUSTIFIED.
+          PERFORM get_domain_desc  USING 'ZIM_FIXED_AMOUNT_TYPE'
+                gr_outtab32-amount_type
+          CHANGING w_text3.
+          CONCATENATE 'for' w_text3 'for' w_text2
+          'has been deleted'
+          INTO w_text2 SEPARATED BY ' '.
+          PERFORM update_notes_cm USING w_text1
+                w_text2
+                'WC'.
+          PERFORM check_med_cert USING 'F'
+                gr_outtab32-begda
+                gr_outtab32-endda.
+          PERFORM call_delete_unique USING gr_outtab32-doc_unique.
+          DELETE gt_outtab32 INDEX es_row_no-row_id.
+          MESSAGE i999 WITH 'The record has been'
+          'successfully deleted'.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'IMP_ICON'.
+      CONCATENATE 'FIX' gr_outtab32-amount_type INTO w_doc_unique.
+      PERFORM upload_doc USING w_doc_unique
+            gr_outtab32-seq_no
+            'D5'.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab32-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'No Document has'
+        'been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab32-pernr
+            i_incident   = gr_outtab32-incident
+            i_doc_unique = gr_outtab32-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'DESC_ICON'.
+      CONCATENATE 'FIX' gr_outtab32-amount_type INTO w_fix_key.
+      PERFORM call_notes USING zim_in_mast-pernr
+            zim_in_mast-incident
+            w_fix_key
+            gr_outtab32-seq_no
+            w_call_act.
+      CONCATENATE zim_in_mast-pernr zim_in_mast-incident
+      w_fix_key gr_outtab32-seq_no
+      INTO w_text_key.
+      PERFORM check_text      USING    w_text_key
+      CHANGING w_exists.
+      IF w_exists = abap_true.
+        gr_outtab32-desc_icon = icon_text_act.
+      ELSE.
+        gr_outtab32-desc_icon = icon_text_ina.
+      ENDIF.
+      MODIFY gt_outtab32 FROM gr_outtab32 INDEX es_row_no-row_id.
+    ENDIF.
+
+    w_3405_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3405
+
+
+  METHOD  handle_button_click_3409.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab31 INTO gr_outtab31 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'DEL_ICON'.
+      PERFORM delete_record_popup.
+      IF w_exit = abap_true.
+        DELETE FROM zim_in_cert_ben
+        WHERE pernr    = gr_outtab31-pernr
+        AND incident = gr_outtab31-incident
+        AND seq_no   = gr_outtab31-seq_no.
+        IF sy-subrc NE 0.
+          w_subrc = sy-subrc.
+          ROLLBACK WORK.
+          MESSAGE e999 WITH
+          'Error occurred when updating ZIM_IN_CERT_BEN'
+          'Return code ' w_subrc.
+        ELSE.
+          MESSAGE i999 WITH 'The record has been'
+          'successfully deleted'.
+        ENDIF.
+        w_3409_refresh = abap_true.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'GEN_ICON'.
+      PERFORM maintain_wc_benefits USING 'I'
+            gr_outtab31-date_from
+            gr_outtab31-date_to
+            gr_outtab31-seq_no.
+      w_3409_refresh = abap_true.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3409
+
+
+  METHOD  handle_button_click_3410.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab36 INTO gr_outtab36 INDEX es_row_no-row_id.
+    IF w_3400_action = 'DISP'.
+      w_call_act = 'D'.
+    ELSE.
+      w_call_act = 'U'.
+    ENDIF.
+    IF es_col_id-fieldname = 'UPD_ICON'.
+      PERFORM maintain_ext_act USING w_call_act
+            gr_outtab36-seq_no.
+    ELSEIF es_col_id-fieldname = 'DEL_ICON'.
+      PERFORM delete_record_popup.
+      IF w_exit = abap_true.
+        w_3410_refresh = abap_true.
+        w_action           = 'D'.
+        DELETE FROM zim_in_ext
+        WHERE pernr       = gr_outtab36-pernr
+        AND incident    = gr_outtab36-incident
+        AND seq_no      = gr_outtab36-seq_no.
+        IF sy-subrc NE 0.
+          w_subrc = sy-subrc.
+          ROLLBACK WORK.
+          MESSAGE e999 WITH 'Error occurred when updating ZIM_IN_EXT'
+          'Return code ' w_subrc.
+        ELSE.
+          MOVE-CORRESPONDING gr_outtab36 TO zim_in_ext.
+          PERFORM update_in_ext_log USING w_action.
+          WRITE gr_outtab36-ext_date TO w_text1.
+          CONCATENATE 'The External Activity' gr_outtab36-ext_desc
+          'dated' w_text1
+          INTO w_text1 SEPARATED BY ' '.
+          w_text2 = 'has been deleted'.
+          PERFORM update_notes_cm USING w_text1
+                w_text2
+                'WC'.
+          PERFORM call_delete_unique USING gr_outtab36-doc_unique.
+          PERFORM delete_text USING 'EXTACT'
+                gr_outtab36-seq_no.
+          DELETE gt_outtab36 INDEX es_row_no-row_id.
+          MESSAGE i999 WITH 'The record has been'
+          'successfully deleted'.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab36-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'No Document has'
+        'been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab36-pernr
+            i_incident   = zim_in_mast-incident
+            i_doc_unique = gr_outtab36-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3410
+
+
+  METHOD  handle_button_click_3411.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab37 INTO gr_outtab37 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'DEL_ICON'.
+      PERFORM delete_record_popup.
+      IF w_exit = abap_true.
+        w_action           = 'D'.
+        DELETE FROM zim_in_comp
+        WHERE pernr       = gr_outtab37-pernr
+        AND incident    = gr_outtab37-incident
+        AND begda       = gr_outtab37-begda
+        AND endda       = gr_outtab37-endda.
+        IF sy-subrc NE 0.
+          w_subrc = sy-subrc.
+          ROLLBACK WORK.
+          MESSAGE e999 WITH 'Error occurred when updating ZIM_IN_COMP'
+          'Return code ' w_subrc.
+        ELSE.
+          MOVE-CORRESPONDING gr_outtab37 TO zim_in_comp.
+          PERFORM update_in_comp_log USING w_action.
+          WRITE gr_outtab37-begda TO w_text1.
+          WRITE gr_outtab37-endda TO w_text2.
+          CONCATENATE 'The Comparabale Earnings Amount record from'
+          w_text1 'to' w_text2
+          INTO w_text1 SEPARATED BY ' '.
+          WRITE gr_outtab37-amount TO w_text2 LEFT-JUSTIFIED.
+          CONCATENATE 'for' w_text2
+          'has been deleted'
+          INTO w_text2 SEPARATED BY ' '.
+          PERFORM update_notes_cm USING w_text1
+                w_text2
+                'WC'.
+          PERFORM check_med_cert USING 'E'
+                gr_outtab37-begda
+                gr_outtab37-endda.
+          PERFORM call_delete_unique USING gr_outtab37-doc_unique.
+          DELETE gt_outtab37 INDEX es_row_no-row_id.
+          MESSAGE i999 WITH 'The record has been'
+          'successfully deleted'.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'IMP_ICON'.
+      PERFORM upload_doc USING 'COMPEARN'
+            gr_outtab37-seq_no
+            'DH'.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab37-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'No Document has'
+        'been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab37-pernr
+            i_incident   = gr_outtab37-incident
+            i_doc_unique = gr_outtab37-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+    w_3411_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3411
+
+
+  METHOD  handle_button_click_3412.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab46 INTO gr_outtab46 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'DEL_ICON'.
+      PERFORM delete_record_popup.
+      IF w_exit = abap_true.
+        PERFORM delete_piawe_history
+        USING
+              zim_in_mast-pernr
+              zim_in_mast-incident
+              gr_outtab46-begda
+              gr_outtab46-endda
+              gr_outtab46-lgart.
+        w_3412_refresh = abap_true.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3412
+
+
+  METHOD  handle_button_click_3414.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab48 INTO gr_outtab48 INDEX es_row_no-row_id.
+    CASE es_col_id-fieldname.
+      WHEN 'DEL_ICON'.
+        PERFORM delete_record_popup.
+        IF w_exit = abap_true.
+          PERFORM delete_external_claim_pc
+          USING
+                gr_outtab48-pernr
+                gr_outtab48-begda
+                gr_outtab48-endda.
+        ENDIF.
+      WHEN OTHERS.
+    ENDCASE.
+
+    w_3414_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3414
+
+*--------------------------------------------------------------------*
+  METHOD  handle_button_click_3415.
+    DATA: ls_outtab3415     TYPE gs_outtab_type3415,
+          ls_prim_claim_upd TYPE zim_in_prim_upd,
+          lt_prim_claim_upd TYPE TABLE OF zim_in_prim_upd,
+          lv_unique         TYPE zim_doc_unique,
+          ls_in_prim        TYPE zim_in_prim.
+
+    READ TABLE gt_outtab3415 INTO ls_outtab3415 INDEX es_row_no-row_id.
+    CASE es_col_id-fieldname.
+      WHEN 'DEL_ICON'.
+*       deletion only allowed for incident records
+        IF ls_outtab3415-incident NE gr_prim_claim->gv_incident.
+          MESSAGE 'Only primary claim pertaining to current incident are permitted for deletion'
+            TYPE 'E'.
+        ELSE.
+*         Info type 14 check
+          PERFORM validate_3415a  USING ls_outtab3415-begda
+                                        ls_outtab3415-endda.
+          PERFORM delete_record_popup.
+          IF w_exit = abap_true.
+            MOVE-CORRESPONDING ls_outtab3415  TO ls_prim_claim_upd.
+            ls_prim_claim_upd-updkz = 'D'.
+            APPEND ls_prim_claim_upd TO lt_prim_claim_upd.
+            gr_prim_claim->put_prim_upd( it_prim_claim_upd = lt_prim_claim_upd ).
+            gr_prim_claim->save_prim_claim_to_db( ).
+          ENDIF.
+        ENDIF.
+
+      WHEN 'IMP_ICON'.
+*       deletion only allowed for incident records
+        IF ls_outtab3415-incident NE gr_prim_claim->gv_incident.
+          MESSAGE 'Uploading documents for another incidents not allowed'
+            TYPE 'E'.
+        ELSE.
+          PERFORM upload_doc USING zcl_olims_prim_claim=>gc_document_prefix
+                                   ls_outtab3415-seq_no
+                                   zcl_olims_prim_claim=>gc_document_category.
+        ENDIF.
+      WHEN 'DOC_ICON'.
+        MOVE-CORRESPONDING ls_outtab3415 TO ls_in_prim.
+        IF zcl_olims_prim_claim=>check_if_doc_exists( ls_in_prim ) = abap_true.
+          lv_unique = |{ zcl_olims_prim_claim=>gc_document_prefix }{ ls_outtab3415-seq_no }|.
+          CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+            EXPORTING
+              i_pernr      = ls_in_prim-pernr
+              i_incident   = ls_in_prim-incident
+              i_doc_unique = lv_unique
+              i_direction  = 'I'.
+          IF sy-subrc <> 0.
+          ENDIF.
+        ELSE.
+          MESSAGE e999 WITH 'No Document has been imported'.
+        ENDIF.
+    ENDCASE.
+* Refresh ALV data
+    CLEAR gr_prim_claim.    "clear out the object
+    w_3415_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3415
+
+*--------------------------------------------------------------------*
+  METHOD  handle_button_click_3416.
+    DATA: ls_outtab3416     TYPE gs_outtab_type3416,
+          ls_pawe_upd       TYPE zim_in_pawe_upd,
+          lt_pawe_upd       TYPE TABLE OF zim_in_pawe_upd,
+          lv_unique         TYPE zim_doc_unique,
+          ls_in_pawe        TYPE zim_in_pawe.
+
+    READ TABLE gt_outtab3416 INTO ls_outtab3416 INDEX es_row_no-row_id.
+    CASE es_col_id-fieldname.
+      WHEN 'DEL_ICON'.
+        PERFORM delete_record_popup.
+        IF w_exit = abap_true.
+          MOVE-CORRESPONDING ls_outtab3416  TO ls_pawe_upd.
+          ls_pawe_upd-updkz = 'D'.
+          APPEND ls_pawe_upd TO lt_pawe_upd.
+          gr_pawe->put_pawe_upd( it_pawe_upd = lt_pawe_upd ).
+          gr_pawe->save_pawe_to_db( ).
+        ENDIF.
+
+      WHEN 'IMP_ICON'.
+        PERFORM upload_doc USING zcl_olims_pawe=>gc_document_prefix
+                                 ls_outtab3416-seq_no
+                                 zcl_olims_pawe=>gc_document_category.
+      WHEN 'DOC_ICON'.
+        MOVE-CORRESPONDING ls_outtab3416 TO ls_in_pawe.
+        IF zcl_olims_pawe=>check_if_doc_exists( ls_in_pawe ) = abap_true.
+          lv_unique = |{ zcl_olims_pawe=>gc_document_prefix }{ ls_outtab3416-seq_no }|.
+          CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+            EXPORTING
+              i_pernr      = ls_in_pawe-pernr
+              i_incident   = ls_in_pawe-incident
+              i_doc_unique = lv_unique
+              i_direction  = 'I'.
+          IF sy-subrc <> 0.
+          ENDIF.
+        ELSE.
+          MESSAGE e999 WITH 'No Document has been imported'.
+        ENDIF.
+    ENDCASE.
+* Refresh ALV data
+    CLEAR gr_pawe.    "clear out the object
+    w_3416_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3416
+
+*--------------------------------------------------------------------*
+  METHOD  handle_button_click_3417.
+    DATA: ls_outtab3417   TYPE gs_outtab_type3417,
+          ls_ip_upd       TYPE zim_in_ip_upd,
+          lt_ip_upd       TYPE TABLE OF zim_in_ip_upd,
+          lv_unique       TYPE zim_doc_unique,
+          ls_in_ip        TYPE zim_in_ip.
+
+    READ TABLE gt_outtab3417 INTO ls_outtab3417 INDEX es_row_no-row_id.
+    CASE es_col_id-fieldname.
+      WHEN 'DEL_ICON'.
+        PERFORM delete_record_popup.
+        IF w_exit = abap_true.
+          MOVE-CORRESPONDING ls_outtab3417  TO ls_ip_upd.
+          ls_ip_upd-updkz = 'D'.
+          APPEND ls_ip_upd TO lt_ip_upd.
+          gr_ip_rec->put_ip_upd( it_ip_upd = lt_ip_upd ).
+          gr_ip_rec->save_ip_to_db( ).
+        ENDIF.
+
+      WHEN 'IMP_ICON'.
+        PERFORM upload_doc USING zcl_olims_ip_rec=>gc_document_prefix
+                                 ls_outtab3417-seq_no
+                                 zcl_olims_ip_rec=>gc_document_category.
+      WHEN 'DOC_ICON'.
+        MOVE-CORRESPONDING ls_outtab3417 TO ls_in_ip.
+        IF zcl_olims_ip_rec=>check_if_doc_exists( ls_in_ip ) = abap_true.
+          lv_unique = |{ zcl_olims_ip_rec=>gc_document_prefix }{ ls_outtab3417-seq_no }|.
+          CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+            EXPORTING
+              i_pernr      = ls_in_ip-pernr
+              i_incident   = ls_in_ip-incident
+              i_doc_unique = lv_unique
+              i_direction  = 'I'.
+          IF sy-subrc <> 0.
+          ENDIF.
+        ELSE.
+          MESSAGE e999 WITH 'No Document has been imported'.
+        ENDIF.
+    ENDCASE.
+* Refresh ALV data
+    CLEAR gr_ip_rec.    "clear out the object
+    w_3417_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3416
+
+  METHOD  handle_button_click_4103.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab56 INTO gr_outtab56 INDEX es_row_no-row_id.
+
+    IF es_col_id-fieldname = 'IMP_ICON'.
+      CONCATENATE 'RV' gr_outtab56-review_type INTO w_doc_unique.
+      PERFORM upload_doc USING w_doc_unique
+            gr_outtab56-seq_no
+            'RV'.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab56-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'No Document has'
+        'been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab56-pernr
+            i_incident   = gr_outtab56-incident
+            i_doc_unique = gr_outtab56-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+    w_4103_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_4103
+
+  METHOD  handle_button_click_4105.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab55 INTO gr_outtab55 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'IMP_ICON'.
+      CONCATENATE 'OE' gr_outtab55-earning_type INTO w_doc_unique.
+      IF gr_outtab55-earning_type = 'E'.
+        PERFORM upload_doc USING w_doc_unique
+              gr_outtab55-seq_no
+              'EX'.
+      ELSEIF gr_outtab55-earning_type = 'O'.
+        PERFORM upload_doc USING w_doc_unique
+              gr_outtab55-seq_no
+              'OT'.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab55-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'No Document has'
+        'been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab55-pernr
+            i_incident   = gr_outtab55-incident
+            i_doc_unique = gr_outtab55-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+    w_4105_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_4105
+
+  METHOD  handle_button_click_3602.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab30 INTO gr_outtab30 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'DEL_ICON'.
+      PERFORM delete_record_popup.
+      IF w_exit = abap_true.
+        w_action           = 'D'.
+        DELETE FROM zim_in_claim
+        WHERE pernr      = gr_outtab30-pernr
+        AND incident   = gr_outtab30-incident
+        AND claim_type = gr_outtab30-claim_type
+        AND begda      = gr_outtab30-begda
+        AND endda      = gr_outtab30-endda.
+        IF sy-subrc NE 0.
+          w_subrc = sy-subrc.
+          ROLLBACK WORK.
+          MESSAGE e999 WITH 'Error occurred when updating ZIM_IN_CLAIM'
+                            'Return code ' w_subrc.
+        ELSE.
+          MOVE-CORRESPONDING gr_outtab30 TO zim_in_claim.
+          PERFORM update_in_claim_log USING w_action.
+          WRITE gr_outtab30-begda TO w_text1.
+          WRITE gr_outtab30-endda TO w_text2.
+          CONCATENATE 'The Claim Status record from' w_text1
+                      'to' w_text2
+                 INTO w_text1 SEPARATED BY ' '.
+          CONCATENATE 'for' gr_outtab30-status_desc
+                      'has been deleted'
+                 INTO w_text2 SEPARATED BY ' '.
+          PERFORM update_notes_cm USING w_text1
+                w_text2
+                'PRE88'.
+          DELETE gt_outtab30 INDEX es_row_no-row_id.
+          PERFORM call_delete_unique USING gr_outtab30-doc_unique.
+          CLEAR zim_in_claim.
+          MESSAGE i999 WITH 'The record has been'
+                            'successfully deleted'.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'LTR_ICON'.
+      IF gr_outtab30-stat = '2'.
+        PERFORM maintain_document_2 USING 'P4'
+                                          'PRE88LIAB'
+                                          gr_outtab30-seq_no.
+      ELSEIF gr_outtab30-stat = '4'.
+        PERFORM maintain_document_2 USING 'P3'
+                                          'PRE88LIAB'
+                                          gr_outtab30-seq_no.
+      ELSE.
+        MESSAGE e999 WITH 'A Letter has not been created'
+                          'for the Claim Status'.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'EMAIL_ICON'.
+      CLEAR w_canc.
+      CONCATENATE 'PRE88LIAB' gr_outtab30-seq_no
+                  INTO w_doc_unique.
+      PERFORM correspondence_send USING zim_in_mast-pernr
+                                        zim_in_mast-incident
+                                        w_doc_unique
+                                        ' '.
+      IF w_canc IS INITIAL.
+        SELECT SINGLE * FROM zim_in_claim
+               INTO rec_zim_in_claim
+               WHERE pernr      = gr_outtab30-pernr
+                 AND incident   = gr_outtab30-incident
+                 AND claim_type = gr_outtab30-claim_type
+                 AND begda      = gr_outtab30-begda
+                 AND endda      = gr_outtab30-endda.
+        IF sy-subrc = 0.
+          rec_zim_in_claim-sent_date = sy-datum.
+          w_action = 'U'.
+          UPDATE zim_in_claim FROM rec_zim_in_claim.
+          IF sy-subrc NE 0.
+            w_subrc = sy-subrc.
+            ROLLBACK WORK.
+            MESSAGE e999 WITH
+            'Error occurred when updating ZIM_IN_CLAIM'
+            'Return code ' w_subrc.
+          ELSE.
+            zim_in_claim = rec_zim_in_claim.
+            PERFORM update_in_claim_log USING w_action.
+            CLEAR zim_in_claim.
+            gr_outtab30-sent_date = sy-datum.
+            MODIFY gt_outtab30 FROM gr_outtab30
+            INDEX es_row_no-row_id.
+          ENDIF.
+          IF zim_in_pre88-current_action = '11'.
+            SELECT SINGLE * FROM zim_in_pre88
+                   INTO rec_zim_in_pre88
+                   WHERE pernr      = gr_outtab30-pernr
+                     AND incident   = gr_outtab30-incident.
+            IF sy-subrc = 0.
+              IF gr_outtab30-stat = '4'.
+                rec_zim_in_pre88-current_status = 'A'.
+              ELSE.
+                rec_zim_in_pre88-current_status = 'L'.
+              ENDIF.
+              CLEAR rec_zim_in_pre88-current_action.
+              rec_zim_in_pre88-status_date = sy-datum.
+              w_action = 'U'.
+              UPDATE zim_in_pre88 FROM rec_zim_in_pre88.
+              IF sy-subrc NE 0.
+                w_subrc = sy-subrc.
+                ROLLBACK WORK.
+                MESSAGE e999 WITH
+                'Error occurred when updating ZIM_IN_PRE88'
+                'Return code ' w_subrc.
+              ELSE.
+                PERFORM update_in_pre88_log USING w_action
+                                                  rec_zim_in_pre88.
+                IF gr_outtab30-stat = '4'.
+                  zim_in_pre88-current_status = 'A'.
+                ELSE.
+                  zim_in_pre88-current_status = 'L'.
+                ENDIF.
+                CLEAR zim_in_pre88-current_action.
+                zim_in_pre88-status_date = sy-datum.
+              ENDIF.
+            ENDIF.
+          ENDIF.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+    w_3602_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3602
+
+
+  METHOD  handle_button_click_3607.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab50 INTO gr_outtab50 INDEX es_row_no-row_id.
+    IF w_3600_action = 'DISP'.
+      w_call_act     = 'D'.
+      w_notes_action = 'X'.
+    ELSE.
+      w_call_act     = 'U'.
+      w_notes_action = ' '.
+    ENDIF.
+    IF es_col_id-fieldname = 'UPD_ICON'.
+      PERFORM maintain_pre88_leg USING zim_in_mast-pernr
+                                       zim_in_mast-incident
+                                       gr_outtab50-seq_no
+                                       w_call_act.
+    ELSEIF es_col_id-fieldname = 'REV_ICON'.
+      IF gr_outtab50-legal_ltr_app IS NOT INITIAL.
+        MESSAGE e999 WITH
+        'The Legal Request Details have already'
+        'been approved'.
+      ELSE.
+        PERFORM pre88_leg_review USING zim_in_mast-pernr
+                                       zim_in_mast-incident
+                                       gr_outtab50-seq_no
+                                       'R'
+                                       es_row_no-row_id.
+        MESSAGE i999 WITH 'The Request has been forwarded'
+                          'for approval'.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'TL_ICON'.
+      IF gr_outtab50-legal_ltr_comp IS INITIAL.
+        MESSAGE e999 WITH
+        'The Legal Request Details have not been'
+        'completed'.
+      ELSEIF gr_outtab50-legal_ltr_app IS NOT INITIAL.
+        MESSAGE e999 WITH
+        'The Legal Request Details have already'
+        'been approved'.
+      ELSE.
+        PERFORM pre88_leg_review USING zim_in_mast-pernr
+                                       zim_in_mast-incident
+                                       gr_outtab50-seq_no
+                                       'T'
+                                       es_row_no-row_id.
+        MESSAGE i999 WITH 'The request has been approved'.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'APP_ICON'.
+      IF gr_outtab50-legal_ltr_comp IS INITIAL.
+        MESSAGE e999 WITH
+        'The Legal Request Details have not been'
+        'completed'.
+      ELSEIF gr_outtab50-tl_approved IS INITIAL.
+        MESSAGE e999 WITH
+        'The Legal Request Details have not'
+        'been approved by the Team Leader'.
+      ELSEIF gr_outtab50-legal_ltr_app IS NOT INITIAL.
+        MESSAGE e999 WITH
+        'The Legal Request Details have already'
+        'been approved'.
+      ELSE.
+        PERFORM pre88_leg_review USING zim_in_mast-pernr
+                                       zim_in_mast-incident
+                                       gr_outtab50-seq_no
+                                       'A'
+                                       es_row_no-row_id.
+        MESSAGE i999 WITH 'The request has been approved'.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'RET_ICON'.
+      IF gr_outtab50-legal_ltr_comp IS INITIAL.
+        MESSAGE e999 WITH
+        'The Legal Request Details have not been'
+        'completed'.
+      ELSEIF gr_outtab50-legal_ltr_app IS NOT INITIAL.
+        MESSAGE e999 WITH
+        'The Legal Request Details have already'
+        'been approved'.
+      ELSE.
+        PERFORM call_notes USING zim_in_mast-pernr
+                                 zim_in_mast-incident
+                                 'PRE88LEGRET'
+                                 gr_outtab50-seq_no
+                                 ' '.
+        CONCATENATE zim_in_mast-pernr zim_in_mast-incident
+                    'PRE88LEGRET' gr_outtab50-seq_no
+                    INTO w_text_key.
+        PERFORM check_text      USING    w_text_key
+                                CHANGING w_exists.
+        IF w_exists NE abap_true.
+          MESSAGE i999 WITH 'Please enter the reason the Legal'
+                            'Request is being returned'.
+        ELSE.
+          gr_outtab50-notes_icon = icon_text_act.
+          PERFORM pre88_leg_review USING zim_in_mast-pernr
+                                         zim_in_mast-incident
+                                         gr_outtab50-seq_no
+                                         'Z'
+                                         es_row_no-row_id.
+          MESSAGE i999 WITH 'The request has been returned'
+                            'to the CO for update'.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'EMAIL_ICON'.
+      IF gr_outtab50-legal_ltr_app IS INITIAL.
+        MESSAGE e999 WITH
+        'The Legal Request must be approved before'
+        'the request can be sent'.
+      ELSE.
+        CONCATENATE 'PRE88REQ' gr_outtab50-seq_no
+                    INTO w_doc_unique.
+        PERFORM correspondence_send USING zim_in_mast-pernr
+                                          zim_in_mast-incident
+                                          w_doc_unique
+                                          ' '.
+        IF w_canc IS INITIAL.
+          PERFORM pre88_leg_review USING zim_in_mast-pernr
+                                         zim_in_mast-incident
+                                         gr_outtab50-seq_no
+                                         'E'
+                                         es_row_no-row_id.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'NOTES_ICON'.
+      PERFORM call_notes USING zim_in_mast-pernr
+                               zim_in_mast-incident
+                               'PRE88LEGRET'
+                               gr_outtab50-seq_no
+                               w_notes_action.
+      CONCATENATE zim_in_mast-pernr zim_in_mast-incident
+                  'PRE88LEGRET' gr_outtab50-seq_no
+                  INTO w_text_key.
+      PERFORM check_text      USING    w_text_key
+                              CHANGING w_exists.
+      IF w_exists = abap_true.
+        gr_outtab50-notes_icon = icon_text_act.
+        MODIFY gt_outtab50 FROM gr_outtab50
+               INDEX es_row_no-row_id.
+        CALL METHOD prel_sel_alv->refresh_table_display.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3607
+
+
+  METHOD  handle_button_click_3610.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab51 INTO gr_outtab51 INDEX es_row_no-row_id.
+    IF w_3600_action = 'DISP'.
+      w_call_act     = 'D'.
+      w_notes_action = 'X'.
+    ELSE.
+      w_call_act     = 'U'.
+      w_notes_action = ' '.
+    ENDIF.
+* Case Officer cannot change any details after the invoice
+* has been approved.
+* Invoice cannot be changed after it has been posted.
+    IF ( gr_outtab51-inv_app IS NOT INITIAL AND
+         sy-tcode = 'ZIM_SCU' )             OR
+         gr_outtab51-proc_date IS NOT INITIAL.
+      w_call_act = 'D'.
+    ENDIF.
+    IF es_col_id-fieldname = 'UPD_ICON'.
+      PERFORM maintain_pre88_inv USING zim_in_mast-pernr
+                                       zim_in_mast-incident
+                                       gr_outtab51-seq_no
+                                       w_call_act.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab51-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'A copy of the Invoice has'
+                          'not been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab51-pernr
+            i_incident   = gr_outtab51-incident
+            i_doc_unique = gr_outtab51-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'REV_ICON'.
+      IF gr_outtab51-inv_app IS NOT INITIAL OR
+         gr_outtab51-source  = 'Old'.
+        MESSAGE e999 WITH
+        'The Invoice Details have already'
+        'been approved'.
+      ELSE.
+        PERFORM pre88_inv_review USING zim_in_mast-pernr
+                                       zim_in_mast-incident
+                                       gr_outtab51-seq_no
+                                       'R'
+                                       es_row_no-row_id.
+        MESSAGE i999 WITH 'The Invoice has been forwarded'
+                          'for approval'.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'APP_ICON'.
+      IF gr_outtab51-inv_app IS NOT INITIAL OR
+         gr_outtab51-source  = 'Old'.
+        MESSAGE e999 WITH
+        'The Invoice Details have already'
+        'been approved'.
+      ELSEIF gr_outtab51-inv_comp IS INITIAL.
+        MESSAGE e999 WITH
+        'The Invoice Details have not been'
+        'completed'.
+      ELSEIF gr_outtab51-amtpd GE 1000.
+        MESSAGE e999 WITH
+        'The Team Leader can only approve invoices'
+        'less than $1,000'.
+      ELSE.
+        PERFORM pre88_inv_review USING zim_in_mast-pernr
+                                       zim_in_mast-incident
+                                       gr_outtab51-seq_no
+                                       'A'
+                                       es_row_no-row_id.
+        MESSAGE i999 WITH 'The Invoice has been approved'.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'MGR_ICON'.
+      IF gr_outtab51-inv_app IS NOT INITIAL OR
+         gr_outtab51-source  = 'Old'.
+        MESSAGE e999 WITH
+        'The Invoice Details have already'
+        'been approved'.
+      ELSEIF gr_outtab51-inv_comp IS INITIAL.
+        MESSAGE e999 WITH
+        'The Invoice Details have not been'
+        'completed'.
+      ELSE.
+        PERFORM pre88_inv_review USING zim_in_mast-pernr
+                                       zim_in_mast-incident
+                                       gr_outtab51-seq_no
+                                       'A'
+                                       es_row_no-row_id.
+        MESSAGE i999 WITH 'The Invoice has been approved'.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'RET_ICON'.
+      IF gr_outtab51-inv_app IS NOT INITIAL OR
+         gr_outtab51-source  = 'Old'.
+        MESSAGE e999 WITH
+        'The Invoice Details have already'
+        'been approved'.
+      ELSEIF gr_outtab51-inv_comp IS INITIAL.
+        MESSAGE e999 WITH
+        'The Invoice Details have not been'
+        'completed'.
+      ELSE.
+        PERFORM call_notes USING zim_in_mast-pernr
+                                 zim_in_mast-incident
+                                 'PRE88INVRET'
+                                 gr_outtab51-seq_no
+                                 ' '.
+        CONCATENATE zim_in_mast-pernr zim_in_mast-incident
+                    'PRE88INVRET' gr_outtab51-seq_no
+                    INTO w_text_key.
+        PERFORM check_text      USING    w_text_key
+                                CHANGING w_exists.
+        IF w_exists NE abap_true.
+          MESSAGE i999 WITH 'Please enter the reason the Invoice'
+                            'is being returned'.
+        ELSE.
+          gr_outtab51-notes_icon = icon_text_act.
+          PERFORM pre88_inv_review USING zim_in_mast-pernr
+                                         zim_in_mast-incident
+                                         gr_outtab51-seq_no
+                                         'Z'
+                                         es_row_no-row_id.
+          MESSAGE i999 WITH 'The Invoice has been returned'
+                            'to the CO/ACO for update'.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'PROC_ICON'.
+      IF gr_outtab51-proc_date IS NOT INITIAL OR
+         gr_outtab51-source  = 'Old'.
+        MESSAGE e999 WITH
+        'The Invoice has already been processed'.
+      ELSEIF gr_outtab51-inv_app IS INITIAL.
+        MESSAGE e999 WITH
+        'The Invoice must be approved before'
+        'the Invoice can be processed'.
+      ELSE.
+        PERFORM pre88_inv_post.
+        IF w_canc IS INITIAL.
+          PERFORM pre88_inv_review USING zim_in_mast-pernr
+                                         zim_in_mast-incident
+                                         gr_outtab51-seq_no
+                                         'P'
+                                         es_row_no-row_id.
+        ENDIF.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'NOTES_ICON'.
+      PERFORM call_notes USING zim_in_mast-pernr
+                               zim_in_mast-incident
+                               'PRE88INVRET'
+                               gr_outtab51-seq_no
+                               w_notes_action.
+      CONCATENATE zim_in_mast-pernr zim_in_mast-incident
+                  'PRE88INVRET' gr_outtab51-seq_no
+                  INTO w_text_key.
+      PERFORM check_text      USING    w_text_key
+                              CHANGING w_exists.
+      IF w_exists = abap_true.
+        gr_outtab51-notes_icon = icon_text_act.
+        MODIFY gt_outtab51 FROM gr_outtab51
+               INDEX es_row_no-row_id.
+        CALL METHOD prei_sel_alv->refresh_table_display.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3610
+
+  METHOD  handle_button_click_3611.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab52 INTO gr_outtab52 INDEX es_row_no-row_id.
+    IF w_3600_action = 'DISP'.
+      w_call_act = 'D'.
+    ELSE.
+      w_call_act = 'U'.
+    ENDIF.
+
+    IF es_col_id-fieldname = 'UPD_ICON'.
+      IF w_3600_changed IS NOT INITIAL.
+        MESSAGE e999 WITH
+        'Save your changes before accessing'
+        'a different incident'.
+      ELSE.
+        w_3600_2_from         = 3600.
+        w_3600_saved_pernr    = zim_in_mast-pernr.
+        w_3600_saved_incident = zim_in_mast-incident.
+        PERFORM exit_3600_1.
+        PERFORM call_3600 USING gr_outtab52-pernr
+                                gr_outtab52-incident.
+        LEAVE SCREEN.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3611
+
+
+  METHOD  handle_data_changed_3707.
+*--------------------------------------------------------------------*
+    PERFORM handle_data_changed_3707  USING er_data_changed.
+
+    PERFORM refresh_mc_sel_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_3707
+
+
+  METHOD  handle_button_click_3809.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab35 INTO gr_outtab35 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'IMP_ICON'.
+      CONCATENATE gr_outtab35-subty gr_outtab35-lve_begda
+      INTO w_doc_unique.
+      PERFORM upload_doc USING w_doc_unique
+            gr_outtab35-seqnr
+            'DC'.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab35-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'No Document has'
+        'been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab35-pernr
+            i_incident   = zim_in_mast-incident
+            i_doc_unique = gr_outtab35-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+    w_3809_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3809
+
+
+  METHOD  handle_button_click_3909.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab35 INTO gr_outtab35 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'IMP_ICON'.
+      CONCATENATE gr_outtab35-subty gr_outtab35-lve_begda
+      INTO w_doc_unique.
+      PERFORM upload_doc USING w_doc_unique
+            gr_outtab35-seqnr
+            'DI'.
+    ELSEIF es_col_id-fieldname = 'DOC_ICON'.
+      IF gr_outtab35-doc_unique  IS INITIAL.
+        MESSAGE e999 WITH 'No Document has'
+        'been imported'.
+      ELSE.
+        CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT'
+          EXPORTING
+            i_pernr      = gr_outtab35-pernr
+            i_incident   = zim_in_mast-incident
+            i_doc_unique = gr_outtab35-doc_unique
+            i_direction  = 'I'.
+        IF sy-subrc <> 0.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+    w_3909_refresh = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_3909
+
+
+  METHOD  handle_data_changed_4005.
+*--------------------------------------------------------------------*
+    w_4001_changed = abap_true.
+    PERFORM handle_data_changed_4005  USING er_data_changed.
+*   CALL METHOD mtg_alv->refresh_table_display.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_4005
+
+  METHOD  handle_data_changed_4005_1.
+*--------------------------------------------------------------------*
+    w_4001_changed = abap_true.
+    PERFORM handle_data_changed_4005_1  USING er_data_changed.
+*   CALL METHOD review_alv->refresh_table_display.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_4005_1
+
+
+  METHOD  handle_button_click_4006.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab41 INTO gr_outtab41 INDEX es_row_no-row_id.
+
+    IF es_col_id-fieldname = 'DISP_ICON'.
+      PERFORM maintain_tp
+        USING 'D'
+              gr_outtab41-seq_no.
+    ELSEIF es_col_id-fieldname = 'UPD_ICON'.
+      PERFORM maintain_tp
+        USING 'U'
+              gr_outtab41-seq_no.
+    ENDIF.
+
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_4006
+
+
+  METHOD  handle_data_changed_4007.
+*--------------------------------------------------------------------*
+    w_4001_changed = abap_true.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_4007
+
+
+  METHOD  handle_button_click_4007.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab43 INTO gr_outtab43 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'DESC_ICON'.
+      w_req_key = 'DEPEXT'.
+      IF w_4001_action = 'DISP'.
+        w_call_act = abap_true.
+      ELSE.
+        w_call_act = ' '.
+      ENDIF.
+      PERFORM call_notes USING gr_outtab43-pernr
+            gr_outtab43-incident
+            w_req_key
+            gr_outtab43-employ_seqno
+            w_call_act.
+      CONCATENATE zim_in_mast-pernr zim_in_mast-incident
+      w_req_key gr_outtab43-employ_seqno
+      INTO w_text_key.
+      PERFORM check_text      USING    w_text_key
+      CHANGING w_exists.
+      IF w_exists = abap_true.
+        gr_outtab43-desc_icon = icon_text_act.
+      ELSE.
+        gr_outtab43-desc_icon = icon_text_ina.
+      ENDIF.
+      MODIFY gt_outtab43 FROM gr_outtab43 INDEX es_row_no-row_id.
+      PERFORM refresh_depext_req_alv_total.
+
+    ELSEIF es_col_id-fieldname = 'EMAIL_ICON'.
+      CONCATENATE 'DEPEXT' gr_outtab43-employ_seqno
+      INTO w_doc_unique.
+      PERFORM resend_corro USING w_doc_unique.
+      IF w_no_resend = abap_true.
+        PERFORM get_notes_for_letter  USING w_doc_unique.
+        MOVE-CORRESPONDING gr_outtab43 TO rec_zim_in_dep_ext.
+        REFRESH r_cat.
+        PERFORM add_r_cat USING 'RF'.
+        PERFORM correspondence USING zim_in_mast-pernr
+              zim_in_mast-incident
+              w_doc_unique
+              abap_true.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_4007
+
+
+  METHOD  handle_button_click_5000.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab10 INTO gr_outtab10 INDEX es_row_no-row_id.
+    IF es_col_id-fieldname = 'DESC_ICON'.
+      PERFORM call_notes USING gr_outtab10-pernr
+            gr_outtab10-incident
+            'ERG'
+            gr_outtab10-seq_no
+            ' '.
+      CONCATENATE gr_outtab10-pernr gr_outtab10-incident
+      'ERG' gr_outtab10-seq_no
+      INTO w_text_key.
+      PERFORM check_text      USING    w_text_key
+      CHANGING w_exists.
+      IF w_exists = abap_true.
+        gr_outtab10-desc_icon = icon_text_act.
+      ELSE.
+        gr_outtab10-desc_icon = icon_text_ina.
+      ENDIF.
+      MODIFY gt_outtab10 FROM gr_outtab10 INDEX es_row_no-row_id.
+      PERFORM refresh_erg_ass_alv_total.
+    ELSE.
+      CALL FUNCTION 'Z_OLIMS_DISPLAY_DOCUMENT_2'
+        EXPORTING
+          i_pernr    = gr_outtab10-pernr
+          i_incident = gr_outtab10-incident
+          i_doc_id   = gr_outtab10-att_doc_id1.
+      IF sy-subrc <> 0.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_5000
+
+
+  METHOD  handle_on_f4_5000.
+*--------------------------------------------------------------------*
+    f4_params-c_fieldname    = e_fieldname.
+    f4_params-cs_row_no      = es_row_no.
+    f4_params-cr_event_data  = er_event_data.
+    f4_params-ct_bad_cells   = et_bad_cells.
+    f4_params-c_display      = e_display.
+
+    IF es_row_no-row_id GT 0.
+      READ TABLE gt_outtab10 INTO gr_outtab10 INDEX es_row_no-row_id.
+    ENDIF.
+
+    PERFORM handle_on_f4_ima.
+
+    er_event_data->m_event_handled = abap_true .
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_on_f4_5000
+
+
+  METHOD  handle_data_changed_5000.
+*--------------------------------------------------------------------*
+    PERFORM handle_data_changed_5000  USING er_data_changed.
+
+    PERFORM refresh_erg_ass_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_5000
+
+
+  METHOD  handle_on_f4_5100.
+*--------------------------------------------------------------------*
+    f4_params-c_fieldname    = e_fieldname.
+    f4_params-cs_row_no      = es_row_no.
+    f4_params-cr_event_data  = er_event_data.
+    f4_params-ct_bad_cells   = et_bad_cells.
+    f4_params-c_display      = e_display.
+
+    IF es_row_no-row_id GT 0.
+      READ TABLE gt_outtab17 INTO gr_outtab17 INDEX es_row_no-row_id.
+    ENDIF.
+
+    PERFORM handle_on_f4_ima.
+
+    er_event_data->m_event_handled = abap_true .
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_on_f4_5100
+
+  METHOD  handle_data_changed_5100.
+*--------------------------------------------------------------------*
+    PERFORM handle_data_changed_5100  USING er_data_changed.
+
+    PERFORM refresh_rem_sel_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_5100
+
+
+  METHOD  handle_button_click_6000.
+*--------------------------------------------------------------------*
+    PERFORM review_letter  TABLES gt_outtab14
+    USING  es_col_id
+          es_row_no.
+
+    PERFORM refresh_ltr_sel_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_6000.
+
+
+  METHOD  handle_button_click_8100.
+*--------------------------------------------------------------------*
+    IF es_col_id-fieldname = 'NOTES_ICON'.
+      READ TABLE gt_outtab5 INTO gr_outtab5 INDEX es_row_no-row_id.
+      IF w_2100_action = 'DISP' OR
+         w_2200_action = 'DISP'.
+        PERFORM call_notes USING zim_in_mast-pernr
+              zim_in_mast-incident
+              w_contact_type
+              gr_outtab5-cont_act_code
+              abap_true.
+      ELSE.
+        PERFORM call_notes USING zim_in_mast-pernr
+              zim_in_mast-incident
+              w_contact_type
+              gr_outtab5-cont_act_code
+              ' '.
+        CONCATENATE zim_in_mast-pernr zim_in_mast-incident
+        gr_outtab5-contact_type gr_outtab5-cont_act_code
+        INTO w_text_key.
+        PERFORM check_text      USING    w_text_key
+        CHANGING w_exists.
+        IF w_exists = abap_true.
+          gr_outtab5-notes_icon = icon_text_act.
+        ELSE.
+          gr_outtab5-notes_icon = icon_text_ina.
+        ENDIF.
+        MODIFY gt_outtab5 FROM gr_outtab5 INDEX es_row_no-row_id.
+
+        PERFORM refresh_init_con_alv_total.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_8100
+
+
+  METHOD  handle_data_changed_9600.
+*--------------------------------------------------------------------*
+    PERFORM handle_data_changed_9600 USING er_data_changed.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                   "handle_data_changed_9600.
+
+
+  METHOD handle_hotspot_9600 .
+*--------------------------------------------------------------------*
+    CALL METHOD doc_sel_alv->get_scroll_info_via_id
+      IMPORTING
+        es_col_info = gr_outtab18_col_info
+        es_row_no   = gr_outtab18_row_no.
+
+    IF es_row_no-row_id GT 0.
+      READ TABLE gt_outtab18 INTO gr_outtab18 INDEX es_row_no-row_id.
+      IF gr_outtab18-doc_link IS NOT INITIAL.
+        PERFORM display_document USING gr_outtab18-doc_link.
+      ENDIF.
+    ENDIF.
+*--------------------------------------------------------------------*
+  ENDMETHOD .                    "handle_hotspot_9600
+
+
+  METHOD  handle_button_click_9600.
+*--------------------------------------------------------------------*
+    READ TABLE gt_outtab18 INTO gr_outtab18 INDEX es_row_no-row_id.
+
+    IF es_col_id-fieldname = 'FILE_ICON'.
+      PERFORM import_file_selection.
+      IF rec_filename IS NOT INITIAL.
+        gr_outtab18-doc_link = rec_filename.
+      ENDIF.
+    ELSEIF es_col_id-fieldname = 'DEL_ICON'.
+      CLEAR gr_outtab18.
+      gr_outtab18-file_icon = icon_linked_document.
+      gr_outtab18-html_icon = icon_linked_document.
+      gr_outtab18-del_icon  = icon_delete.
+    ELSEIF es_col_id-fieldname = 'HTML_ICON'.
+      PERFORM process_html USING gr_outtab18-doc_link.
+    ENDIF.
+    MODIFY gt_outtab18 FROM gr_outtab18 INDEX es_row_no-row_id.
+
+*    PERFORM filename_value_request TABLES gt_outtab18
+*    USING  es_col_id
+*          es_row_no.
+
+    PERFORM refresh_doc_sel_alv_total.
+*--------------------------------------------------------------------*
+  ENDMETHOD.                    "HANDLE_BUTTON_CLICK_9600
+
+**********************************************************************
+ENDCLASS.                    "ZCL_ALV_EVENT IMPLEMENTATION

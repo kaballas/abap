@@ -1,0 +1,94 @@
+{
+  "questions": [
+    {
+      "question": "Which class method returns work email from PA0105 subtype MAIL with fallback behavior, and why must EPSS create a separate method instead of reusing it?",
+      "tier": 2,
+      "answer_keys": ["ZCL_OLIMS_CLASS", "GET_EMP_EMAIL", "PA0105", "fallback", "personal and work email separately"],
+      "retrieval_hint": "email retrieval EPSS fallback substitution separation"
+    },
+    {
+      "question": "What are the four primary key fields of table ZIM_IN_DOC_EPSS, and which existing OLIMS table do they reference?",
+      "tier": 1,
+      "answer_keys": ["ZIM_IN_DOC_EPSS", "MANDT", "PERNR", "INCIDENT", "DOC_SEQ_NO", "ZIM_IN_DOC"],
+      "retrieval_hint": "table keys foreign reference extension"
+    },
+    {
+      "question": "What must happen when an audit insert to ZIM_DOC_AUDIT fails, and how does this differ from the ZIM_IN_PRIM_LOG pattern?",
+      "tier": 2,
+      "answer_keys": ["ZIM_DOC_AUDIT", "insert only", "fail-closed", "rollback", "abort business action", "ZIM_IN_PRIM_LOG", "operational logging"],
+      "retrieval_hint": "audit insert failure semantics compliance operational"
+    },
+    {
+      "question": "List all action types that must be recorded in the ZIM_DOC_AUDIT table, including at least three examples with RESULT types.",
+      "tier": 1,
+      "answer_keys": ["ZIM_DOC_AUDIT", "ACTION_TYPE", "Template maintenance", "Merge actions", "Send and resend", "Upload", "Metadata update", "Hide and unhide", "RESULT", "success", "failed", "denied"],
+      "retrieval_hint": "audit action types domain denied denied events"
+    },
+    {
+      "question": "What are the exact retrieval sources (class method and table) for EPSS personal email and work email in correspondence selection, and which subtype codes are used?",
+      "tier": 2,
+      "answer_keys": ["personal email", "PA0105", "MEMO", "USRID", "work email", "MAIL", "USRID_LONG", "correspondence selection"],
+      "retrieval_hint": "email source PA0105 subtype MAIL MEMO correspondence"
+    },
+    {
+      "question": "Describe the complete workflow chain for an EPSS document upload, including all database operations, TRIM integration, and audit entry requirements within a single LUW.",
+      "tier": 3,
+      "answer_keys": ["upload", "LUW", "Import Document", "TRIM", "ZIM_IN_DOC", "ZIM_IN_DOC_EPSS", "EPSS Note", "ZIM_DOC_AUDIT", "success", "rollback on failure"],
+      "retrieval_hint": "upload workflow TRIM integration audit note LUW"
+    },
+    {
+      "question": "Which two TRIM integration function modules are used by correspondence logging and what artefact type must be stored for EPSS (not just the email body)?",
+      "tier": 2,
+      "answer_keys": ["Z_TRIM_SAVE_DOCUMENT", "Z_TRIM_INS_METADATA_GROUP", "final generated document", "EPSS metadata", "TRIM ID linkage"],
+      "retrieval_hint": "TRIM function modules document artefact final generated"
+    },
+    {
+      "question": "What are the three index suggestions for table ZIM_IN_DOC_EPSS, and why is buffering set to OFF?",
+      "tier": 2,
+      "answer_keys": ["ZIM_IN_DOC_EPSS", "index", "MANDT DOC_CATEGORY DOC_SUBCATEGORY DATE_RECEIVED", "MANDT PERNR INCIDENT DIRECTION DATE_RECEIVED", "MANDT HIDDEN MODIFIED_ON", "buffering off", "high volume", "insert only"],
+      "retrieval_hint": "table indices buffering performance high volume audit"
+    },
+    {
+      "question": "Describe the exact rules for Date Received editability and the audit consequences of attempted edits both before and after the field is populated.",
+      "tier": 2,
+      "answer_keys": ["Date Received", "mandatory upload", "editable only while blank", "audit entry", "field level", "old value", "new value", "denied edits"],
+      "retrieval_hint": "Date Received edit rules audit mandatory blank"
+    },
+    {
+      "question": "Name the four OLA requirements that map to reporting functionality, and identify which reporting columns must be masked as Restricted for unauthorized users.",
+      "tier": 3,
+      "answer_keys": ["OLA009", "OLA014", "reporting", "Excel export", "filters", "Restricted", "sensitive fields", "user access", "document access"],
+      "retrieval_hint": "OLA009 OLA014 reporting masking restricted unauthorized"
+    },
+    {
+      "question": "What method in ZCL_OLIMS_PRIM_CLAIM retrieves claims by incident for merge variable population, and what data validation must occur before attempting document operations?",
+      "tier": 2,
+      "answer_keys": ["ZCL_OLIMS_PRIM_CLAIM", "GET_PRIMARY_CLAIMS_INCIDENT", "CHECK_IF_DOC_EXISTS", "merge variable", "validation", "prevent duplicates"],
+      "retrieval_hint": "claim method incident merge validation duplicate check"
+    },
+    {
+      "question": "What is the complete authority check pattern for EPSS access control across dynpros and reports, and which roles are explicitly denied hide/unhide access?",
+      "tier": 3,
+      "answer_keys": ["authority utility", "reusable", "dynpro", "report", "same decisions", "EPSS Supervisor", "Audit and Compliance", "EPSS Claims Officer", "Manager Claims Support"],
+      "retrieval_hint": "authority utility access control roles denied EPSS"
+    },
+    {
+      "question": "When a correspondence resend occurs, must a new correspondence record be created in ZIM_IN_DOC and ZIM_IN_DOC_REC, and how does resend auditing differ from initial send auditing?",
+      "tier": 2,
+      "answer_keys": ["resend", "new correspondence record", "new audit event", "ZIM_IN_DOC", "ZIM_IN_DOC_REC", "treat as new send"],
+      "retrieval_hint": "resend correspondence record audit event new"
+    },
+    {
+      "question": "Identify the two FORM routines from ZHUOLIMS_CORRESPONDENCE that demonstrate ALV field catalogue patterns and caching patterns for document operations, and why caching is critical for EPSS metadata loads.",
+      "tier": 2,
+      "answer_keys": ["FORM routine", "BUILD_FIELDCAT_INC_BP_INJ", "GET_BP_INJURY_DATA", "ALV field catalogue", "caching", "minimize database calls", "ZHUOLIMS_CORRESPONDENCE"],
+      "retrieval_hint": "FORM routine ALV catalogue caching database calls"
+    },
+    {
+      "question": "List all constraints and design rules from section 4 that explicitly govern EPSS build decisions, including fork requirements, table strategy, and audit semantics.",
+      "tier": 1,
+      "answer_keys": ["constraints", "do not fork OLIMS flows", "extension table", "insert only", "fail closed", "no backfill", "no bulk recategorisation", "regression risk"],
+      "retrieval_hint": "design rules constraints fork table extension audit"
+    }
+  ]
+}

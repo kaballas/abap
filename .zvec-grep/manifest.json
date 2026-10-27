@@ -1,0 +1,25 @@
+{
+  "manifestVersion": 1,
+  "id": "6cd6570b-066b-44eb-bdcb-05b3d1922ccd",
+  "name": "EPSS",
+  "path": "/home/theo/Documents/EPSS/.zvec-grep",
+  "rootPaths": [
+    {
+      "absolutePath": "/home/theo/Documents/EPSS",
+      "recursive": true
+    }
+  ],
+  "indexPolicy": "enabled",
+  "embedding": {
+    "provider": "local",
+    "model": "potion-code-16m-v2",
+    "dimension": 256,
+    "metric": "cosine"
+  },
+  "indexVersion": 1,
+  "createdTime": 1791321150120,
+  "updatedTime": 1791321168349,
+  "embeddingRuntime": {
+    "device": "auto"
+  }
+}

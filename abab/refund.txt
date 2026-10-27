@@ -1,0 +1,389 @@
+report zprctr_approval_audit_new_alv.
+
+*--- Selection Screen Parameters ----------------------------------------------
+* Parameters for company code, account, fiscal year, and date range
+parameters: p_bukrs      type bseg-bukrs default '1100' NO-DISPLAY,
+            p_hkont      type bseg-hkont default '0000507410' NO-DISPLAY,
+            p_gjahr      type bseg-gjahr default '2026' NO-DISPLAY,
+            p_fdate      type datum,   " from date
+            p_tdate      type datum default sy-datum.
+TABLES: pernr.
+* Declare local variables with the correct data elements
+DATA: lv_refno TYPE asr_reference_number, " Data element for reference number (assuming it exists)
+      lv_year  TYPE pve_yr.                 " Data element for year (assuming it exists)
+
+* New selection screen parameters
+SELECT-OPTIONS: s_pernr FOR pernr-pernr,
+                s_refno FOR lv_refno,           " Claim reference number range
+                s_year  FOR lv_year,            " Claim year range
+                s_crdat FOR sy-datum OBLIGATORY, " Date created (required, date range)
+                s_apdat FOR sy-datum.                     " Date approved (date range)
+
+initialization.
+  " Set default from-date to 30 days before today
+  if p_fdate < '20250714'.
+    p_fdate = '20250714'.
+  endif.
+
+
+
+*--- Type Definitions ---------------------------------------------------------
+* Output structure for report rows
+  types: begin of ty_output,
+            pernr            type t5asrprocesses-object_key,      " Employee number
+            lastname         type nachn,                          " Vendor last name
+            firstname        type vorna,
+            reference_number            type asr_reference_number,           " Reference number
+            finyear          type pve_yr,                         " Fiscal year
+            netrefund        type zhrt_ui5_tax_ref-netrefund,     " Net refund amount
+            step_proc_status type asr_processing_status,          " Step processing status
+            wi_stat          type sww_wistat,                     " Workitem status
+            processed_by     type syuname,                        " Processed by user
+            approval_date    type sww_aed,                          " Approval date
+            approver_uname   type syuname,                        " Approver username
+            belnr            type bseg-belnr,                     " Document number
+            bankn            type bankn,                          " Bank number
+            valut            type valut,                          " Augmentation date
+            usrid            type usrid,                          " User id
+            step_guid        type scmg_case_guid,                 " Step GUID
+            row_color        type c length 4,                      " Row color for ALV
+          end of ty_output.
+
+  types ty_t_output type standard table of ty_output.
+
+*--- Data Declarations --------------------------------------------------------
+* Variables for timestamp conversion and timezone
+  data: lv_from_timestamp type timestampl,
+        lv_to_timestamp   type timestampl,
+        lv_timezone      type tzonref-tzone.
+
+* Output tables and work areas
+  data: gt_raw_output type ty_t_output,
+        gt_output     type ty_t_output,
+        ls_output     type ty_output,
+        lv_last_wi_id type sww_wiid.
+
+* Form data and BSEG work area
+  data: et_form_data type hrasr00gensrv_dataset_init_tab,
+        ls_form_data type hrasr00gensrv_dataset_init,
+        ls_bseg      type bseg.
+
+* Final report table
+  data: lt_report type ty_t_output.
+  data: ls_report type line of ty_t_output.
+  data: wa_audit type zhrt_ui5_tax_aud.
+  data: lt_aud type table of zhrt_ui5_tax_aud.
+
+  field-symbols: <wa>           type any.
+
+
+*----------------------------------------------------------------------*
+*       CLASS lcl_test DEFINITION
+*----------------------------------------------------------------------*
+*
+*----------------------------------------------------------------------*
+class lcl_test definition inheriting from zcl_falv.
+  public section.
+
+  protected section.
+    "redefinition of event handler
+    methods evf_user_command redefinition.
+  private section.
+
+endclass.                    "lcl_test DEFINITION
+
+*----------------------------------------------------------------------*
+*       CLASS lcl_test IMPLEMENTATION
+*----------------------------------------------------------------------*
+*
+*----------------------------------------------------------------------*
+class lcl_test implementation.
+
+  method evf_user_command.
+    data: lt_rows type lvc_t_roid,
+         ls_row  type lvc_s_roid.
+    case e_ucomm.
+      when zcl_falv_dynamic_status=>b_01.
+        me->enable_button( me->mc_fc_print_back ).
+        call method me->get_selected_rows
+          importing
+            et_row_no = lt_rows.
+
+        " Assuming only a single row is selected
+        read table lt_rows into ls_row index 1.
+
+        if sy-subrc eq 0.
+          read table lt_report into ls_report index ls_row-row_id.
+
+          if ls_report-wi_stat = 'COMPLETED'.
+            update t5asrsteps set status = 'COMPLETED' proc_status = 'ERROR' where case_guid = ls_report-step_guid.
+          endif.
+          "break-point.
+        endif.
+
+      when zcl_falv_dynamic_status=>b_02.
+        me->disable_button( me->mc_fc_print_back ).
+        me->add_button(
+          exporting
+            iv_function  = zcl_falv_dynamic_status=>b_03
+             iv_icon      = icon_alarm
+        ).
+      when zcl_falv_dynamic_status=>b_03.
+        me->delete_button( zcl_falv_dynamic_status=>b_03 ).
+    endcase.
+  endmethod.                    "evt_user_command
+
+endclass.                    "lcl_test IMPLEMENTATION
+
+
+
+**----------------------------------------------------------------------**
+**START-OF-SELECTION: Main processing starts here after the selection screen**
+**----------------------------------------------------------------------**
+start-of-selection.
+
+*--- Convert input dates to timestamps ----------------------------------------
+  lv_timezone = sy-zonlo.
+
+  " Convert FROM date (start of day)
+  convert date p_fdate
+          time '000000'
+          into time stamp lv_from_timestamp
+          time zone lv_timezone.
+
+  " Convert TO date (end of day)
+  convert date p_tdate
+          time '235959'
+          into time stamp lv_to_timestamp
+          time zone lv_timezone.
+
+*--- Fetch data from ZHRT_UI5_TAX_AUD with filters ----------------------------
+  select * 
+    from zhrt_ui5_tax_aud
+    into table lt_aud
+    where pernr in s_pernr
+      and reference_number in s_refno
+      and finyear in s_year
+      and created_on in s_crdat
+      and approval_date in s_apdat.
+
+  loop at lt_aud into wa_audit.
+    move-corresponding wa_audit to ls_output.
+    append ls_output to lt_report.
+  endloop.
+
+
+
+
+*--- 4. Display ALV -----------------------------------------------------------
+  perform display_alv.
+
+**---------------------------------------------------------------------*
+*       FORM display_alv
+*---------------------------------------------------------------------*
+form display_alv.
+  " Display the report using ZCL_FALV ALV wrapper
+  "data: falv type ref to zcl_falv.
+  data: lo_column type ref to zcl_falv_column.
+  data: lt_components type abap_component_tab.
+  data: ls_comp type abap_componentdescr.
+  data: lro_structdescr type ref to cl_abap_structdescr.
+  field-symbols: <wa> type any.
+
+  "creation of falv with local redefinition
+  data falv type ref to lcl_test.
+*Begin SMD
+  data: lo_falv type ref to zcl_falv.
+*  falv ?= lcl_test=>create( exporting  i_subclass = cl_abap_classdescr=>describe_by_name( p_name = 'LCL_TEST' )
+*                              changing ct_table = sflight    ) .
+  lcl_test=>create( exporting  i_subclass = cl_abap_classdescr=>describe_by_name( p_name = 'LCL_TEST' )
+                              changing ct_table = lt_report rv_falv = lo_falv  ) .
+  falv ?= lo_falv.
+
+  "zcl_falv=>create( changing ct_table = lt_report rv_falv = falv ).
+
+  "lcl_zcl_falv=>create( changing ct_table = lt_report rv_falv = falv ).
+
+  "Set Gui status to fully dynamic (no standard buttons of ALV Grid)
+  "falv->gui_status->fully_dynamic = abap_true.
+
+  "Add button into GUI status at for function F01 (in partial dynamic GUI Status we can have up to 19 buttons)
+  falv->gui_status->add_button(
+    exporting
+      iv_button              = zcl_falv_dynamic_status=>b_01
+      iv_text                = 'Fix'
+      iv_icon                = icon_activate
+*      iv_qinfo               =
+*      iv_allowed             = ABAP_TRUE
+    exceptions
+      button_already_filled  = 1
+      button_does_not_exists = 2
+      icon_and_text_empty    = 3
+      others                 = 4
+  ).
+  if sy-subrc <> 0.
+  endif.
+
+
+  if lt_report is not initial.
+    read table lt_report assigning <wa> index 1.
+    if lt_components is initial.
+      lro_structdescr ?= cl_abap_typedescr=>describe_by_data( <wa> ).
+      lt_components = lro_structdescr->get_components( ).
+    endif.
+  endif.
+
+  " *** Customize the columns individually ***
+  falv->column( 'PERNR' )->set_reptext( 'Employee' ).
+  falv->column( 'PERNR' )->set_seltext( 'Employee' ).
+  falv->column( 'PERNR' )->set_scrtext_l( 'Employee' ).
+  falv->column( 'PERNR' )->set_scrtext_m( 'Employee' ).
+  falv->column( 'PERNR' )->set_scrtext_s( 'Emp' ).
+  falv->column( 'PERNR' )->set_tooltip( 'Employee number' ).
+  falv->column( 'PERNR' )->set_col_opt( 'X' ).
+
+  falv->column( 'REFERENCE_NUMBER' )->set_reptext( 'Claim reference no.' ).
+  falv->column( 'REFERENCE_NUMBER' )->set_seltext( 'Claim reference no.' ).
+  falv->column( 'REFERENCE_NUMBER' )->set_scrtext_l( 'Claim reference no.' ).
+  falv->column( 'REFERENCE_NUMBER' )->set_scrtext_m( 'Claim reference no.' ).
+  falv->column( 'REFERENCE_NUMBER' )->set_scrtext_s( 'Claim Ref' ).
+  falv->column( 'REFERENCE_NUMBER' )->set_tooltip( 'Claim reference no.' ).
+  falv->column( 'REFERENCE_NUMBER' )->set_col_opt( 'X' ).
+
+  falv->column( 'NETREFUND' )->set_reptext( 'Net Refund' ).
+  falv->column( 'NETREFUND' )->set_seltext( 'Net Refund' ).
+  falv->column( 'NETREFUND' )->set_scrtext_l( 'Net Refund' ).
+  falv->column( 'NETREFUND' )->set_scrtext_m( 'Net Refund' ).
+  falv->column( 'NETREFUND' )->set_scrtext_s( 'Net Refund' ).
+  falv->column( 'NETREFUND' )->set_tooltip( 'Net refund amount from form' ).
+  falv->column( 'NETREFUND' )->set_col_opt( 'X' ).
+
+
+  falv->column( 'WI_STAT' )->set_reptext( 'Status' ).
+  falv->column( 'WI_STAT' )->set_seltext( 'Status' ).
+  falv->column( 'WI_STAT' )->set_scrtext_l( 'Status' ).
+  falv->column( 'WI_STAT' )->set_scrtext_m( 'Status' ).
+  falv->column( 'WI_STAT' )->set_scrtext_s( 'Status' ).
+  falv->column( 'WI_STAT' )->set_tooltip( 'Status' ).
+  falv->column( 'WI_STAT' )->set_col_opt( 'X' ).
+
+  falv->column( 'STEP_GUID' )->set_reptext( 'Step GUID' ).
+  falv->column( 'STEP_GUID' )->set_seltext( 'Step GUID' ).
+  falv->column( 'STEP_GUID' )->set_scrtext_l( 'Step GUID' ).
+  falv->column( 'STEP_GUID' )->set_scrtext_m( 'Step GUID' ).
+  falv->column( 'STEP_GUID' )->set_scrtext_s( 'Step' ).
+  falv->column( 'STEP_GUID' )->set_tooltip( 'Scenario step GUID' ).
+  falv->column( 'STEP_GUID' )->set_col_opt( 'X' ).
+  falv->column( 'STEP_GUID' )->set_no_out( 'X' ).
+
+  falv->column( 'PROCESSED_BY' )->set_reptext( 'Processed By' ).
+  falv->column( 'PROCESSED_BY' )->set_seltext( 'Processed By' ).
+  falv->column( 'PROCESSED_BY' )->set_scrtext_l( 'Processed By' ).
+  falv->column( 'PROCESSED_BY' )->set_scrtext_m( 'Processed By' ).
+  falv->column( 'PROCESSED_BY' )->set_scrtext_s( 'By' ).
+  falv->column( 'PROCESSED_BY' )->set_tooltip( 'User who processed the posting' ).
+  falv->column( 'PROCESSED_BY' )->set_col_opt( 'X' ).
+  falv->column( 'PROCESSED_BY' )->set_no_out( 'X' ).
+
+
+
+  falv->column( 'APPROVAL_DATE' )->set_reptext( 'Approval Date' ).
+  falv->column( 'APPROVAL_DATE' )->set_seltext( 'Approval Date' ).
+  falv->column( 'APPROVAL_DATE' )->set_scrtext_l( 'Approval Date' ).
+  falv->column( 'APPROVAL_DATE' )->set_scrtext_m( 'Approval Date' ).
+  falv->column( 'APPROVAL_DATE' )->set_scrtext_s( 'CTR Date' ).
+  falv->column( 'APPROVAL_DATE' )->set_tooltip( 'Date of approval' ).
+  falv->column( 'APPROVAL_DATE' )->set_col_opt( 'X' ).
+
+
+  falv->column( 'APPROVER_UNAME' )->set_reptext( 'Approver' ).
+  falv->column( 'APPROVER_UNAME' )->set_seltext( 'Approver' ).
+  falv->column( 'APPROVER_UNAME' )->set_scrtext_l( 'Approver' ).
+  falv->column( 'APPROVER_UNAME' )->set_scrtext_m( 'Approver' ).
+  falv->column( 'APPROVER_UNAME' )->set_scrtext_s( 'Apr' ).
+  falv->column( 'APPROVER_UNAME' )->set_tooltip( 'Approver username' ).
+  falv->column( 'APPROVER_UNAME' )->set_col_opt( 'X' ).
+
+
+  falv->column( 'LASTNAME' )->set_reptext( 'Last Name' ).
+  falv->column( 'LASTNAME' )->set_seltext( 'Last Name' ).
+  falv->column( 'LASTNAME' )->set_scrtext_l( 'Last Name' ).
+  falv->column( 'LASTNAME' )->set_scrtext_m( 'Last Name' ).
+  falv->column( 'LASTNAME' )->set_scrtext_s( 'Last' ).
+  falv->column( 'LASTNAME' )->set_tooltip( 'Vendor last name' ).
+  falv->column( 'LASTNAME' )->set_col_opt( 'X' ).
+
+  falv->column( 'FIRSTNAME' )->set_reptext( 'First Name' ).
+  falv->column( 'FIRSTNAME' )->set_seltext( 'First Name' ).
+  falv->column( 'FIRSTNAME' )->set_scrtext_l( 'First Name' ).
+  falv->column( 'FIRSTNAME' )->set_scrtext_m( 'First Name' ).
+  falv->column( 'FIRSTNAME' )->set_scrtext_s( 'First' ).
+  falv->column( 'FIRSTNAME' )->set_tooltip( 'Vendor first name' ).
+  falv->column( 'FIRSTNAME' )->set_col_opt( 'X' ).
+
+  falv->column( 'FINYEAR' )->set_reptext( 'Year' ).
+  falv->column( 'FINYEAR' )->set_seltext( 'Year' ).
+  falv->column( 'FINYEAR' )->set_scrtext_l( 'Year' ).
+  falv->column( 'FINYEAR' )->set_scrtext_m( 'Year' ).
+  falv->column( 'FINYEAR' )->set_scrtext_s( '' ).
+  falv->column( 'FINYEAR' )->set_tooltip( 'Year' ).
+  falv->column( 'FINYEAR' )->set_col_opt( 'X' ).
+
+  falv->column( 'VALUT' )->set_reptext( 'Clearing date' ).
+  falv->column( 'VALUT' )->set_seltext( 'Clearing date' ).
+  falv->column( 'VALUT' )->set_scrtext_l( 'Clearing date' ).
+  falv->column( 'VALUT' )->set_scrtext_m( 'Clearing date' ).
+  falv->column( 'VALUT' )->set_scrtext_s( 'CLR' ).
+  falv->column( 'VALUT' )->set_tooltip( 'Clearing date' ).
+  falv->column( 'VALUT' )->set_col_opt( 'X' ).
+
+  falv->column( 'BANKN' )->set_reptext( 'Bank Number' ).
+  falv->column( 'BANKN' )->set_seltext( 'Bank' ).
+  falv->column( 'BANKN' )->set_scrtext_l( 'Bank Number' ).
+  falv->column( 'BANKN' )->set_scrtext_m( 'Bank' ).
+  falv->column( 'BANKN' )->set_scrtext_s( 'Bk' ).
+  falv->column( 'BANKN' )->set_tooltip( 'Bank number' ).
+  falv->column( 'BANKN' )->set_col_opt( 'X' ).
+
+  falv->column( 'USRID' )->set_reptext( 'User ID' ).
+  falv->column( 'USRID' )->set_seltext( 'User ID' ).
+  falv->column( 'USRID' )->set_scrtext_l( 'User ID' ).
+  falv->column( 'USRID' )->set_scrtext_m( 'User ID' ).
+  falv->column( 'USRID' )->set_scrtext_s( 'UID' ).
+  falv->column( 'USRID' )->set_tooltip( 'User identifier' ).
+  falv->column( 'USRID' )->set_col_opt( 'X' ).
+
+
+  falv->column( 'BELNR' )->set_reptext( 'Document No.' ).
+  falv->column( 'BELNR' )->set_seltext( 'Document No.' ).
+  falv->column( 'BELNR' )->set_scrtext_l( 'Document Number' ).
+  falv->column( 'BELNR' )->set_scrtext_m( 'Document Number' ).
+  falv->column( 'BELNR' )->set_scrtext_s( 'Doc' ).
+  falv->column( 'BELNR' )->set_tooltip( 'Accounting document number' ).
+  falv->column( 'BELNR' )->set_col_opt( 'X' ).
+
+
+  falv->title_v1 = 'Tax Refund Posting report'.
+
+  falv->layout->set_info_fname( 'ROW_COLOR' ).
+
+  "  ** Color logic **
+  loop at lt_report into ls_output.
+    if ls_output-belnr is not INITIAL.
+      " Set entire row to a light green for posted items
+      falv->set_row_color(
+      iv_row = sy-tabix
+      iv_color = 'C500' ).
+    else.
+      " Set entire row to a light red for non-posted items
+      falv->set_row_color(
+      iv_row = sy-tabix
+      iv_color = 'C600' ).
+    endif.
+  endloop.
+
+
+
+  falv->display( ).
+
+endform.                    "display_alv

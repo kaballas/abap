@@ -1,0 +1,392 @@
+{
+  "metadata": {
+    "document": "TechnicalOLA.md",
+    "version": "0.7",
+    "total_questions": 15,
+    "tier_1_count": 5,
+    "tier_2_count": 7,
+    "tier_3_count": 3
+  },
+  "questions": [
+    {
+      "id": 1,
+      "tier": 1,
+      "bucket": "Data Model - Tables",
+      "question": "What is the primary key for the ZIM_IN_DOC_EPSS table?",
+      "answer_keys": [
+        "MANDT",
+        "PERNR",
+        "INCIDENT",
+        "DOC_SEQ_NO"
+      ],
+      "retrieval_hint": [
+        "ZIM_IN_DOC_EPSS",
+        "primary key",
+        "MANDT PERNR INCIDENT DOC_SEQ_NO"
+      ],
+      "evidence": [
+        "Primary key: MANDT, PERNR, INCIDENT, DOC_SEQ_NO"
+      ],
+      "negative_control": false,
+      "answer": "The primary key for the ZIM_IN_DOC_EPSS table is MANDT, PERNR, INCIDENT, and DOC_SEQ_NO. This is consistently stated in multiple provided files and aligns with the retrieval hint, though no direct table definition is present in the files.",
+      "answered_at": "2026-02-10T20:45:00.693551Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 2,
+      "tier": 1,
+      "bucket": "References - ABAP Assets",
+      "question": "What does the GET_EMP_EMAIL method return?",
+      "answer_keys": [
+        "one work email",
+        "PA0105",
+        "subtype MAIL",
+        "USRID_LONG",
+        "fallback to subtype MEMO",
+        "USRID"
+      ],
+      "retrieval_hint": [
+        "GET_EMP_EMAIL",
+        "ZCL_OLIMS_CLASS",
+        "work email"
+      ],
+      "evidence": [
+        "returns one work email from PA0105 subtype MAIL using USRID_LONG, falling back to subtype MEMO using USRID"
+      ],
+      "negative_control": false,
+      "answer": "The GET_EMP_EMAIL method of ZCL_OLIMS_CLASS returns the employee's work email address (E_EMAIL, type COMM_ID_LONG) and name (E_NAME, type ZGEN_USER_NAME) for a given personnel number (I_PERNR). It retrieves the email from infotype PA0105, first searching for subtype 'MAIL' (USRID_LONG), and if not found, falls back to subtype 'MEMO'. If neither is found, the method likely returns empty values for email and name.",
+      "answered_at": "2026-02-10T20:47:58.393161Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 3,
+      "tier": 1,
+      "bucket": "Constraints - Design Rules",
+      "question": "What are the three design rules related to audit logging?",
+      "answer_keys": [
+        "The audit log is insert only",
+        "If an audit insert fails, the business action fails too",
+        "No backfill and no bulk recategorisation"
+      ],
+      "retrieval_hint": [
+        "audit log",
+        "insert only",
+        "fail closed",
+        "design rules"
+      ],
+      "evidence": [
+        "The audit log is insert only",
+        "If an audit insert fails, the business action fails too"
+      ],
+      "negative_control": false,
+      "answer": "Based on the provided files, the three design rules related to audit logging are:\n\n1. The audit log is insert only.\n2. If an audit insert fails, the business action fails too (fail closed).\n3. No backfill and no bulk recategorisation are permitted.\n\nThese rules are supported by content in combined.md, ZHUOLIMS_CORRESPONDENCE.abap, ZHUIM_UPDATE3.abap, ZHUIM_UPDATE4.abap, ZHUOLIMS_UPDATE2.abap, and ZCL_OLIMS_PRIM_CLAIM.abap.",
+      "answered_at": "2026-02-10T20:50:36.043586Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 4,
+      "tier": 1,
+      "bucket": "Roles and Access",
+      "question": "Which role has the capability to hide and unhide documents?",
+      "answer_keys": [
+        "EPSS Supervisor",
+        "Audit and Compliance user"
+      ],
+      "retrieval_hint": [
+        "hide unhide documents",
+        "EPSS Supervisor",
+        "role capabilities"
+      ],
+      "evidence": [
+        "EPSS Supervisor: Everything an EPSS Claims Officer can do. Hide and unhide documents."
+      ],
+      "negative_control": false,
+      "answer": "Users with appropriate access, such as EPSS Claims Officers and Supervisors, can hide or unhide documents from the Document Overview screen. Hidden documents remain accessible to users with elevated access, including Supervisors and Audit roles. No further details about the \"Audit and Compliance user\" role are specified in the provided files.",
+      "answered_at": "2026-02-10T20:53:22.358164Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 5,
+      "tier": 1,
+      "bucket": "UI Changes - Document Overview",
+      "question": "What are the fields added to the Document Overview grid?",
+      "answer_keys": [
+        "Date Received",
+        "Comments",
+        "Category and Subcategory",
+        "Hidden indicator"
+      ],
+      "retrieval_hint": [
+        "Document Overview grid",
+        "Date Received",
+        "Category"
+      ],
+      "evidence": [
+        "Add to the Document Overview grid: Date Received, Comments, Category and Subcategory, Hidden indicator"
+      ],
+      "negative_control": false,
+      "answer": "Based on the provided files, the following fields are specified as added to the Document Overview grid: Date Received, Comments, Category, Subcategory, and a Hidden indicator (with a mandatory comment when a document is hidden). These fields are referenced in the specifications for inclusion and management within the grid. No additional or different fields are specified in the provided content.",
+      "answered_at": "2026-02-10T20:56:18.453488Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 6,
+      "tier": 2,
+      "bucket": "Data Model - Fields and Constraints",
+      "question": "What are the edit rules for Date Received in ZIM_IN_DOC_EPSS and when is it mandatory?",
+      "answer_keys": [
+        "Date Received is mandatory for new EPSS uploads",
+        "For existing EPSS documents, Date Received is editable only while blank"
+      ],
+      "retrieval_hint": [
+        "Date Received",
+        "ZIM_IN_DOC_EPSS",
+        "mandatory editable"
+      ],
+      "evidence": [
+        "Date Received is mandatory for new EPSS uploads",
+        "Date Received is editable only while blank"
+      ],
+      "negative_control": false,
+      "answer": "Based on the provided files, the \"Date Received\" field in ZIM_IN_DOC_EPSS is mandatory for all new EPSS document uploads. For existing documents, the field is editable only if it is currently blank. If an invalid date is entered, the system must display an error and prevent saving until a valid date is provided.",
+      "answered_at": "2026-02-10T20:58:59.249952Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 7,
+      "tier": 2,
+      "bucket": "Processing Design - Upload",
+      "question": "What records must be persisted together on successful EPSS document upload and what happens on failure?",
+      "answer_keys": [
+        "Base document header record",
+        "EPSS extension row in ZIM_IN_DOC_EPSS",
+        "EPSS Note record",
+        "Audit entry with result success",
+        "Roll back DB changes on failure"
+      ],
+      "retrieval_hint": [
+        "upload success",
+        "ZIM_IN_DOC_EPSS",
+        "persist LUW"
+      ],
+      "evidence": [
+        "On success persist these records in one LUW: Base document header record, EPSS extension row, EPSS Note record, Audit entry",
+        "On failure: Roll back DB changes"
+      ],
+      "negative_control": false,
+      "answer": "On successful EPSS document upload, the following records must be persisted together in a single logical unit of work (LUW):\n- The base document header record\n- The EPSS extension row in ZIM_IN_DOC_EPSS\n- The EPSS Note record\n- An audit entry with the result \"success\"\n\nIf any part of the upload fails, all related database changes must be rolled back to maintain consistency—no partial records should be saved. This ensures atomicity and auditability as required in the specifications.",
+      "answered_at": "2026-02-10T21:01:47.125971Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 8,
+      "tier": 2,
+      "bucket": "Processing Design - Send Correspondence",
+      "question": "What is stored in TRIM for EPSS correspondence and how does this differ from current behaviour?",
+      "answer_keys": [
+        "final generated document artefact stored in TRIM",
+        "final document TRIM id captured",
+        "Storing only the email body is not enough",
+        "current: email body as .TXT document"
+      ],
+      "retrieval_hint": [
+        "SEND_CORRESPONDENCE",
+        "TRIM artefact",
+        "final document"
+      ],
+      "evidence": [
+        "Store the final generated document artefact in TRIM and link it",
+        "Storing only the email body is not enough for EPSS"
+      ],
+      "negative_control": false,
+      "answer": "For EPSS correspondence, the final generated document artefact is stored in TRIM, and the final document's TRIM ID is captured. This differs from the current behaviour, where only the email body is stored as a .TXT document in TRIM; storing just the email body is not sufficient. The EPSS process ensures the complete final document is archived in TRIM, not just the email content.",
+      "answered_at": "2026-02-10T21:04:26.547676Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 9,
+      "tier": 2,
+      "bucket": "System Context - Constraints",
+      "question": "What are the three current behaviours that affect the EPSS build and must be handled explicitly?",
+      "answer_keys": [
+        "GET_EMP_EMAIL returns one work email with fallback; EPSS needs personal and work separately",
+        "SEND_CORRESPONDENCE stores email body as .TXT; EPSS needs final document artefact",
+        "No dedicated audit log for document actions today"
+      ],
+      "retrieval_hint": [
+        "GET_EMP_EMAIL",
+        "SEND_CORRESPONDENCE",
+        "audit log",
+        "constraints"
+      ],
+      "evidence": [
+        "GET_EMP_EMAIL returns one work email with fallback. EPSS needs personal and work separately",
+        "There is no dedicated audit log for document actions today"
+      ],
+      "negative_control": false,
+      "answer": "The three current behaviours that affect the EPSS build and must be handled explicitly are:\n\n1. GET_EMP_EMAIL currently returns only one work email address with fallback logic, but EPSS requires both personal and work email addresses to be handled and selectable separately.\n2. SEND_CORRESPONDENCE currently stores only the email body as a .TXT file, whereas EPSS requires the final document artefact (e.g., letter or form) to be stored as the correspondence artefact.\n3. There is no dedicated audit log for document actions (such as uploads, deletions, or correspondence) in the current implementation, but EPSS requires comprehensive audit logging for all document-related actions.",
+      "answered_at": "2026-02-10T21:07:05.379233Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 10,
+      "tier": 2,
+      "bucket": "Reporting Design - Access and Masking",
+      "question": "What is the rule for displaying documents to users in reporting based on access levels?",
+      "answer_keys": [
+        "Hidden documents included only for users with hide view rights",
+        "mask sensitive fields as Restricted for users without document access"
+      ],
+      "retrieval_hint": [
+        "reporting access",
+        "Hidden documents",
+        "Restricted masking"
+      ],
+      "evidence": [
+        "Hidden documents are included only for users with hide view rights",
+        "mask sensitive fields as Restricted"
+      ],
+      "negative_control": false,
+      "answer": "Based on the provided files, hidden documents are included in reporting only for users with \"hide view\" rights or appropriate roles (such as Supervisors, Audit roles, or those with hide/unhide access). For users without access to a document, sensitive fields in those documents must be masked as \"Restricted\" or the documents are not displayed. All access to hidden documents and changes in document visibility are controlled by user role and are audit logged.",
+      "answered_at": "2026-02-10T21:10:02.345449Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 11,
+      "tier": 2,
+      "bucket": "UI Changes - Import Document",
+      "question": "What are the validation rules for EPSS document uploads?",
+      "answer_keys": [
+        "Block save when category or subcategory missing",
+        "Validate Date Received as real date",
+        "Validate file extension and size by NSWPF policy",
+        "Allow PDF DOCX XLSX and image formats",
+        "Validate naming convention",
+        "Do not rename without user confirmation"
+      ],
+      "retrieval_hint": [
+        "Import Document",
+        "validation rules",
+        "naming convention"
+      ],
+      "evidence": [
+        "Block save when category or subcategory is missing",
+        "Validate naming convention. Do not rename without user confirmation"
+      ],
+      "negative_control": false,
+      "answer": "Based on the provided files, the validation rules for EPSS document uploads in OLIMS are:\n\n- The user must select a document category and subcategory; upload is blocked if either is missing.\n- The file type and size must comply with NSWPF ICT policy; only PDF, DOCX, XLSX, and image files are allowed, and unsupported types or oversized files are rejected with an error.\n- The \"Date Received\" field must be a valid date in DD/MM/YYYY format; invalid dates are blocked with an error.\n- Uploaded documents must follow a defined naming convention (e.g., [IncidentNo]_[Category]_[Date]_[UserInitials].pdf); do not rename files without user confirmation.\n- All uploads are audit logged, and documents must be linked to the relevant claim/incident.\n\nThese rules are specified in combined.md; other provided files do not contain relevant validation logic or documentation.",
+      "answered_at": "2026-02-10T21:12:46.124921Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 12,
+      "tier": 2,
+      "bucket": "Processing Design - Hide and Unhide",
+      "question": "What are the field changes and audit requirements when hiding versus unhiding documents?",
+      "answer_keys": [
+        "Hide: requires reason, sets hide fields, writes audit entry",
+        "Unhide: clears hide flag and reason, writes audit entry",
+        "Denied: write audit entry with denial reason"
+      ],
+      "retrieval_hint": [
+        "Hide Unhide",
+        "hide reason mandatory",
+        "audit entry"
+      ],
+      "evidence": [
+        "Hide: Requires a reason. Sets hide fields. Writes audit entry",
+        "Unhide: Clears hide flag and reason. Writes audit entry"
+      ],
+      "negative_control": false,
+      "answer": "**Field Changes:**  \n- When hiding a document: The document is flagged as hidden, and a mandatory comment (reason for hiding) must be entered and stored in the \"hide comment\" field.  \n- When unhiding a document: The hidden flag and hide reason/comment are cleared.\n\n**Audit Requirements:**  \n- All hide and unhide actions must be audit logged, capturing the user, timestamp, and comment/reason.  \n- If a user is denied permission to hide/unhide, the denial and reason must also be logged in the audit trail.\n\n(Source: combined.md. All other provided files do not specify field changes or audit requirements for hide/unhide actions.)",
+      "answered_at": "2026-02-10T21:15:48.638578Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 13,
+      "tier": 3,
+      "bucket": "Processing Design - Correspondence Workflow",
+      "question": "Trace the complete workflow from email retrieval through send for EPSS correspondence. What are the key differences from non-EPSS?",
+      "answer_keys": [
+        "New API returns personal and work email separately, no fallback",
+        "Personal email from GET_EMP_HOME_EMAIL, work from PA0105 MAIL",
+        "Store final document artefact in TRIM and capture TRIM id",
+        "Create ZIM_IN_DOC header and receiver rows",
+        "Link record to final document TRIM id",
+        "Write audit entries for send including recipients and address types",
+        "Each resend is new send with new record and audit event"
+      ],
+      "retrieval_hint": [
+        "email retrieval API",
+        "GET_EMP_HOME_EMAIL",
+        "SEND_CORRESPONDENCE",
+        "TRIM link",
+        "resend"
+      ],
+      "evidence": [
+        "New email API returns personal and work email separately with no fallback",
+        "Store final document artefact in TRIM and link from record"
+      ],
+      "negative_control": false,
+      "answer": "Based only on the provided files, the EPSS correspondence workflow is as follows:\n\n- Email Retrieval: The new API retrieves personal and work email addresses separately, with no fallback between them. Personal email is obtained via GET_EMP_HOME_EMAIL; work email is retrieved from PA0105 (MAIL subtype).\n- Sending & Document Handling: The final correspondence document is stored in TRIM, and the resulting TRIM ID is captured. A ZIM_IN_DOC header record and receiver rows are created for each recipient, and the record is linked to the TRIM document ID.\n- Audit & Resend: Audit entries are written for each send, capturing all recipients and their address types. Each resend is treated as a new send, generating a new record and audit event.\n\nKey differences from non-EPSS: EPSS uses strict separation of personal and work emails (no fallback), explicit use of GET_EMP_HOME_EMAIL and PA0105, mandatory linkage to the TRIM document, and each resend is a distinct event with its own records and audit trail.\n\nDetails such as specific ABAP object/table field names, business rules, or full technical workflow steps beyond those listed are not specified in the provided files.",
+      "answered_at": "2026-02-10T21:18:47.117688Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 14,
+      "tier": 3,
+      "bucket": "Reporting Design - Data Integration",
+      "question": "What are the primary and derived data sources for report output and how are failures handled in compliance?",
+      "answer_keys": [
+        "Primary: ZIM_IN_DOC_REC for receiver, date, time, email; ZIM_IN_DOC_EPSS for category, duty type, Date Received, Comments",
+        "Derived: Claim number from OLIMS claim tables; Advisor/Supervisor from assignment tables",
+        "Compliance counts use successful records only",
+        "Failed sends/uploads visible but not counted",
+        "Include audit rows for failed actions marked failed"
+      ],
+      "retrieval_hint": [
+        "ZIM_IN_DOC_REC",
+        "ZIM_IN_DOC_EPSS",
+        "compliance counts",
+        "failed"
+      ],
+      "evidence": [
+        "Primary sources: Receiver, date, time, email from ZIM_IN_DOC_REC; category, duty, Date Received from ZIM_IN_DOC_EPSS",
+        "Compliance counts use successful records only"
+      ],
+      "negative_control": false,
+      "answer": "Primary data sources for report output are ZIM_IN_DOC_REC (for receiver, date, time, email) and ZIM_IN_DOC_EPSS (for category, duty type, Date Received, Comments). Derived data includes claim number from OLIMS claim tables and Advisor/Supervisor from assignment tables. For compliance counts, only successful records are included; failed sends/uploads are visible in the report but not counted toward compliance, though audit rows for failed actions are included and marked as failed.",
+      "answered_at": "2026-02-10T21:21:31.400368Z",
+      "model": "gpt-4.1"
+    },
+    {
+      "id": 15,
+      "tier": 3,
+      "bucket": "Access Control - Shared Components",
+      "question": "What shared components must be built for consistent access control and audit across all entry points?",
+      "answer_keys": [
+        "Authority utility used by every entry point",
+        "Audit write API used by every entry point",
+        "Service API for document actions",
+        "Dynpros and reports call same utility for same decisions",
+        "Hidden documents visible to EPSS Supervisor and Audit users only",
+        "Hidden documents must not appear for users without view rights"
+      ],
+      "retrieval_hint": [
+        "Authority utility",
+        "Audit write API",
+        "service API",
+        "dynpro report",
+        "hidden view"
+      ],
+      "evidence": [
+        "Put all checks in one authority utility. Dynpros and reports call same utility",
+        "Hidden documents visible to EPSS Supervisor and Audit users only"
+      ],
+      "negative_control": false,
+      "answer": "Based on the provided files, the following shared components must be built for consistent access control and audit across all entry points (as specified in combined.md):\n\n- An authority utility invoked by every entry point to enforce access control, ensuring only authorized users (such as Claims Officers, Supervisors, and Audit roles) can perform sensitive actions (e.g., viewing hidden documents, hiding/unhiding, editing restricted fields).\n- An audit write API called by every entry point to log all document actions (upload, send, delete, hide/unhide, override, etc.), capturing user, timestamp, action, and relevant details.\n- A service API for document actions (upload, hide/unhide, delete, send, etc.) that centralizes business logic and ensures all dynpros, reports, and UI components use the same access and audit checks.\n- Logic to ensure hidden documents are only visible to users with appropriate roles (EPSS Supervisor, Audit users) and are not shown to users without view rights, enforced at both UI and API/service levels.\n\nNo technical implementation details are provided in the files. All other files do not specify or implement these shared components.",
+      "answered_at": "2026-02-10T21:24:26.587063Z",
+      "model": "gpt-4.1"
+    }
+  ]
+}

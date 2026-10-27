@@ -1,0 +1,3880 @@
+*&---------------------------------------------------------------------*
+*&  Include           ZHUIM_TOP
+*&---------------------------------------------------------------------*
+
+CLASS cl_gui_cfw  DEFINITION LOAD.
+
+CLASS zcl_tree_event  DEFINITION DEFERRED.
+CLASS zcl_alv_event  DEFINITION DEFERRED.
+
+TABLES: pa0002,
+        tstct,
+        t591s,
+        pa0000,
+        pa0001,
+        pa0006,
+        pa0007,
+        pa0105,
+        pa0220,
+        pa0416,
+        pa0509,
+        pa0573,
+        pa9203,
+        hrp1001,
+        hrp1000,
+        hrp1002,
+        dd07t,
+        cskt,
+        jest,
+        t001p,
+        t007a,
+        t007s,
+        t004f,
+        t006a,
+        t024,
+        t512t,
+        t529u,
+        t556b,
+        t777u,
+        t522t,
+        t530f,
+        t549q,
+        t556v,
+        t990a,
+        toahr,
+        t5qpbs2ct,
+        dd07v,
+        adrp,
+        stxh,
+        usr21,
+        pa0014,
+        pa9001,
+        pa9076,
+        pa9082,
+        p0014,
+        p9001,
+        p9076,
+        pcl1,
+        zhorgstruc,
+        zim_incident,
+        zim_incident_log,
+        zim_in_mast,
+        zim_in_mast_log,
+        zim_org,
+        zim_advisor,
+        zim_action,
+        zim_address,
+        zim_address_log,
+        zim_screen_address,
+        zim_screen_serv_req,
+        zim_screen_rehab,
+        zim_screen_erg,
+        zim_screen_meet,
+        zim_in_act,
+        zim_in_act_log,
+        zim_ins,
+        zim_ins_cont,
+        zim_med,
+        zim_med_proft,
+        zim_in_med,
+        zim_in_med_log,
+        zim_prov,
+        zim_in_prov,
+        zim_in_prov_log,
+        zim_in_imep,
+        zim_in_imep_log,
+        zim_in_ftcax,
+        zim_in_ftcax_log,
+        zim_in_rosa,
+        zim_in_rosa_log,
+        zim_in_pmo,
+        zim_in_pmo_log,
+        zim_in_rehab,
+        zim_in_rehab_log,
+        zim_in_erg,
+        zim_in_erg_log,
+        zim_in_mtg,
+        zim_in_mtg_log,
+        zim_in_mtg_att,
+        zim_in_mtg_attl,
+        zhr_inc_mailrec,
+        zim_ltr_def,
+        zim_ltr_deft,
+        zim_in_doc_rec,
+        zimltrvar,
+        zimltrvar1,
+        zimltrvar2,
+        zim_rem,
+        zim_in_rem,
+        zim_in_rem_log,
+        zim_in_cert,
+        zim_in_cert_log,
+        zim_in_cap,
+        zim_in_cap_log,
+        zim_in_cert_ben,
+        zim_in_medrpt,
+        zim_in_medrpt_l,
+        zim_rtwp,
+        zim_rtwp_log,
+        zim_in_doc,
+        zim_in_doc_in,
+        zim_in_ftc,
+        zim_in_ftc_log,
+        zim_in_req,
+        zim_in_req_log,
+        zim_in_req_inf,
+        zim_in_req_inf_l,
+        zim_in_leg_req,
+        zim_in_md,
+        zim_in_md_log,
+        zim_in_doc_d,
+        zim_in_cm,
+        zim_in_cm_log,
+        zim_in_claim,
+        zim_in_claim_log,
+        zim_in_req_rev,
+        zim_req_rev_log,
+        zim_depend,
+        zim_depend_log,
+        zim_in_rec_amt,
+        zim_in_rec_amt_l,
+        zim_in_red_pay,
+        zim_in_red_pay_l,
+        zim_in_ext,
+        zim_in_ext_log,
+        zim_in_comp,
+        zim_in_comp_log,
+        zim_recoup,
+        zim_screen,
+        zwc_recoup,
+        zim_recoup_doc,
+        zpostcodes,
+        zim_in_deploy,
+        zim_in_deploylog,
+        zim_in_dep_pos,
+        zim_in_dep_tp,
+        zim_in_depposlog,
+        zim_screen_depext,
+        zim_in_dep_ext,
+        zim_in_depextlog,
+        zim_screen_depmtg,
+        zim_screen_deprev,
+        zim_in_dep_mtg,
+        zim_in_dep_rev,
+        zim_in_depmtglog,
+        zim_in_deprevlog,
+        zim_in_prim_log,
+        zim_in_prim,
+        zim_in_pawe,
+        zim_in_ip,
+        ztoahr,
+        zim_inc_inj_log,
+        zim_in_pre88,
+        zim_in_pre88_log,
+        zim_in_pre_leg,
+        zim_in_pre_leg_l,
+        zim_in_pre_inv,
+        zim_in_pre_inv_l,
+        zim_in_epss,      " AZORBA EPSS BRD 03
+        zim_in_epss_log,  " AZORBA EPSS Phase 4
+        zim_in_epss_p2rd, " AZORBA EPSS BRD 03
+        zim_in_epss_earn, " AZORBA EPSS BRD 03
+        zim_epss_claim_h, " AZORBA EPSS BRD 05
+        zim_inc_p902,                                       "DEVK9HRGBT
+        zim_inc_p902_inj,
+        zim_inc_p902_inl.
+
+TYPE-POOLS icon.
+TYPE-POOLS ptgqd.
+INCLUDE <color>.
+INCLUDE rpc1tx00.
+
+*--------------------------------------------------------------------*
+* C O N S T A N T S
+*--------------------------------------------------------------------*
+CONSTANTS c_plvar_01        TYPE plvar           VALUE '01'.          "01   Current Plan
+CONSTANTS c_istat_1         TYPE istat_d         VALUE '1'.           "1    Planning Status
+CONSTANTS c_otype_o         TYPE otype           VALUE 'O'.           "O    Org Unit
+CONSTANTS c_otype_s         TYPE otype           VALUE 'S'.           "S    Position
+
+CONSTANTS c_rsign_a         TYPE rsign           VALUE 'A'.           "A    bottom up
+CONSTANTS c_rsign_b         TYPE rsign           VALUE 'B'.           "B    top down
+CONSTANTS c_relat_003       TYPE relat           VALUE '003'.         "003
+
+CONSTANTS c_act_count       TYPE n LENGTH 3      VALUE 39.
+CONSTANTS c_loc_count       TYPE n LENGTH 3      VALUE 36.
+CONSTANTS c_nat_count       TYPE n LENGTH 3      VALUE 24.
+CONSTANTS c_cas_count       TYPE n LENGTH 3      VALUE 34.
+CONSTANTS c_whe_count       TYPE n LENGTH 3      VALUE 6.
+
+CONSTANTS c_persg_g         TYPE persg           VALUE 'G'.           "G = Non Employee
+CONSTANTS c_email_id        TYPE sy-uname        VALUE 'RECNOREPLY'.
+
+CONSTANTS c_wc_status_o     TYPE zim_wc_status   VALUE 'O'.           "O  OPEN
+CONSTANTS c_wc_status_c     TYPE zim_wc_status   VALUE 'C'.           "C  Closed
+CONSTANTS c_wc_status_r     TYPE zim_wc_status   VALUE 'R'.           "R  Re-Opened
+CONSTANTS c_wc_status_p     TYPE zim_wc_status   VALUE 'P'.           "P  Pending CASE Closure
+CONSTANTS c_piawe_date      TYPE d               VALUE '20181021'.
+
+DATA : g_user_group            TYPE zim_access_category,
+       g_note_code             TYPE zim_note_default,
+       g_update_d_range        TYPE zim_category_range_t,
+       g_display_d_range       TYPE zim_category_range_t,
+       g_update_m_range        TYPE zim_meet_range_t,
+       g_display_m_range       TYPE zim_meet_range_t.
+
+DATA: w_subrc                     TYPE sy-subrc,
+      w_message(80)               TYPE c,
+      w_titlebar(10)              TYPE c,
+      f12(50)                     TYPE c,
+      f10(50)                     TYPE c,
+      w_error(1)                  TYPE c,
+      w_canc(1)                   TYPE c,
+      w_tbl_list(1)               TYPE c,
+      w_code(6)                   TYPE c,
+      w_first(1)                  TYPE c,
+      w_cursor(40)                TYPE c,
+      w_lines                     TYPE i,
+      w_lines2                    TYPE i,
+      w_lines3                    TYPE i,
+      w_blank_lines(5)            TYPE n,
+      w_line_no(4)                TYPE n,
+      w_line_count(4)             TYPE n,
+      w_table_lines(4)            TYPE n,
+      w_action(1)                 TYPE c,
+      w_audit_key(4)              TYPE n,
+      w_commit(1)                 TYPE c,
+      w_1000_action               TYPE sy-ucomm,
+      w_1000_from(4)              TYPE n,
+      w_1000_refresh(1)           TYPE c,
+      w_1000_changed(1)           TYPE c,
+      w_1100_action               TYPE sy-ucomm,
+      w_1100_from(4)              TYPE n,
+      w_1100_refresh(1)           TYPE c,
+      w_1300_action               TYPE sy-ucomm,
+      w_1300_from(4)              TYPE n,
+      w_1300_refresh(1)           TYPE c,
+      w_2000_action               TYPE sy-ucomm,
+      w_2000_from(4)              TYPE n,
+      w_2000_refresh(1)           TYPE c,
+      w_2100_action               TYPE sy-ucomm,
+      w_2100_from(4)              TYPE n,
+      w_2100_refresh(1)           TYPE c,
+      w_2100_changed(1)           TYPE c,
+      w_2107_refresh(1)           TYPE c,
+      w_2200_action               TYPE sy-ucomm,
+      w_2200_from(4)              TYPE n,
+      w_2200_refresh(1)           TYPE c,
+      w_2200_changed(1)           TYPE c,
+      w_2209_refresh(1)           TYPE c,
+      w_2210_refresh(1)           TYPE c,
+      w_3000_action               TYPE sy-ucomm,
+      w_3000_from(4)              TYPE n,
+      w_3000_refresh(1)           TYPE c,
+      w_3010_action               TYPE sy-ucomm,
+      w_3010_from(4)              TYPE n,
+      w_3010_refresh(1)           TYPE c,
+      w_3011_action               TYPE sy-ucomm,
+      w_3011_from(4)              TYPE n,
+      w_3011_refresh(1)           TYPE c,
+      w_3012_action               TYPE sy-ucomm,
+      w_3012_from(4)              TYPE n,
+      w_3012_refresh(1)           TYPE c,
+      w_3013_action               TYPE sy-ucomm,
+      w_3013_from(4)              TYPE n,
+      w_3013_refresh(1)           TYPE c,
+      w_3014_action               TYPE sy-ucomm,
+      w_3014_from(4)              TYPE n,
+      w_3014_refresh(1)           TYPE c,
+      w_3015_action               TYPE sy-ucomm,
+      w_3015_from(4)              TYPE n,
+      w_3015_refresh(1)           TYPE c,
+      w_3016_action               TYPE sy-ucomm,
+      w_3016_from(4)              TYPE n,
+      w_3016_refresh(1)           TYPE c,
+      w_3020_action               TYPE sy-ucomm,
+      w_3020_from(4)              TYPE n,
+      w_3020_refresh(1)           TYPE c,
+      w_3030_action               TYPE sy-ucomm,
+      w_3030_from(4)              TYPE n,
+      w_3030_refresh(1)           TYPE c,
+      w_3040_action               TYPE sy-ucomm,
+      w_3040_from(4)              TYPE n,
+      w_3040_refresh(1)           TYPE c,
+      w_3100_action               TYPE sy-ucomm,
+      w_3100_from(4)              TYPE n,
+      w_3100_refresh(1)           TYPE c,
+      w_3100_changed(1)           TYPE c,
+      w_3102_refresh(1)           TYPE c,
+      w_3103_refresh(1)           TYPE c,
+      w_3104_refresh(1)           TYPE c,
+      w_3105_refresh(1)           TYPE c,
+      w_3107_refresh(1)           TYPE c,
+      w_3108_refresh(1)           TYPE c,
+      w_3109_refresh(1)           TYPE c,
+      w_3200_action               TYPE sy-ucomm,
+      w_3200_from(4)              TYPE n,
+      w_3200_refresh(1)           TYPE c,
+      w_3200_changed(1)           TYPE c,
+      w_3202_refresh(1)           TYPE c,
+      w_3205_refresh(1)           TYPE c,
+      w_3300_action               TYPE sy-ucomm,
+      w_3300_from(4)              TYPE n,
+      w_3300_refresh(1)           TYPE c,
+      w_3300_changed(1)           TYPE c,
+      w_3304_refresh(1)           TYPE c,
+      w_3305_refresh(1)           TYPE c,
+      w_3309_refresh(1)           TYPE c,
+      w_3310_refresh(1)           TYPE c,
+      w_3400_action               TYPE sy-ucomm,
+      w_3400_from(4)              TYPE n,
+      w_3400_refresh(1)           TYPE c,
+      w_3400_changed(1)           TYPE c,
+      w_3402_refresh(1)           TYPE c,
+      w_3404_refresh(1)           TYPE c,
+      w_3501_refresh(1)           TYPE c,
+      w_4101_refresh(1)           TYPE c,
+      w_4103_refresh(1)           TYPE c,
+      w_3405_refresh(1)           TYPE c,
+      w_3408_refresh(1)           TYPE c,
+      w_3409_refresh(1)           TYPE c,
+      w_3410_refresh(1)           TYPE c,
+      w_3411_refresh(1)           TYPE c,
+      w_3412_refresh(1)           TYPE c,
+      w_3412_mess(10)             TYPE c,
+      w_3413_refresh(1)           TYPE c,
+      w_3414_refresh(1)           TYPE c,
+      w_3415_refresh(1)           TYPE c,
+      w_3416_refresh(1)           TYPE c,
+      w_3417_refresh(1)           TYPE c,
+      w_4104_refresh(1)           TYPE c,
+      w_4105_refresh(1)           TYPE c,
+      w_4106_refresh(1)           TYPE c,
+      w_3500_action               TYPE sy-ucomm,
+      w_4100_action               TYPE sy-ucomm,
+      w_3500_from(4)              TYPE n,
+      w_4100_from(4)              TYPE n,
+      w_3500_refresh(1)           TYPE c,
+      w_4100_refresh(1)           TYPE c,
+      w_3500_changed(1)           TYPE c,
+      w_4100_changed(1)           TYPE c,
+      w_3600_action               TYPE sy-ucomm,
+      w_3600_from(4)              TYPE n,
+      w_3600_2_from(4)            TYPE n,
+      w_3600_saved_pernr          TYPE persno,
+      w_3600_saved_incident       TYPE zhr_inc_identnr,
+      w_3600_refresh(1)           TYPE c,
+      w_3600_changed(1)           TYPE c,
+      w_3602_refresh(1)           TYPE c,
+      w_4102_refresh(1)           TYPE c,
+      w_3603_refresh(1)           TYPE c,
+      w_3604_refresh(1)           TYPE c,
+      w_3605_refresh(1)           TYPE c,
+      w_3607_refresh(1)           TYPE c,
+      w_3609_refresh(1)           TYPE c,
+      w_3610_refresh(1)           TYPE c,
+      w_3611_refresh(1)           TYPE c,
+      w_3700_action               TYPE sy-ucomm,
+      w_3700_from(4)              TYPE n,
+      w_3700_refresh(1)           TYPE c,
+      w_3700_changed(1)           TYPE c,
+      w_3707_refresh(1)           TYPE c,
+      w_3800_action               TYPE sy-ucomm,
+      w_3800_from(4)              TYPE n,
+      w_3800_refresh(1)           TYPE c,
+      w_3800_changed(1)           TYPE c,
+      w_3809_refresh(1)           TYPE c,
+      w_3900_action               TYPE sy-ucomm,
+      w_3900_from(4)              TYPE n,
+      w_3900_refresh(1)           TYPE c,
+      w_3900_changed(1)           TYPE c,
+      w_3909_refresh(1)           TYPE c,
+      w_4000_refresh(1)           TYPE c,
+      w_4000_action               TYPE sy-ucomm,
+      w_4000_from(4)              TYPE n,
+      w_4001_action               TYPE sy-ucomm,
+      w_4001_changed(1)           TYPE c,
+      w_4001_from(4)              TYPE n,
+      w_4001_msg(40)              TYPE c,
+      w_4005_refresh(1)           TYPE c,
+      w_4006_refresh(1)           TYPE c,
+      w_4007_refresh(1)           TYPE c,
+      w_4010_refresh(1)           TYPE c,
+      w_4020_refresh(1)           TYPE c,
+      w_5000_action               TYPE sy-ucomm,
+      w_5000_from(4)              TYPE n,
+      w_5000_refresh(1)           TYPE c,
+      w_5100_action               TYPE sy-ucomm,
+      w_5100_from(4)              TYPE n,
+      w_5100_refresh(1)           TYPE c,
+      w_6000_action               TYPE sy-ucomm,
+      w_6000_from(4)              TYPE n,
+      w_6000_refresh(1)           TYPE c,
+      w_6100_action               TYPE sy-ucomm,
+      w_6100_from(4)              TYPE n,
+      w_6100_refresh(1)           TYPE c,
+      w_8000_action               TYPE sy-ucomm,
+      w_8000_from(4)              TYPE n,
+      w_8000_refresh(1)           TYPE c,
+      w_8100_action               TYPE sy-ucomm,
+      w_8100_from(4)              TYPE n,
+      w_8100_refresh(1)           TYPE c,
+      w_7050_action               TYPE sy-ucomm,
+      w_7080_action               TYPE sy-ucomm,
+      w_7070_action               TYPE sy-ucomm,            "DEVK9HRGN1
+      w_7100_action               TYPE sy-ucomm,
+      w_7100_from(4)              TYPE n,
+      w_7100_refresh(1)           TYPE c,
+      w_mc_updated(1)             TYPE c,
+      w_initial                   TYPE d,
+      w_diff                      TYPE i,
+      w_mod                       TYPE i,
+      w_rem                       TYPE i,
+      w_day                       TYPE i,
+      w_pernr                     TYPE zim_in_mast-pernr,
+      w_user_pernr                TYPE zim_in_mast-pernr,
+      w_user_name(60)             TYPE c,
+      w_user_role                 TYPE zim_advisor-role,
+      w_incident                  TYPE zim_in_mast-incident,
+      w_ima                       TYPE pa0001-pernr,
+      w_ima_name                  TYPE pa0001-ename,
+      w_ass_emp_name              TYPE pa0001-ename,
+      w_ima_old                   TYPE pa0001-pernr,
+      w_ima_name_old              TYPE pa0001-ename,
+      w_wc_name_old               TYPE pa0001-ename,
+      w_ip_name_old               TYPE pa0001-ename,
+      w_si_name_old               TYPE pa0001-ename,
+      w_sima                      TYPE pa0001-pernr,
+      w_sima_name                 TYPE pa0001-ename,
+      w_ftco                      TYPE pa0001-pernr,
+      w_ftc_name                  TYPE pa0001-ename,
+      w_dep                       TYPE pa0001-pernr,
+      w_dep_name                  TYPE pa0001-ename,
+      w_emp_name                  TYPE pa0001-ename,
+      w_emp_name2(70)             TYPE c,
+      w_mgr_name                  TYPE pa0001-ename,
+      w_mgr_rank(30)              TYPE c,
+      w_mgr_phone                 TYPE char20,
+      w_sup_name                  TYPE pa0001-ename,
+      w_sup_rank(30)              TYPE c,
+      w_sup_phone                 TYPE char20,
+      w_sup_add_name              TYPE pa0001-ename,
+      w_sup_add_rank(30)          TYPE c,
+      w_sup_add_phone             TYPE char20,
+      w_lam_name                  TYPE pa0001-ename,
+      w_lam_phone                 TYPE char20,
+      w_lam_rank(30)              TYPE c,
+      w_old_depstat               TYPE c,
+      w_gao                       TYPE pa0001-pernr,
+      w_gao_name                  TYPE pa0001-ename,
+      w_gao_phone                 TYPE char20,
+      w_reg_name                  TYPE pa0001-ename,
+      w_reg_phone                 TYPE char20,
+      w_pre_rec_name              TYPE pa0001-ename,
+      w_pre_tl_name               TYPE pa0001-ename,
+      w_pre_mgr_name              TYPE pa0001-ename,
+      w_pre_dir_name              TYPE pa0001-ename,
+      w_wc                        TYPE pa0001-pernr,
+      w_ip                        TYPE pa0001-pernr,
+      w_si                        TYPE pa0001-pernr,
+      w_wc_name                   TYPE pa0001-ename,
+      w_si_name                   TYPE pa0001-ename,
+      w_ip_name                   TYPE pa0001-ename,
+      w_epss_name                 TYPE pa0001-ename,
+      w_epss_sup_name             TYPE pa0001-ename,
+      w_frem_pernr                TYPE pa0001-pernr,
+      w_ntd_name                  TYPE zim_med-name,
+      w_ntd_phone                 TYPE zim_med-phone,
+      w_nts_name                  TYPE zim_med-name,
+      w_nts_phone                 TYPE zim_med-phone,
+      w_ins1_name                 TYPE zim_ins_cont-name,
+      w_ins1_phone                TYPE zim_ins_cont-phone,
+      w_ins1_fax                  TYPE zim_ins_cont-fax,
+      w_ins2_name                 TYPE zim_ins_cont-name,
+      w_ins2_phone                TYPE zim_ins_cont-phone,
+      w_ins2_fax                  TYPE zim_ins_cont-fax,
+      w_incident_status           TYPE zim_in_mast-inc_status,
+      w_wc_status                 TYPE zim_in_cm-wc_status,
+      w_ip_status                 TYPE zim_in_cm-ip_status,
+      w_si_status                 TYPE zim_in_cm-si_status,
+      w_pre88_status              TYPE zim_scu_current_status,
+      w_pre88md_status            TYPE zim_scu_md_screen_status,
+      w_request                   TYPE zim_request_type,
+      w_claim_type                TYPE zim_claim_type,
+      w_review_type               TYPE zim_review_type,
+      w_amount_type               TYPE zim_fixed_amount_type,
+      w_mc_status                 TYPE zim_in_cert-status,
+      w_s49_qctyp                 TYPE t556v-qctyp,
+      w_s49_numbr_desc(25)        TYPE c,
+      w_quota_msg(80)             TYPE c,
+      w_wc_lve_desc(25)           TYPE c,
+      w_main_injury(50)           TYPE c,
+      w_fieldname(60)             TYPE c,
+      w_history(1)                TYPE c,
+      w_box_text(20)              TYPE c,
+      w_resend(1)                 TYPE c,
+      w_no_resend(1)              TYPE c,
+      w_all_remind(1)             TYPE c,
+      w_all_remind_old(1)         TYPE c,
+      w_ass_to_old                TYPE zim_screen-ass_to,
+      w_rpt_restrict(1)           TYPE c,
+      w_req_key(5)                TYPE c,
+      w_goal_key(5)               TYPE c,
+      w_fix_key(5)                TYPE c,
+      w_doc_unique                TYPE zim_doc_unique,
+      w_seq_no                    TYPE zim_in_prov-seq_no,
+      w_rem_seq_no                TYPE zim_in_rem-seq_no,
+      w_next_mc_seq_no            TYPE zim_in_cert-seq_no,
+      w_next_cap_seq_no           TYPE zim_in_cap-seq_no,
+      w_next_rtwp_seq_no          TYPE zim_rtwp-seq_no,
+      w_next_mr_seq_no            TYPE zim_in_medrpt-seq_no,
+      w_next_imep_seq_no          TYPE zim_in_imep-seq_no,
+      w_next_ftcax_seq_no         TYPE zim_in_ftcax-seq_no,
+      w_next_cs_seq_no            TYPE zim_in_claim-seq_no,
+      w_next_req_seq_no           TYPE zim_in_claim-seq_no,
+      w_next_adv_seq_no           TYPE zim_in_claim-seq_no,
+      w_next_fix_seq_no           TYPE zim_in_rec_amt-seq_no,
+      w_next_ext_seq_no           TYPE zim_in_ext-seq_no,
+      w_next_comp_seq_no          TYPE zim_in_comp-seq_no,
+      w_next_pos_seq_no           TYPE zim_in_dep_tp-seq_no,
+      w_next_prel_seq_no          TYPE zim_in_pre_leg-seq_no,
+      w_next_prei_seq_no          TYPE zim_in_pre_leg-seq_no,
+      w_ltr_category              TYPE zim_in_doc-ltr_category,
+      w_gao_mc_date               TYPE zim_in_cert-mc_date,
+      w_gao_mc_status             TYPE zim_in_cert-status,
+      w_gao_mc_date_from          TYPE zim_in_cert-date_from,
+      w_gao_mc_date_to            TYPE zim_in_cert-date_to,
+      w_mc_start_date             TYPE d,
+      w_call_2100(1)              TYPE c,
+      w_call_2200(1)              TYPE c,
+      w_call_3100(1)              TYPE c,
+      w_call_3200(1)              TYPE c,
+      w_call_3600(1)              TYPE c,
+      w_mdrp_date                 TYPE d,
+      w_notes_key(15)             TYPE c,
+      w_notes_action(1)           TYPE c,
+      w_prov_code                 TYPE zim_prov-prov_code,
+      w_doc_link(1)               TYPE c,
+      w_call_act(1)               TYPE c,
+      w_call_doc(1)               TYPE c,
+      w_comm_other(1)             TYPE c,
+      w_save_req(1)               TYPE c,
+      w_save_rehab(1)             TYPE c,
+      w_save_erg(1)               TYPE c,
+      w_short                     TYPE hrp1000-short,
+      w_orgeh                     TYPE pa0001-orgeh,
+      w_orgeh_name                TYPE hrp1000-stext,
+      w_head_lines                TYPE i,
+      w_text1(80)                 TYPE c,
+      w_text2(80)                 TYPE c,
+      w_text3(80)                 TYPE c,
+      r_out(1)                    TYPE c,
+      r_all(1)                    TYPE c,
+      w_inc_act(3)                TYPE c,
+      w_inc_cause(3)              TYPE c,
+      w_inc_where(3)              TYPE c,
+      w_no_pernr(1)               TYPE c,
+      w_old_identnr               TYPE zim_incident-identnr,
+      w_readonly(1)               TYPE c,
+      w_answer(1)                 TYPE c,
+      w_call_error(1)             TYPE c,
+      w_ans(1)                    TYPE c,
+      w_exit(1)                   TYPE c,
+      w_exit2(1)                  TYPE c,
+      w_imep_exists(1)            TYPE c,
+      w_changed(1)                TYPE c,
+      w_exists(1)                 TYPE c,
+      w_contact_type              TYPE zim_action-contact_type,
+      w_contact_type_desc(30)     TYPE c,
+      w_susp_msg(40)              TYPE c,
+      w_hod_msg(40)               TYPE c,
+      w_planned_hours             TYPE pa2002-stdaz,
+      w_object_id                 TYPE sapb-sapobjid,
+      w_arch_object               TYPE saeardoid,
+      w_download_path             TYPE string,
+      w_filename                  TYPE string,
+      w_gao_desc(80)              TYPE c,
+      w_gao_task(1)               TYPE c,
+      w_text_begda(10)            TYPE c,
+      w_text_endda(10)            TYPE c,
+      w_text_incident(10)         TYPE c,
+      w_old_disablement_date      TYPE d,
+      w_new_disablement_date      TYPE d,
+      w_old_day_271               TYPE d,
+      w_dis_reason1(80)           TYPE c,
+      w_dis_reason2(80)           TYPE c,
+      w_dis_reason3(80)           TYPE c,
+      w_dis_reason4(80)           TYPE c,
+      w_begda                     TYPE d,
+      w_endda                     TYPE d,
+      w_code2                     TYPE sy-ucomm,
+      w_codep                     TYPE sy-ucomm,
+      w_code3                     TYPE sy-ucomm,
+      w_ucomm                     TYPE sy-ucomm,
+      w_ret_ucomm                 TYPE sy-ucomm,
+      w_popup_ucomm               TYPE sy-ucomm,
+      w_popup_mess(70)            TYPE c,
+      w_popup_mess2(70)           TYPE c,
+      w_depref_action1            TYPE c,
+      w_adj_key(5)                TYPE c,
+      w_save_proppos(1)           TYPE c,
+      w_save_depext(1)            TYPE c,
+      w_old_place_typ             TYPE zim_in_deploy-place_type,
+      w_emp_plans                 TYPE pa0001-plans,
+      w_emp_plans_txt             TYPE hrp1000-stext,
+      w_emp_org                   TYPE pa0001-orgeh,
+      w_emp_org_txt               TYPE hrp1000-stext,
+      w_persk                     TYPE pa0001-persk,
+      w_unsworn_claim             TYPE boole_d,
+      w_ip_dates_create(1)        TYPE c,
+      w_in_cm                     TYPE zim_in_cm,
+      w_location_code             TYPE zp902_location_code,
+      w_other_location            TYPE zp902_other_location,
+      w_nature_code               TYPE zp902_nature_code,
+      w_other_nature              TYPE zp902_other_nature,
+      w_main_inj                  TYPE zp902_main_injury,
+      w_location_bp               TYPE zpnew_sys_id,
+      w_nature_bp                 TYPE zpnew_sys_id,
+      w_zp902_location            TYPE zp902_location,
+      w_zp902_nature              TYPE zp902_nature,
+      w_injury_subt               TYPE zpbp_injury_subt,
+      w_body_locat                TYPE zpbp_body_locat,
+      w_locked(1)                 TYPE c,
+      w_lock_msg                  TYPE stext,
+      w_dep_days                  TYPE i,
+      r_cat_range                 TYPE zim_category_range_t,
+      w_incl_base(1)              TYPE c,
+      w_incl_sec_loading(1)       TYPE c,
+      w_epss_dates_create(1)      TYPE c, " Added by AZORBA - EPSS BRD 03
+      w_epss                      TYPE boole_d,  " Added by AZORBA - EPSS BRD 03
+      w_in_epss                   TYPE zim_in_epss,  " Added by AZORBA - EPSS BRD 03
+      w_injury_subtype            TYPE zpnew_sys_id,        "DEVK9HRGN1
+      w_body_location             TYPE zpnew_sys_id.        "DEVK9HRGN1
+
+DATA: w_bp_first_aid              TYPE char255,
+      w_bp_hazard                 TYPE char255,
+      w_bp_doing                  TYPE char255,
+      w_bp_fitness                TYPE char255,
+      w_bp_main_exp               TYPE char255,
+      w_bp_other_exp              TYPE char255,
+      w_injury                    TYPE zpnew_sys_id,
+      w_body                      TYPE zpnew_sys_id.
+
+
+RANGES: r_pernr         FOR p9001-pernr,
+        r_date          FOR sy-datum,
+        r_ident         FOR p9001-identnr,
+        r_cat           FOR zim_ltr_def-ltr_category,
+        r_subty         FOR t591a-subty,
+        r_orgeh         FOR pa0001-orgeh.
+
+DATA: w_old_screen            TYPE zim_screen_address.
+
+* Entitlement Period Bucket details.
+DATA: BEGIN OF w_epb_det,
+        pernr                TYPE persno,
+        incident             TYPE zhr_inc_identnr,
+        bucket               TYPE zim_epb-bucket,
+        text                 TYPE zim_epbt-text,
+      END OF w_epb_det.
+
+DATA: BEGIN OF w_emp_det,
+        nachn                TYPE pa0002-nachn,
+        vorna                TYPE pa0002-vorna,
+        gbdat                TYPE pa0002-gbdat,
+        gesch                TYPE pa0002-gesch,
+        rank(30)             TYPE c,
+        rank2(30)            TYPE c,
+        anred                TYPE pa0002-anred,
+        orgeh                TYPE pa0001-orgeh,
+        plans                TYPE pa0001-plans,
+        persk                TYPE pa0001-persk,
+        admin(1)             TYPE c,
+        super_fund           TYPE t591a-subty,
+        super_desc           TYPE t591s-stext,
+        orgeh_stext          TYPE hrp1000-stext,
+        plans_stext          TYPE hrp1000-stext,
+        lvl3_orgeh           TYPE pa0001-orgeh,
+        lvl4_orgeh           TYPE pa0001-orgeh,
+        lvl3_orgeh_stext     TYPE hrp1000-stext,
+        lvl4_orgeh_stext     TYPE hrp1000-stext,
+        hda_orgeh            TYPE pa0001-orgeh,
+        hda_plans            TYPE pa0001-plans,
+        hda_orgeh_stext      TYPE hrp1000-stext,
+        hda_plans_stext      TYPE hrp1000-stext,
+        hda_lvl3_orgeh       TYPE pa0001-orgeh,
+        hda_lvl4_orgeh       TYPE pa0001-orgeh,
+        hda_lvl3_orgeh_stext TYPE hrp1000-stext,
+        hda_lvl4_orgeh_stext TYPE hrp1000-stext,
+        duty                 TYPE hrp1002-subty,
+        duty_desc            TYPE t777u-sutxt,
+        hda_duty             TYPE hrp1002-subty,
+        hda_duty_desc        TYPE t777u-sutxt,
+        rank_text(15)        TYPE c,
+        emp_type(15)         TYPE c,
+        zterf                TYPE pa0007-zterf,
+        term_date            TYPE d,
+        status(15)           TYPE c,
+        wkly_hours           TYPE wostd,
+        wkly_full            TYPE zwc_normal_full_pay,
+        wkly_base            TYPE zwc_normal_base_pay,
+        yrly_full            TYPE zwc_normal_full_pay,
+        yrly_base            TYPE zwc_normal_base_pay,
+        pc_ext_claim         TYPE p LENGTH 3 DECIMALS 2,
+        sec_begda            TYPE begda,
+        sec_endda            TYPE endda,
+        sec_tkbez            TYPE tkbez,
+      END OF w_emp_det.
+
+DATA: BEGIN OF w_ins,
+       claim_no               TYPE pa9076-wclmn,
+       claim_stats            TYPE pa9076-stats,
+       claim_sdate            TYPE pa9076-sdate,
+      END OF w_ins.
+
+DATA: w_old_ins               LIKE w_ins.
+
+DATA: BEGIN OF w_ip_det,
+        plan_hours           TYPE pa2002-stdaz,
+        mc_flag(1)           TYPE c,
+        bs_date              TYPE d,
+        wkly_hours           TYPE wostd,
+        hrly_rate            TYPE zwc_adjust_quota_hrs,
+        comm_off(20)         TYPE c,
+        wkly_full            TYPE zwc_normal_full_pay,
+        wkly_base            TYPE zwc_normal_base_pay,
+        yrly_full            TYPE zwc_normal_full_pay,
+        yrly_base            TYPE zwc_normal_base_pay,
+        mthly_full           TYPE zwc_normal_full_pay,
+        mthly_base           TYPE zwc_normal_base_pay,
+        yrly_17              TYPE zwc_normal_base_pay,
+        wkly_17              TYPE zwc_normal_base_pay,
+        mthly_17             TYPE zwc_normal_base_pay,
+        yrly_75              TYPE zwc_normal_base_pay,
+        wkly_75              TYPE zwc_normal_base_pay,
+        mthly_75             TYPE zwc_normal_base_pay,
+        wkly_full_plan       TYPE zwc_normal_full_pay,
+        mthly_full_plan      TYPE zwc_normal_full_pay,
+        wkly_ip_plan         TYPE zwc_normal_base_pay,
+        mthly_ip_plan        TYPE zwc_normal_base_pay,
+        wkly_wc_plan         TYPE zwc_normal_base_pay,
+        mthly_wc_plan        TYPE zwc_normal_base_pay,
+        preas                TYPE pa0014-preas,
+        preas_desc(30)       TYPE c,
+      END OF w_ip_det.
+*<<< AZORBA - EPSS BRD 03
+* Structure for the new EPSS Calculations tab
+DATA: BEGIN OF w_epss_det,
+* Period 1 & 2
+        mc_flag(1)            TYPE c,
+        comm_off(20)          TYPE c,
+* Period 1
+        orp_date              TYPE d,
+        yrly_orp              TYPE zwc_normal_base_pay,
+        frly_orp              TYPE zwc_normal_base_pay,
+        wkly_orp              TYPE zwc_normal_base_pay,
+        hrly_orp              TYPE zwc_normal_base_pay,
+        wkly_est_pay_p1       TYPE zwc_normal_base_pay,
+        frly_est_pay_p1       TYPE zwc_normal_base_pay,
+        no_weeks_used_p1      TYPE zim_epss_no_weeks_used_p1,
+        no_weeks_remaining_p1 TYPE zim_epss_no_weeks_used_p1,
+        estimated_end_date_p1 TYPE datum,
+        other_earn_p1         TYPE zwc_normal_base_pay,
+        ext_earn_p1           TYPE zwc_normal_base_pay,
+        wkly_wc_plan_p1       TYPE zwc_normal_base_pay,
+        mthly_wc_plan_p1      TYPE zwc_normal_base_pay,
+        preas_desc_p1(30)     TYPE c,
+        plan_hours_p1         TYPE wostd,
+" Period 2
+        bs_date               TYPE d,
+        yrly_base             TYPE zwc_normal_base_pay,
+        mthly_base            TYPE zwc_normal_base_pay,
+        yrly_17               TYPE zwc_normal_base_pay,
+        mthly_17              TYPE zwc_normal_base_pay,
+        yrly_75               TYPE zwc_normal_base_pay,
+        mthly_75              TYPE zwc_normal_base_pay,
+        frly_75               TYPE zwc_normal_base_pay,
+        wkly_75               TYPE zwc_normal_base_pay,
+        wkly_75_ir            TYPE zwc_normal_base_pay,
+        hrly_75               TYPE zwc_normal_base_pay,
+        hrly_75_ir            TYPE zwc_normal_base_pay,
+        wkly_epss_cap         TYPE abrwt,
+        wkly_epss_cap_ir      TYPE abrwt,
+        ir_date               TYPE d,
+        ir                    TYPE abrwt,
+        commence_p2_payment   TYPE boole_d,
+        preas_desc_p2(30)     TYPE c,
+        wkly_wc_plan_p2       TYPE zwc_normal_base_pay,
+        plan_hours_p2         TYPE wostd,
+        other_earn_p2         TYPE zwc_normal_base_pay,
+        ext_earn_p2           TYPE zwc_normal_base_pay,
+        wkly_est_pay_p2       TYPE zwc_normal_base_pay,
+        frly_est_pay_p2       TYPE zwc_normal_base_pay,
+        mthly_est_pay_p2      TYPE zwc_normal_base_pay,
+        no_days_used_p2       TYPE zim_epss_no_days_used_p2,
+        no_days_remaining_p2  TYPE zim_epss_no_days_used_p2,
+        epss_start_date_p2      TYPE datum,
+        epss_end_date_p2        TYPE datum,
+        epss_init_start_date_p2      TYPE datum,
+        epss_init_end_date_p2        TYPE datum,
+      END OF w_epss_det.
+*>>> AZORBA - EPSS BRD 03
+
+DATA: BEGIN OF w_piawe_det,
+        pernr                TYPE persno,
+        incident             TYPE zhr_inc_identnr,
+        piawe_pre_52_wk      TYPE zwc_piawe_pre_52_wk,
+        manual_pre_52_wk     TYPE boole_d,
+        begda_pre_52_wk      TYPE begda,
+        endda_pre_52_wk      TYPE endda,
+        piawe_post_52_wk     TYPE zwc_piawe_post_52_wk,
+        manual_post_52_wk    TYPE boole_d,
+        begda_post_52_wk     TYPE begda,
+        endda_post_52_wk     TYPE endda,
+        piawe_new_52_wk      TYPE zwc_piawe_post_52_wk,
+        manual_new_52_wk     TYPE boole_d,
+        begda_new_52_wk      TYPE begda,
+        endda_new_52_wk      TYPE endda,
+      END OF w_piawe_det.
+
+DATA: w_piawe_det_old         LIKE w_piawe_det.
+
+DATA: BEGIN OF w_prim_det,
+        pernr                TYPE persno,
+        incident             TYPE zhr_inc_identnr,
+        prim_claim           TYPE zim_in_prim-prim_claim,
+        begda_pc             TYPE zim_in_prim-begda,
+        endda_pc             TYPE zim_in_prim-endda,
+        conc_ext_claim       TYPE zim_in_prim-conc_ext_claim,
+        begda_cec            TYPE zim_in_prim-begda,
+        endda_cec            TYPE zim_in_prim-endda,
+      END OF w_prim_det.
+
+DATA: w_prim_det_old          LIKE w_prim_det,
+      w_cec_claim             TYPE zim_in_prim.
+
+* External Claim Percentage details.
+DATA: BEGIN OF w_ecp_det,
+         pernr                TYPE persno,
+         incident             TYPE zhr_inc_identnr,
+         pc_ext_claim         TYPE p LENGTH 3 DECIMALS 2,
+         begda                TYPE pa0014-begda,
+         endda                TYPE pa0014-endda,
+      END OF w_ecp_det.
+
+DATA: w_ecp_det_old           LIKE w_ecp_det.
+
+DATA: tbl_zim_in_act          TYPE zim_in_act       OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_med          TYPE zim_in_med       OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_prov         TYPE zim_in_prov      OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_rosa         TYPE zim_in_rosa      OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_pmo          TYPE zim_in_pmo       OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_erg          TYPE zim_in_erg       OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_rehab        TYPE zim_in_rehab     OCCURS 0 WITH HEADER LINE.
+DATA: rec_zim_in_rehab        TYPE zim_in_rehab.
+DATA: rec_zim_in_dep_ext      TYPE zim_in_dep_ext.
+DATA: tbl_zim_in_mtg          TYPE zim_in_mtg       OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_mtg_att      TYPE zim_in_mtg_att   OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_cert         TYPE zim_in_cert      OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_imep         TYPE zim_in_imep      OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_ftc          TYPE zim_in_ftc       OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_req          TYPE zim_in_req       OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_req_inf      TYPE zim_in_req_inf   OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_red_pay      TYPE zim_in_red_pay   OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_doc          TYPE zim_in_doc       OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_doc_in       TYPE zim_in_doc_in    OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_depend          TYPE zim_depend       OCCURS 0 WITH HEADER LINE.
+DATA: tbl_0573                TYPE pa0573           OCCURS 0 WITH HEADER LINE.
+DATA: tbl_2001                TYPE pa2001           OCCURS 0 WITH HEADER LINE.
+DATA: tbl_zim_in_mast         TYPE zim_in_mast      OCCURS 0 WITH HEADER LINE.
+DATA: tbl_9203                TYPE pa9203           OCCURS 0 WITH HEADER LINE.
+
+DATA: BEGIN OF tbl_zim_in_claim OCCURS 10.
+        INCLUDE STRUCTURE zim_in_claim.
+DATA: END OF tbl_zim_in_claim.
+
+
+DATA: rec_zim_in_doc          TYPE zim_in_doc.
+DATA: rec_zim_in_cm           TYPE zim_in_cm.
+DATA: rec_zim_in_cert         TYPE zim_in_cert.
+DATA: rec_zim_in_cap          TYPE zim_in_cap.
+DATA: rec_zim_in_cert_ben     TYPE zim_in_cert_ben.
+DATA: rec_zim_in_rec_amt      TYPE zim_in_rec_amt.
+DATA: rec_zim_depend          TYPE zim_depend.
+DATA: rec_zim_in_claim        TYPE zim_in_claim.
+DATA: rec_zim_in_pre88        TYPE zim_in_pre88.
+DATA: rec_bp_incident         TYPE zim_inc_p902.
+
+DATA: BEGIN OF rec_zim_add_file,
+        mandt                  TYPE zim_ltr_def-mandt,
+        corr_code              TYPE zim_ltr_def-corr_code,
+        seq_no(3)              TYPE n,
+        doc_title(40)          TYPE c,
+        doc_link               TYPE string,
+      END OF rec_zim_add_file.
+
+DATA: tbl_spar                TYPE spar             OCCURS 0 WITH HEADER LINE.
+
+DATA: pws                     TYPE ptpsp            OCCURS 0 WITH HEADER LINE.
+DATA: p0001                   TYPE p0001            OCCURS 0 WITH HEADER LINE.
+DATA: p0007                   TYPE p0007            OCCURS 0 WITH HEADER LINE.
+DATA: p0008                   TYPE p0008            OCCURS 0 WITH HEADER LINE.
+DATA: p2003                   TYPE p2003            OCCURS 0 WITH HEADER LINE.
+DATA: tbl_quota_sim           TYPE zleave_sim       OCCURS 0 WITH HEADER LINE.
+DATA: cum_values              TYPE zleave_balance   OCCURS 0 WITH HEADER LINE.
+
+* Text Fields
+DATA: w_thead                TYPE thead,
+      w_text_key             TYPE thead-tdname,
+      w_comm_exists(1)       TYPE c.
+
+DATA: BEGIN OF tbl_tline OCCURS 10.
+        INCLUDE STRUCTURE tline.
+DATA: END OF tbl_tline.
+
+DATA: gt_email_body           TYPE tline OCCURS 0 WITH HEADER LINE.
+
+DATA: w_help_info            TYPE help_info.
+DATA: w_dynpselect           TYPE dselc OCCURS 0.
+DATA: w_dynpvaluetab         TYPE dval  OCCURS 0.
+
+DATA: BEGIN OF ihelp_fields OCCURS 20.
+        INCLUDE STRUCTURE help_value.
+DATA: END OF ihelp_fields.
+
+DATA: BEGIN OF helptab OCCURS 100,
+        feld(80),
+      END OF helptab.
+
+DATA: BEGIN OF ihelp_return OCCURS 20.
+        INCLUDE STRUCTURE help_vtab.
+DATA: END OF ihelp_return.
+
+DATA: BEGIN OF ihelp_heading OCCURS 0,
+        tabname TYPE help_info-tabname,
+        fieldname TYPE help_info-fieldname,
+        head_text TYPE shstruc-keyword,
+      END OF ihelp_heading.
+
+DATA: sel_val       TYPE help_info-fldvalue,
+      dynpname      TYPE d020s-prog,
+      dynpnumb      TYPE d020s-dnum,
+      cursor_fld    TYPE help_info-fieldname.
+
+DATA: BEGIN OF dynpvaluetab OCCURS 1.
+        INCLUDE STRUCTURE dynpread.
+DATA: END   OF dynpvaluetab.
+
+
+DATA: tnam          TYPE help_info-tabname,
+      fnam          TYPE help_info-fieldname.
+
+DATA: objectname    TYPE objh-objectname,
+      objecttype    TYPE objh-objecttype,
+      subobjname    TYPE objsub-subobjname.
+
+DATA: w_domvalue_l TYPE dd07l-domvalue_l,
+      w_domname    TYPE dd07l-domname,
+      w_dd07v      TYPE dd07v,
+      w_rc         TYPE sy-subrc.
+
+
+DATA: BEGIN OF tbl_email OCCURS 0,
+        rec(255) TYPE c,
+      END OF tbl_email.
+
+DATA: BEGIN OF exclfunc OCCURS 3,
+        funktion(9),
+        nachricht(3),
+      END OF exclfunc.
+
+* Screen Header Fields
+
+TYPE-POOLS: sdydo.
+
+DATA: do         TYPE REF TO cl_dd_document.
+DATA: g_text     TYPE sdydo_text_element.
+DATA: do1        TYPE REF TO cl_dd_document.
+DATA: g_text1    TYPE sdydo_text_element.
+
+
+DATA: nametab TYPE dntab OCCURS 0 WITH HEADER LINE.
+
+DATA: tb_activity       TYPE STANDARD TABLE OF zp902_activity,
+      tb_cause          TYPE STANDARD TABLE OF zp902_cause,
+      tb_where          TYPE STANDARD TABLE OF zp902_where,
+      tb_treatopt       TYPE STANDARD TABLE OF zp902_treatopt,
+      tb_currfit        TYPE STANDARD TABLE OF zp902_currfit,
+      ls_activity       TYPE zp902_activity,
+      ls_cause          TYPE zp902_cause,
+      ls_where          TYPE zp902_where,
+      ls_treatopt       TYPE zp902_treatopt,
+      ls_currfit        TYPE zp902_currfit.
+
+TYPES : BEGIN OF ty_location.
+        INCLUDE STRUCTURE zp902_location.
+TYPES : location_desc    TYPE zp902_location_desc,
+       END OF ty_location.
+
+DATA : tb_location      TYPE STANDARD TABLE OF ty_location,
+       ls_location      TYPE ty_location.
+
+TYPES : BEGIN OF ty_nature.
+        INCLUDE STRUCTURE zp902_nature.
+TYPES : nature_desc      TYPE zp902_nature_desc,
+       END OF ty_nature.
+
+DATA : tb_nature        TYPE STANDARD TABLE OF ty_nature,
+       ls_nature        TYPE ty_nature.
+
+
+DATA: BEGIN OF tbl_bapiret OCCURS 10.
+        INCLUDE STRUCTURE bapiret2.
+DATA: END OF tbl_bapiret.
+
+DATA: rec_bapireturn   TYPE bapireturn.
+DATA: rec_bapireturn1  TYPE bapireturn1.
+DATA: rec_hrhrmm_msg   TYPE hrhrmm_msg.
+
+*--------------------------------------------------------------------*
+*  Screen tree variables
+*--------------------------------------------------------------------*
+DATA: user_tree_container TYPE REF TO cl_gui_custom_container.
+DATA: user_tree           TYPE REF TO cl_gui_simple_tree.
+
+DATA: events  TYPE cntl_simple_events.
+DATA: event   TYPE cntl_simple_event.
+
+DATA: node_upd_table TYPE STANDARD TABLE OF mtreesunod WITH DEFAULT KEY.
+DATA: node_table     TYPE STANDARD TABLE OF mtreesnode WITH DEFAULT KEY.
+
+DATA: d_node_table TYPE treemsnota.
+DATA: d_node       TYPE treemsnodt.
+
+DATA: ok_code(4).
+
+DATA: node      TYPE mtreesnode.
+DATA: node_upd  TYPE mtreesunod.
+
+DATA: w_node_key(4)          TYPE n.
+
+DATA: BEGIN OF w_key_table  OCCURS 0,
+       node_key              TYPE tm_nodekey,
+       text                  TYPE tm_nodetxt,
+      END OF w_key_table.
+
+DATA: w_key_rec LIKE w_key_table.
+
+DATA: w_node_code(1)         TYPE c,
+      w_node_value(11)       TYPE c,
+      w_node_level1(3)       TYPE c,
+      w_node_order1(3)       TYPE c,
+      w_node_12(12)          TYPE c.
+
+*--------------------------------------------------------------------*
+DATA: container1      TYPE REF TO cl_gui_custom_container.
+DATA: container2      LIKE container1.
+DATA: evt_tab         TYPE cntl_simple_events.
+DATA: evt_tab_line    LIKE LINE OF evt_tab.
+DATA: url(256)        TYPE c.
+
+* Used to retrieve from HR Infotypes
+DATA: gen_txt_container    TYPE REF TO cl_gui_custom_container,
+      gen_txt_text         TYPE REF TO cl_gui_textedit.
+
+TYPES: BEGIN OF gs_outtxt_type1,
+         line(65)           TYPE c,
+       END OF gs_outtxt_type1.
+
+DATA: gr_outtxt1             TYPE gs_outtxt_type1.
+DATA: gt_outtxt1             TYPE TABLE OF gs_outtxt_type1.
+DATA: gt_outtxt1_old         TYPE TABLE OF gs_outtxt_type1.
+
+* Used for OLIMS notes
+DATA: emp_txt_container    TYPE REF TO cl_gui_custom_container,
+      emp_txt_text         TYPE REF TO cl_gui_textedit,
+      emp_txt_status       TYPE i,
+      emp_txt1_container   TYPE REF TO cl_gui_custom_container,
+      emp_txt1_text        TYPE REF TO cl_gui_textedit,
+      emp_txt1_status      TYPE i,
+      goal_txt_container   TYPE REF TO cl_gui_custom_container,
+      goal_txt_text        TYPE REF TO cl_gui_textedit,
+      goal_txt_status      TYPE i,
+      mgr_txt_container    TYPE REF TO cl_gui_custom_container,
+      mgr_txt_text         TYPE REF TO cl_gui_textedit,
+      mgr_txt_status       TYPE i,
+      mgr_txt1_container   TYPE REF TO cl_gui_custom_container,
+      mgr_txt1_text        TYPE REF TO cl_gui_textedit,
+      mgr_txt1_status      TYPE i,
+      ins_txt_container    TYPE REF TO cl_gui_custom_container,
+      ins_txt_text         TYPE REF TO cl_gui_textedit,
+      ins_txt_status       TYPE i,
+      insa_txt_container   TYPE REF TO cl_gui_custom_container,
+      insa_txt_text        TYPE REF TO cl_gui_textedit,
+      insa_txt_status      TYPE i,
+      ntd_txt_container    TYPE REF TO cl_gui_custom_container,
+      ntd_txt_text         TYPE REF TO cl_gui_textedit,
+      ntd_txt_status       TYPE i,
+      serv_txt_container   TYPE REF TO cl_gui_custom_container,
+      serv_txt_text        TYPE REF TO cl_gui_textedit,
+      serv_txt_status      TYPE i,
+      rehab_txt_container  TYPE REF TO cl_gui_custom_container,
+      rehab_txt_text       TYPE REF TO cl_gui_textedit,
+      rehab_txt_status     TYPE i,
+      erg_txt_container    TYPE REF TO cl_gui_custom_container,
+      erg_txt_text         TYPE REF TO cl_gui_textedit,
+      erg_txt_status       TYPE i,
+      leg_txt_container    TYPE REF TO cl_gui_custom_container,
+      leg_txt_text         TYPE REF TO cl_gui_textedit,
+      leg_txt_status       TYPE i,
+      depref1_txt_container  TYPE REF TO cl_gui_custom_container,
+      depref1_txt_text     TYPE REF TO cl_gui_textedit,
+      depref1_txt_status   TYPE i,
+      adj_txt_container    TYPE REF TO cl_gui_custom_container,
+      adj_txt_text         TYPE REF TO cl_gui_textedit,
+      adj_txt_status       TYPE i,
+      depext_txt_container  TYPE REF TO cl_gui_custom_container,
+      depext_txt_text       TYPE REF TO cl_gui_textedit,
+      depext_txt_status     TYPE i,
+      doc_link_container   TYPE REF TO cl_gui_custom_container,
+      doc_link_text        TYPE REF TO cl_gui_textedit,
+      doc_link_status      TYPE i.
+
+TYPES: BEGIN OF gs_outtxt_type2,
+         line(100)          TYPE c,
+       END OF gs_outtxt_type2.
+
+* Used for faxing
+TYPES: BEGIN OF gs_outtxt_type6,
+         line(72)          TYPE c,
+       END OF gs_outtxt_type6.
+
+TYPES: BEGIN OF gs_outtxt_type80,
+         line(80)           TYPE c,
+       END OF gs_outtxt_type80.
+
+DATA: gr_outtxt2             TYPE gs_outtxt_type2.
+DATA: gr_outtxt2a            TYPE gs_outtxt_type2.
+DATA: gr_outtxt2b            TYPE gs_outtxt_type2.
+DATA: gr_outtxt2c            TYPE gs_outtxt_type2.
+DATA: gr_outtxt6             TYPE gs_outtxt_type6.
+DATA: gt_outtxt2             TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt2a            TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt2b            TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt2c            TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt3             TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt4             TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt5             TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt6             TYPE TABLE OF gs_outtxt_type6.
+DATA: gt_outtxt7             TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt8             TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt9             TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt10            TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt11            TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt12            TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt_case         TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt_case2        TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt2_old         TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt3_old         TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt4_old         TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt5_old         TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt6_old         TYPE TABLE OF gs_outtxt_type6.
+DATA: gt_outtxt7_old         TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt8_old         TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt9_old         TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt10_old        TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt11_old        TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt12_old        TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt2a_old        TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt2b_old        TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt2c_old        TYPE TABLE OF gs_outtxt_type2.
+DATA: gt_outtxt_case_old     TYPE TABLE OF gs_outtxt_type2.
+DATA gr_outtxt80            TYPE gs_outtxt_type80.
+DATA gt_outtxt80            TYPE TABLE OF gs_outtxt_type80.
+DATA gt_outtxt80_old        TYPE TABLE OF gs_outtxt_type80.
+
+TYPES: BEGIN OF gs_outtxt_type_dep,
+         line(100)          TYPE c,
+       END OF gs_outtxt_type_dep.
+
+DATA: gt_outtxt10_dep        TYPE TABLE OF gs_outtxt_type_dep.
+DATA: gt_outtxt10_dep_old    TYPE TABLE OF gs_outtxt_type_dep.
+
+
+TYPES: BEGIN OF stream,
+          line(80) TYPE c,
+       END OF stream.
+TYPES: stream_table TYPE stream OCCURS 0.
+
+DATA: selected_text TYPE stream_table.
+
+DATA: stream_text            TYPE string.
+
+DATA: l_alignment TYPE i.
+
+DATA: rec_sel_container    TYPE REF TO cl_gui_custom_container,
+      rec_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      rec_sel_layout       TYPE lvc_s_layo,
+      rec_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      rec_fieldcat         TYPE lvc_s_fcat,
+      rec_sel_style        TYPE lvc_t_styl,
+      rec_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      rec_sel_functions    TYPE ui_functions.
+
+DATA: inc_inj_container    TYPE REF TO cl_gui_custom_container,
+      inc_bp_inj_container TYPE REF TO cl_gui_custom_container,
+      inc_inj_alv          TYPE REF TO cl_gui_alv_grid,
+      inc_bp_inj_alv       TYPE REF TO cl_gui_alv_grid,
+      inc_inj_layout       TYPE lvc_s_layo,
+      inc_bp_inj_layout    TYPE lvc_s_layo,
+      inc_inj_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      inc_bp_inj_fieldcat  TYPE TABLE OF lvc_s_fcat,
+      inc_inj_style        TYPE lvc_t_styl,
+      inc_bp_inj_style     TYPE lvc_t_styl,
+      inc_inj_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      inc_inj_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      inc_inj_functions    TYPE ui_functions,
+      inc_bp_inj_functions TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type1,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         cell_colour            TYPE lvc_t_scol,
+         sel_code(1)            TYPE c,
+         location_desc(50)      TYPE c,
+         nature_desc(50)        TYPE c.
+        INCLUDE STRUCTURE zim_inc_inj.
+TYPES: END OF gs_outtab_type1.
+
+DATA: gr_outtab1               TYPE gs_outtab_type1.
+DATA: gr_outtab1a              TYPE gs_outtab_type1.
+DATA: gt_outtab1               TYPE TABLE OF gs_outtab_type1.
+DATA: gt_outtab1a              TYPE TABLE OF gs_outtab_type1.
+DATA: gt_outtab1_copy          TYPE TABLE OF gs_outtab_type1.
+DATA: gt_outtab1_old           TYPE TABLE OF gs_outtab_type1.
+DATA: gr_outtab1_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab1_col_info      TYPE lvc_s_col.
+DATA: gr_outtab1_row_table     TYPE lvc_s_row.
+
+
+DATA: inc_nat_container    TYPE REF TO cl_gui_custom_container,
+      inc_nat_alv          TYPE REF TO cl_gui_alv_grid,
+      inc_nat_layout       TYPE lvc_s_layo,
+      inc_nat_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      inc_nat_style        TYPE lvc_t_styl,
+      inc_nat_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      inc_nat_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      inc_nat_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type2,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         cell_colour            TYPE lvc_t_scol,
+         sel_code(1)            TYPE c,
+         desc(50)               TYPE c,
+         main_nat(1)            TYPE c,
+       END OF gs_outtab_type2.
+
+DATA: gr_outtab2               TYPE gs_outtab_type2.
+DATA: gr_outtab2a              TYPE gs_outtab_type2.
+DATA: gt_outtab2               TYPE TABLE OF gs_outtab_type2.
+DATA: gt_outtab2a              TYPE TABLE OF gs_outtab_type2.
+DATA: gt_outtab2_copy          TYPE TABLE OF gs_outtab_type2.
+DATA: gt_outtab2_old           TYPE TABLE OF gs_outtab_type2.
+DATA: gr_outtab2_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab2_col_info      TYPE lvc_s_col.
+
+
+DATA: inc_sel_container    TYPE REF TO cl_gui_custom_container,
+      inc_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      inc_sel_layout       TYPE lvc_s_layo,
+      inc_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      inc_sel_style        TYPE lvc_t_styl,
+      inc_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      inc_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      inc_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type3,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         cell_colour            TYPE lvc_t_scol,
+         sel_code(1)            TYPE c,
+         nearmiss_desc(30)      TYPE c,
+         inc_status             TYPE zim_in_mast-inc_status,
+         wclmn                  TYPE pa9076-wclmn,
+         im_desc(30)            TYPE c.
+        INCLUDE STRUCTURE pa9001.
+TYPES: END OF gs_outtab_type3.
+
+DATA: gr_outtab3               TYPE gs_outtab_type3.
+DATA: gr_outtab3a              TYPE gs_outtab_type3.
+DATA: gt_outtab3               TYPE TABLE OF gs_outtab_type3.
+DATA: gt_outtab3a              TYPE TABLE OF gs_outtab_type3.
+DATA: gt_outtab3_copy          TYPE TABLE OF gs_outtab_type3.
+DATA: gt_outtab3_old           TYPE TABLE OF gs_outtab_type3.
+DATA: gr_outtab3_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab3_col_info      TYPE lvc_s_col.
+DATA: gr_outtab3_row_table     TYPE lvc_s_row.
+
+DATA: init_ass_container    TYPE REF TO cl_gui_custom_container,
+      init_ass_alv          TYPE REF TO cl_gui_alv_grid,
+      init_ass_layout       TYPE lvc_s_layo,
+      init_ass_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      init_ass_style        TYPE lvc_t_styl,
+      init_ass_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      init_ass_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      init_ass_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type4,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         cell_colour            TYPE lvc_t_scol,
+         sel_code(1)            TYPE c,
+         inc_type_desc(30)      TYPE c,
+         im_desc(30)            TYPE c,
+         orgeh                  TYPE pa0001-orgeh,
+         orgeh_stext            TYPE hrp1000-stext,
+         lvl3_orgeh             TYPE pa0001-orgeh,
+         lvl4_orgeh             TYPE pa0001-orgeh,
+         lvl3_stext             TYPE hrp1000-stext,
+         lvl4_stext             TYPE hrp1000-stext,
+         rank(30)               TYPE c,
+         nachn                  TYPE pa0002-nachn,
+         vorna                  TYPE pa0002-vorna,
+         ima_name               TYPE pa0001-ename,
+         kostl                  TYPE pa0001-kostl,
+         ltext                  TYPE cskt-ltext,
+         main_injury(50)        TYPE c,
+         ip_start_date          TYPE zim_in_cm-ip_start_date,
+         topup_end_date         TYPE zim_in_cm-topup_end_date,
+         ip_to_commence         TYPE i,
+         dateincident           TYPE zim_incident-dateincident,
+         timeincident           TYPE zim_incident-timeincident,
+         main_loc               TYPE numc3,
+         main_nat               TYPE numc3,
+         cert_status            TYPE zim_mc_status,
+         cert_status_desc(60)   TYPE c,
+         cert_type(1)           TYPE c,
+         scu_ass_status         TYPE zim_scu_ass_status,
+         scu_ass_status_desc    TYPE val_text,
+         suspended(3)           TYPE c,
+         prd(3)                 TYPE c.
+        INCLUDE STRUCTURE zim_in_mast.
+TYPES: END OF gs_outtab_type4.
+
+DATA: gr_outtab4               TYPE gs_outtab_type4.
+DATA: gr_outtab4a              TYPE gs_outtab_type4.
+DATA: gt_outtab4               TYPE TABLE OF gs_outtab_type4.
+DATA: gt_outtab4a              TYPE TABLE OF gs_outtab_type4.
+DATA: gt_outtab4_copy          TYPE TABLE OF gs_outtab_type4.
+DATA: gt_outtab4_old           TYPE TABLE OF gs_outtab_type4.
+DATA: gr_outtab4_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab4_col_info      TYPE lvc_s_col.
+DATA: gr_outtab4_row_table     TYPE lvc_s_row.
+
+DATA: init_con_container    TYPE REF TO cl_gui_custom_container,
+      init_con_alv          TYPE REF TO cl_gui_alv_grid,
+      init_con_layout       TYPE lvc_s_layo,
+      init_con_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      init_con_style        TYPE lvc_t_styl,
+      init_con_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      init_con_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      init_con_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type5,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         cell_colour            TYPE lvc_t_scol,
+         sel_code(1)            TYPE c,
+         cont_act_desc          TYPE zim_action-cont_act_desc,
+         notes_icon(4)          TYPE c.
+        INCLUDE STRUCTURE zim_in_act.
+TYPES: END OF gs_outtab_type5.
+
+DATA: gr_outtab5               TYPE gs_outtab_type5.
+DATA: gr_outtab5a              TYPE gs_outtab_type5.
+DATA: gt_outtab5               TYPE TABLE OF gs_outtab_type5.
+DATA: gt_outtab5a              TYPE TABLE OF gs_outtab_type5.
+DATA: gt_outtab5_copy          TYPE TABLE OF gs_outtab_type5.
+DATA: gt_outtab5_old           TYPE TABLE OF gs_outtab_type5.
+DATA: gr_outtab5_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab5_col_info      TYPE lvc_s_col.
+DATA: gr_outtab5_row_table     TYPE lvc_s_row.
+
+
+DATA: med_prac_container    TYPE REF TO cl_gui_custom_container,
+      med_prac_alv          TYPE REF TO cl_gui_alv_grid,
+      med_prac_layout       TYPE lvc_s_layo,
+      med_prac_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      med_prac_style        TYPE lvc_t_styl,
+      med_prac_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      med_prac_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      med_prac_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type6,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         cell_colour            TYPE lvc_t_scol,
+         sel_code(1)            TYPE c,
+         name                   TYPE zim_med-name,
+         phone                  TYPE zim_med-phone,
+         fax                    TYPE zim_med-fax,
+         email                  TYPE zim_med-email,
+         health_prof            TYPE zim_med-health_prof,
+         health_desc            TYPE zim_med_proft-health_desc,
+         ntd(1)                 TYPE c,
+         nts(1)                 TYPE c,
+         ins_icon(4)            TYPE c,
+         upd_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_med.
+TYPES: END OF gs_outtab_type6.
+
+DATA: gr_outtab6               TYPE gs_outtab_type6.
+DATA: gr_outtab6a              TYPE gs_outtab_type6.
+DATA: gt_outtab6               TYPE TABLE OF gs_outtab_type6.
+DATA: gt_outtab6a              TYPE TABLE OF gs_outtab_type6.
+DATA: gt_outtab6_copy          TYPE TABLE OF gs_outtab_type6.
+DATA: gt_outtab6_old           TYPE TABLE OF gs_outtab_type6.
+DATA: gr_outtab6_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab6_col_info      TYPE lvc_s_col.
+DATA: gr_outtab6_row_table     TYPE lvc_s_row.
+
+
+DATA: case_act_container    TYPE REF TO cl_gui_custom_container,
+      case_act_alv          TYPE REF TO cl_gui_alv_grid,
+      case_act_layout       TYPE lvc_s_layo,
+      case_act_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      case_act_style        TYPE lvc_t_styl,
+      case_act_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      case_act_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      case_act_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type7,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         cell_colour            TYPE lvc_t_scol,
+         sel_code(1)            TYPE c,
+         inc_type_desc(40)      TYPE c,
+         status_desc(60)        TYPE c,
+         im_desc(40)            TYPE c,
+         orgeh                  TYPE pa0001-orgeh,
+         lvl4_orgeh             TYPE pa0001-orgeh,
+         lvl4_stext             TYPE hrp1000-stext,
+         lvl3_orgeh             TYPE pa0001-orgeh,
+         lvl3_stext             TYPE hrp1000-stext,
+         main_injury(50)        TYPE c,
+         recom_desc(30)         TYPE c,
+         rank(30)               TYPE c,
+         nachn                  TYPE pa0002-nachn,
+         vorna                  TYPE pa0002-vorna,
+         ima_name               TYPE pa0001-ename,
+         ftc_name               TYPE pa0001-ename,
+         scu_name               TYPE pa0001-ename,
+         md_name                TYPE pa0001-ename,
+         ins_name               TYPE zim_ins_cont-name,
+         wclmn                  TYPE pa9076-wclmn,
+         stats                  TYPE pa9076-stats,
+         stats_desc(30)         TYPE c,
+         def_claim              TYPE zim_in_cm-def_claim,
+         wc_advisor             TYPE zim_in_cm-wc_advisor,
+         wc_status              TYPE zim_in_cm-wc_status,
+         wc_status_desc(30)     TYPE c,
+         wc_name                TYPE pa0001-ename,
+         ip_wclmn               TYPE zim_in_cm-ip_wclmn,
+         ip_advisor             TYPE zim_in_cm-ip_advisor,
+         ip_status              TYPE zim_in_cm-ip_status,
+         ip_type                TYPE zim_in_cm-ip_type,
+         ip_status_desc(60)     TYPE c,
+         ip_name                TYPE pa0001-ename,
+         si_wclmn               TYPE zim_in_cm-si_wclmn,
+         ip_type_desc(60)       TYPE c,
+         no_corro               TYPE zim_screen_address-no_corro,
+         cannot_work            TYPE zim_in_cm-cannot_work,
+         seq_no                 TYPE zim_in_imep-seq_no,
+         dateincident           TYPE zim_incident-dateincident,
+         timeincident           TYPE zim_incident-timeincident,
+         md_rpt_comp            TYPE zim_in_ftc-md_rpt_comp,
+         cert_status            TYPE zim_mc_status,
+         cert_status_desc(60)   TYPE c,
+         cert_type(1)           TYPE c,
+         cap_hours              TYPE zim_mc_hours,
+         cap_days               TYPE zim_mc_days,
+         cap_hours2              TYPE zim_mc_hours,
+         cap_days2               TYPE zim_mc_days,
+*         claim_dur(20)          TYPE c,
+         prim_claim              TYPE zim_prim_claim,
+         claim_dur               TYPE i,
+         main_loc                TYPE numc3,
+         main_nat                TYPE numc3,
+         inc_count               TYPE i,
+         scu_advisor             TYPE zim_scu_advisor,
+         scu_current_status      TYPE zim_scu_current_status,
+         scu_current_action      TYPE zim_scu_current_action,
+         scu_status_date         TYPE zim_status_date,
+         scu_created_date        TYPE zim_scu_created_date,
+         scu_ass_status          TYPE zim_scu_ass_status,
+         scu_claim_class         TYPE zim_scu_claim_class,
+         scu_ass_status_desc     TYPE val_text,
+         scu_current_status_desc TYPE val_text,
+         scu_current_action_desc TYPE val_text,
+         scu_claim_class_desc    TYPE val_text,
+         md_officer              TYPE zim_md_advisor,
+         md_status               TYPE zim_scu_md_status,
+         md_action               TYPE zim_scu_md_action,
+         md_created_date         TYPE zim_scu_created_date,
+         md_closed_date          TYPE zim_scu_closed_date,
+         md_seq_no               TYPE zim_seq_no,
+         md_status_desc          TYPE val_text,
+         md_action_desc          TYPE val_text,
+         suspended(3)            TYPE c,
+         prd(3)                  TYPE c,
+         epss                    TYPE c, " Added by AZORBA EPSS BRD 03
+         transition_to_epss      TYPE zim_transition_to_epss. " Added by AZORBA EPSS BRD 03
+        INCLUDE STRUCTURE zim_in_mast.
+TYPES: END OF gs_outtab_type7.
+
+DATA: gr_outtab7               TYPE gs_outtab_type7.
+DATA: gt_outtab7               TYPE TABLE OF gs_outtab_type7.
+DATA: gt_outtab7_copy          TYPE TABLE OF gs_outtab_type7.
+DATA: gt_outtab7_old           TYPE TABLE OF gs_outtab_type7.
+DATA: gr_outtab7_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab7_col_info      TYPE lvc_s_col.
+DATA: gr_outtab7_row_table     TYPE lvc_s_row.
+
+
+TYPES: BEGIN OF gs_outtab_type7a,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         cell_colour            TYPE lvc_t_scol,
+         sel_code(1)            TYPE c,
+         wc_status_desc(60)     TYPE c,
+         ip_status_desc(60)     TYPE c,
+         ip_type_desc(60)       TYPE c,
+         nachn                  TYPE pa0002-nachn,
+         vorna                  TYPE pa0002-vorna,
+         wc_name                TYPE pa0001-ename,
+         ip_name                TYPE pa0001-ename,
+         wclmn                  TYPE pa9076-wclmn,
+         dateincident           TYPE zim_incident-dateincident,
+         timeincident           TYPE zim_incident-timeincident,
+*         org_txt                TYPE hrp1000-stext,
+         orgeh                  TYPE pa0001-orgeh,
+         lvl3_orgeh             TYPE pa0001-orgeh,
+         lvl4_orgeh             TYPE pa0001-orgeh,
+         lvl3_stext             TYPE hrp1000-stext,
+         lvl4_stext             TYPE hrp1000-stext,
+         cl_stat_txt            TYPE t990a-stext.
+        INCLUDE STRUCTURE zim_in_cm.
+TYPES: END OF gs_outtab_type7a.
+
+DATA: gr_outtab7a              TYPE gs_outtab_type7a.
+DATA: gt_outtab7a              TYPE TABLE OF gs_outtab_type7a.
+DATA: gt_outtab7a_copy         TYPE TABLE OF gs_outtab_type7a.
+DATA: gt_outtab7a_old          TYPE TABLE OF gs_outtab_type7a.
+DATA: gr_outtab7a_row_no       TYPE lvc_s_roid.
+DATA: gr_outtab7a_col_info     TYPE lvc_s_col.
+DATA: gr_outtab7a_row_table    TYPE lvc_s_row.
+
+
+DATA: serv_req_container    TYPE REF TO cl_gui_custom_container,
+      serv_req_alv          TYPE REF TO cl_gui_alv_grid,
+      serv_req_layout       TYPE lvc_s_layo,
+      serv_req_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      serv_req_style        TYPE lvc_t_styl,
+      serv_req_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      serv_req_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      serv_req_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type8,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        seq_no                 TYPE zim_in_prov-seq_no,
+        prov_code              TYPE zim_in_prov-prov_code,
+        prov_activity          TYPE zim_in_prov-prov_activity,
+        company                TYPE zim_prov-company,
+        consultant             TYPE zim_prov-consultant,
+        phone                  TYPE zim_prov-phone,
+        fax                    TYPE zim_prov-fax,
+        mobile                 TYPE zim_prov-mobile,
+        email                  TYPE zim_prov-email,
+        service                TYPE zim_prov-service,
+        date_req               TYPE zim_in_prov-date_req,
+        ref_sent               TYPE zim_in_prov-ref_sent,
+        req_date               TYPE zim_in_rosa-req_date,
+        ref_date               TYPE zim_in_rosa-ref_date,
+        rec_date               TYPE zim_in_rosa-rec_date,
+        status                 TYPE zim_in_rosa-status,
+        status_desc            TYPE dd07t-ddtext,
+        activity_desc          TYPE dd07t-ddtext,
+        review_date            TYPE zim_in_rosa-review_date,
+        desc_icon(4)           TYPE c,
+        imep_icon(4)           TYPE c,
+        email_icon(4)          TYPE c,
+       END OF gs_outtab_type8.
+
+DATA: gr_outtab8               TYPE gs_outtab_type8.
+DATA: gr_outtab8_old           TYPE gs_outtab_type8.
+DATA: gr_outtab8a              TYPE gs_outtab_type8.
+DATA: gt_outtab8               TYPE TABLE OF gs_outtab_type8.
+DATA: gt_outtab8a              TYPE TABLE OF gs_outtab_type8.
+DATA: gt_outtab8_copy          TYPE TABLE OF gs_outtab_type8.
+DATA: gt_outtab8_old           TYPE TABLE OF gs_outtab_type8.
+DATA: gr_outtab8_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab8_col_info      TYPE lvc_s_col.
+DATA: gr_outtab8_row_table     TYPE lvc_s_row.
+
+DATA: rehab_req_container    TYPE REF TO cl_gui_custom_container,
+      rehab_req_alv          TYPE REF TO cl_gui_alv_grid,
+      rehab_req_layout       TYPE lvc_s_layo,
+      rehab_req_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      rehab_req_style        TYPE lvc_t_styl,
+      rehab_req_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      rehab_req_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      rehab_req_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type9,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        orgeh_desc             TYPE hrp1000-stext,
+        email_icon(4)          TYPE c,
+        desc_icon(4)           TYPE c.
+        INCLUDE STRUCTURE zim_in_rehab.
+TYPES: END OF gs_outtab_type9.
+
+DATA: gr_outtab9               TYPE gs_outtab_type9.
+DATA: gr_outtab9_old           TYPE gs_outtab_type9.
+DATA: gr_outtab9a              TYPE gs_outtab_type9.
+DATA: gt_outtab9               TYPE TABLE OF gs_outtab_type9.
+DATA: gt_outtab9a              TYPE TABLE OF gs_outtab_type9.
+DATA: gt_outtab9_copy          TYPE TABLE OF gs_outtab_type9.
+DATA: gt_outtab9_old           TYPE TABLE OF gs_outtab_type9.
+DATA: gr_outtab9_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab9_col_info      TYPE lvc_s_col.
+DATA: gr_outtab9_row_table     TYPE lvc_s_row.
+
+DATA: erg_ass_container    TYPE REF TO cl_gui_custom_container,
+      erg_ass_alv          TYPE REF TO cl_gui_alv_grid,
+      erg_ass_layout       TYPE lvc_s_layo,
+      erg_ass_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      erg_ass_style        TYPE lvc_t_styl,
+      erg_ass_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      erg_ass_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      erg_ass_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type10,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        vorna                  TYPE pa0002-vorna,
+        nachn                  TYPE pa0002-nachn,
+        ename                  TYPE pa0001-ename,
+        email_icon(4)          TYPE c,
+        imp_icon1(4)           TYPE c,
+        imp_icon2(4)           TYPE c,
+        disp_icon1(4)          TYPE c,
+        disp_icon2(4)          TYPE c,
+        count_1                TYPE i,
+        count_2                TYPE i,
+        att_doc_id1            TYPE zim_in_doc_in-att_doc_id,
+        att_doc_id2            TYPE zim_in_doc_in-att_doc_id,
+        desc_icon(4)           TYPE c.
+        INCLUDE STRUCTURE zim_in_erg.
+TYPES: END OF gs_outtab_type10.
+
+DATA: gr_outtab10               TYPE gs_outtab_type10.
+DATA: gr_outtab10_old           TYPE gs_outtab_type10.
+DATA: gr_outtab10a              TYPE gs_outtab_type10.
+DATA: gt_outtab10               TYPE TABLE OF gs_outtab_type10.
+DATA: gt_outtab10a              TYPE TABLE OF gs_outtab_type10.
+DATA: gt_outtab10_copy          TYPE TABLE OF gs_outtab_type10.
+DATA: gt_outtab10_old           TYPE TABLE OF gs_outtab_type10.
+DATA: gr_outtab10_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab10_col_info      TYPE lvc_s_col.
+DATA: gr_outtab10_row_table     TYPE lvc_s_row.
+
+DATA: meet_sel_container    TYPE REF TO cl_gui_custom_container,
+      meet_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      meet_sel_layout       TYPE lvc_s_layo,
+      meet_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      meet_sel_style        TYPE lvc_t_styl,
+      meet_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      meet_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      meet_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type11,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        copy_icon(4)           TYPE c,
+        meet_type_desc(60)     TYPE c.
+        INCLUDE STRUCTURE zim_in_mtg.
+TYPES: END OF gs_outtab_type11.
+
+DATA: gr_outtab11               TYPE gs_outtab_type11.
+DATA: gr_outtab11_old           TYPE gs_outtab_type11.
+DATA: gr_outtab11a              TYPE gs_outtab_type11.
+DATA: gt_outtab11               TYPE TABLE OF gs_outtab_type11.
+DATA: gt_outtab11a              TYPE TABLE OF gs_outtab_type11.
+DATA: gt_outtab11_copy          TYPE TABLE OF gs_outtab_type11.
+DATA: gt_outtab11_old           TYPE TABLE OF gs_outtab_type11.
+DATA: gr_outtab11_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab11_col_info      TYPE lvc_s_col.
+DATA: gr_outtab11_row_table     TYPE lvc_s_row.
+
+DATA: meet2_sel_container    TYPE REF TO cl_gui_custom_container,
+      meet2_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      meet2_sel_layout       TYPE lvc_s_layo,
+      meet2_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      meet2_sel_style        TYPE lvc_t_styl,
+      meet2_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      meet2_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      meet2_sel_functions    TYPE ui_functions.
+
+DATA: gr_outtab112               TYPE gs_outtab_type11.
+DATA: gr_outtab112_old           TYPE gs_outtab_type11.
+DATA: gr_outtab112a              TYPE gs_outtab_type11.
+DATA: gt_outtab112               TYPE TABLE OF gs_outtab_type11.
+DATA: gt_outtab112a              TYPE TABLE OF gs_outtab_type11.
+DATA: gt_outtab112_copy          TYPE TABLE OF gs_outtab_type11.
+DATA: gt_outtab112_old           TYPE TABLE OF gs_outtab_type11.
+DATA: gr_outtab112_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab112_col_info      TYPE lvc_s_col.
+DATA: gr_outtab112_row_table     TYPE lvc_s_row.
+
+DATA: cop_rec_container    TYPE REF TO cl_gui_custom_container,
+      cop_rec_alv          TYPE REF TO cl_gui_alv_grid,
+      cop_rec_layout       TYPE lvc_s_layo,
+      cop_rec_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      cop_rec_style        TYPE lvc_t_styl,
+      cop_rec_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      cop_rec_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      cop_rec_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type12,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         cell_colour            TYPE lvc_t_scol,
+         sel_code(1)            TYPE c,
+         rec_code(2)            TYPE n,
+         rec_desc(60)           TYPE c,
+       END OF gs_outtab_type12.
+
+DATA: gr_outtab12               TYPE gs_outtab_type12.
+DATA: gt_outtab12               TYPE TABLE OF gs_outtab_type12.
+DATA: gr_outtab12_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab12_col_info      TYPE lvc_s_col.
+DATA: gr_outtab12_row_table     TYPE lvc_s_row.
+
+DATA: nm_sel_container    TYPE REF TO cl_gui_custom_container,
+      nm_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      nm_sel_layout       TYPE lvc_s_layo,
+      nm_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      nm_sel_style        TYPE lvc_t_styl,
+      nm_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      nm_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      nm_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type13,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        nearmiss_desc(30)      TYPE c,
+        wclmn                  TYPE pa9076-wclmn,
+        im_desc(30)            TYPE c.
+        INCLUDE STRUCTURE pa9001.
+TYPES: END OF gs_outtab_type13.
+
+DATA: gr_outtab13               TYPE gs_outtab_type13.
+DATA: gr_outtab13a              TYPE gs_outtab_type13.
+DATA: gt_outtab13               TYPE TABLE OF gs_outtab_type13.
+DATA: gt_outtab13a              TYPE TABLE OF gs_outtab_type13.
+DATA: gt_outtab13_copy          TYPE TABLE OF gs_outtab_type13.
+DATA: gt_outtab13_old           TYPE TABLE OF gs_outtab_type13.
+DATA: gr_outtab13_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab13_col_info      TYPE lvc_s_col.
+DATA: gr_outtab13_row_table     TYPE lvc_s_row.
+
+* Letters
+DATA: ltr_sel_container    TYPE REF TO cl_gui_custom_container,
+      ltr_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      ltr_sel_layout       TYPE lvc_s_layo,
+      ltr_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      ltr_sel_style        TYPE lvc_t_styl,
+      ltr_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      ltr_sel_functions    TYPE ui_functions,
+      ltr_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE.
+
+TYPES: BEGIN OF gs_outtab_type14,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         sel_code(1)            TYPE c,
+         word_icon(4)           TYPE c,
+         text_icon(4)           TYPE c,
+         cat_desc(40)           TYPE c,
+         corr_desc              TYPE zim_ltr_deft-corr_desc,
+         doc_unique             TYPE zim_doc_unique,
+         doc_seq_no             TYPE zim_in_doc-doc_seq_no,
+         att_file(1)            TYPE c,
+         body_file(1)           TYPE c,
+         date_processed         TYPE zim_in_doc_rec-date_processed,
+         att_doc_id             TYPE zim_in_doc-att_doc_id,
+         body_doc_id            TYPE zim_in_doc-body_doc_id,
+         wordfile(256)          TYPE c,
+         bodyfile(256)          TYPE c,
+         doc_size               TYPE i,
+         def_sup_add            TYPE zim_ltr_def-def_sup.
+        INCLUDE STRUCTURE zim_ltr_def.
+TYPES : END OF gs_outtab_type14.
+
+DATA: gr_outtab14              TYPE gs_outtab_type14.
+DATA: gt_outtab14              TYPE TABLE OF gs_outtab_type14.
+DATA: gt_outtab14a             TYPE TABLE OF gs_outtab_type14.
+DATA: gr_outtab14_row_no       TYPE lvc_s_roid.
+DATA: gr_outtab14_col_info     TYPE lvc_s_col.
+
+* Letters
+DATA: ltr2_sel_container    TYPE REF TO cl_gui_custom_container,
+      ltr2_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      ltr2_sel_layout       TYPE lvc_s_layo,
+      ltr2_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      ltr2_sel_style        TYPE lvc_t_styl,
+      ltr2_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      ltr2_sel_functions    TYPE ui_functions,
+      ltr2_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE.
+
+TYPES: BEGIN OF gs_outtab_type15,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         sel_code(1)            TYPE c,
+         cat_desc(40)           TYPE c,
+         user_desc(40)          TYPE c,
+         corr_desc              TYPE zim_ltr_deft-corr_desc,
+         ltr_category           TYPE zim_ltr_def-ltr_category,
+         corr_code              TYPE zim_ltr_def-corr_code,
+         email_att              TYPE zim_ltr_def-email_att,
+         email_body             TYPE zim_ltr_def-email_body,
+         convert_pdf            TYPE zim_ltr_def-convert_pdf,
+         email_flag(1)          TYPE c,
+         fax_flag(1)            TYPE c,
+         print_flag(1)          TYPE c,
+         home_flag(1)           TYPE c,
+         sms_flag(1)            TYPE c,
+         wordfile(256)          TYPE c,
+         bodyfile(256)          TYPE c,
+         home                   TYPE comm_id_long,
+         sms                    TYPE comnr,
+         doc_size               TYPE i.
+        INCLUDE STRUCTURE zim_in_doc_rec.
+TYPES : END OF gs_outtab_type15.
+
+DATA: gr_outtab15              TYPE gs_outtab_type15.
+DATA: gt_outtab15              TYPE TABLE OF gs_outtab_type15.
+DATA: gt_outtab15a             TYPE TABLE OF gs_outtab_type15.
+DATA: gr_outtab15_row_no       TYPE lvc_s_roid.
+DATA: gr_outtab15_col_info     TYPE lvc_s_col.
+
+* Notes
+DATA: edit_note_container    TYPE REF TO cl_gui_custom_container,
+      edit_note_alv          TYPE REF TO cl_gui_alv_grid,
+      edit_note_layout       TYPE lvc_s_layo,
+      edit_note_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      edit_note_style        TYPE lvc_t_styl,
+      edit_note_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      edit_note_functions    TYPE ui_functions,
+      edit_note_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE.
+
+TYPES: BEGIN OF gs_outtab_type16,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         sel_code(1)            TYPE c,
+         note_key               TYPE thead-tdname,
+         sort_ord(2)            TYPE n,
+         note_desc(120)         TYPE c,
+       END OF gs_outtab_type16.
+
+DATA: gr_outtab16              TYPE gs_outtab_type16.
+DATA: gt_outtab16              TYPE TABLE OF gs_outtab_type16.
+DATA: gt_outtab16a             TYPE TABLE OF gs_outtab_type16.
+DATA: gr_outtab16_row_no       TYPE lvc_s_roid.
+DATA: gr_outtab16_col_info     TYPE lvc_s_col.
+
+* Notes/Reminders
+DATA: rem_sel_container    TYPE REF TO cl_gui_custom_container,
+      rem_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      rem_sel_layout       TYPE lvc_s_layo,
+      rem_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      rem_sel_style        TYPE lvc_t_styl,
+      rem_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      rem_sel_functions    TYPE ui_functions,
+      rem_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE.
+
+TYPES: BEGIN OF gs_outtab_type17,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         sel_code(1)            TYPE c,
+         vorna                  TYPE pa0002-vorna,
+         nachn                  TYPE pa0002-nachn,
+         ass_emp_name           TYPE pa0002-nachn,
+         cat_desc(40)           TYPE c,
+         ass_to_desc(40)        TYPE c,
+         ima                    TYPE zim_in_mast-ima,
+         ima_name               TYPE pa0002-nachn,      "CR3197 DEVK9HRFUN
+         sima                   TYPE zim_in_mast-ima,
+         ftc                    TYPE zim_in_mast-ftc,
+         wc_advisor             TYPE zim_in_cm-wc_advisor,
+         ip_advisor             TYPE zim_in_cm-ip_advisor,
+         si_advisor             TYPE zim_in_cm-si_advisor,
+         sort_date              TYPE d,
+         sort_order             TYPE i,
+         orgeh                  TYPE pa0001-orgeh,
+         lvl4_orgeh             TYPE pa0001-orgeh,
+         lvl4_stext             TYPE hrp1000-stext,
+         lvl3_orgeh             TYPE pa0001-orgeh,
+         lvl3_stext             TYPE hrp1000-stext.
+        INCLUDE STRUCTURE zim_in_rem.
+TYPES : END OF gs_outtab_type17.
+
+DATA: gr_outtab17              TYPE gs_outtab_type17.
+DATA: gt_outtab17              TYPE TABLE OF gs_outtab_type17.
+DATA: gr_outtab17_old          TYPE gs_outtab_type17.
+DATA: gt_outtab17_old          TYPE TABLE OF gs_outtab_type17.
+DATA: gt_outtab17_old2         TYPE TABLE OF gs_outtab_type17.
+DATA: gt_outtab17_copy         TYPE TABLE OF gs_outtab_type17.
+DATA: gt_outtab17_copy2        TYPE TABLE OF gs_outtab_type17.
+DATA: gr_outtab17_row_no       TYPE lvc_s_roid.
+DATA: gr_outtab17_col_info     TYPE lvc_s_col.
+DATA: gr_outtab17_row_table    TYPE lvc_s_row.
+
+
+* Additional Document Links
+DATA: doc_sel_container    TYPE REF TO cl_gui_custom_container,
+      doc_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      doc_sel_layout       TYPE lvc_s_layo,
+      doc_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      doc_fieldcat         TYPE lvc_s_fcat,
+      doc_sel_style        TYPE lvc_t_styl,
+      doc_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      doc_sel_functions    TYPE ui_functions,
+      doc_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE.
+
+TYPES: BEGIN OF gs_outtab_type18,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        sel_code(1)            TYPE c,
+        del_icon(4)            TYPE c,
+        file_icon(4)           TYPE c,
+        html_icon(4)           TYPE c,
+        corr_code              TYPE zim_ltr_def-corr_code,
+        corr_desc              TYPE zim_ltr_deft-corr_desc,
+        doc_title(40)          TYPE c,
+        doc_link               TYPE string,
+       END OF gs_outtab_type18.
+
+DATA: gr_outtab18              TYPE gs_outtab_type18.
+DATA: gt_outtab18              TYPE TABLE OF gs_outtab_type18.
+DATA: gr_outtab18_row_no       TYPE lvc_s_roid.
+DATA: gr_outtab18_col_info     TYPE lvc_s_col.
+
+DATA: mc_sel_container    TYPE REF TO cl_gui_custom_container,
+      mc_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      mc_sel_layout       TYPE lvc_s_layo,
+      mc_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      mc_sel_style        TYPE lvc_t_styl,
+      mc_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      mc_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      mc_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type19,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        status_desc(30)        TYPE c,
+        cat_desc(30)           TYPE c,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        cert_type(1)           TYPE c,
+        cert_code(1)           TYPE c,
+        upd_icon(4)            TYPE c,
+        gen_icon(4)            TYPE c,
+        imp_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c,
+        copy_icon(4)           TYPE c,
+        email_icon(4)          TYPE c,
+        cap_sent               TYPE zim_in_cap-cap_sent,
+        diagnosis(100)         TYPE c.
+        INCLUDE STRUCTURE zim_in_cert.
+TYPES: END OF gs_outtab_type19.
+
+DATA: gr_outtab19               TYPE gs_outtab_type19.
+DATA: gr_outtab19a              TYPE gs_outtab_type19.
+DATA: gt_outtab19               TYPE TABLE OF gs_outtab_type19.
+DATA: gt_outtab19a              TYPE TABLE OF gs_outtab_type19.
+DATA: gt_outtab19_copy          TYPE TABLE OF gs_outtab_type19.
+DATA: gt_outtab19_old           TYPE TABLE OF gs_outtab_type19.
+DATA: gr_outtab19_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab19_col_info      TYPE lvc_s_col.
+DATA: gr_outtab19_row_table     TYPE lvc_s_row.
+
+
+DATA: rtwp_sel_container    TYPE REF TO cl_gui_custom_container,
+      rtwp_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      rtwp_sel_layout       TYPE lvc_s_layo,
+      rtwp_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      rtwp_sel_style        TYPE lvc_t_styl,
+      rtwp_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      rtwp_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      rtwp_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type20,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        cat_desc(30)           TYPE c,
+        upd_icon(4)            TYPE c,
+        copy_icon(4)           TYPE c,
+        conv_icon(4)           TYPE c,
+        email_icon(4)          TYPE c.
+        INCLUDE STRUCTURE zim_rtwp.
+TYPES: END OF gs_outtab_type20.
+
+DATA: gr_outtab20               TYPE gs_outtab_type20.
+DATA: gr_outtab20a              TYPE gs_outtab_type20.
+DATA: gt_outtab20               TYPE TABLE OF gs_outtab_type20.
+DATA: gt_outtab20a              TYPE TABLE OF gs_outtab_type20.
+DATA: gt_outtab20_copy          TYPE TABLE OF gs_outtab_type20.
+DATA: gt_outtab20_old           TYPE TABLE OF gs_outtab_type20.
+DATA: gr_outtab20_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab20_col_info      TYPE lvc_s_col.
+DATA: gr_outtab20_row_table     TYPE lvc_s_row.
+
+* WC Recoups
+DATA: wcrec_sel_container    TYPE REF TO cl_gui_custom_container,
+      wcrec_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      wcrec_sel_layout       TYPE lvc_s_layo,
+      wcrec_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      wcrec_sel_style        TYPE lvc_t_styl,
+      wcrec_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      wcrec_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      wcrec_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type21,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        vorna                  TYPE pa0002-vorna,
+        nachn                  TYPE pa0002-nachn,
+        seqnr                  TYPE zim_recoup-seqnr,
+        wc_week                TYPE zim_recoup-wc_week.
+        INCLUDE STRUCTURE zim_recoup_doc.
+TYPES: END OF gs_outtab_type21.
+
+DATA: gr_outtab21               TYPE gs_outtab_type21.
+DATA: gt_outtab21               TYPE TABLE OF gs_outtab_type21.
+DATA: gr_outtab21_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab21_col_info      TYPE lvc_s_col.
+DATA: gr_outtab21_row_table     TYPE lvc_s_row.
+
+* IMEP
+DATA: imep_sel_container    TYPE REF TO cl_gui_custom_container,
+      imep_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      imep_sel_layout       TYPE lvc_s_layo,
+      imep_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      imep_sel_style        TYPE lvc_t_styl,
+      imep_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      imep_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      imep_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type22,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        imep_desc(35)          TYPE c,
+        sima_stat(30)          TYPE c,
+        mgmt_stat(30)          TYPE c,
+        rec_work_desc(30)      TYPE c,
+        company                TYPE zim_provider_company,
+        consultant             TYPE zim_provider_consultant,
+        upd_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_imep.
+TYPES: END OF gs_outtab_type22.
+
+DATA: gr_outtab22               TYPE gs_outtab_type22.
+DATA: gr_outtab22a              TYPE gs_outtab_type22.
+DATA: gt_outtab22               TYPE TABLE OF gs_outtab_type22.
+DATA: gt_outtab22a              TYPE TABLE OF gs_outtab_type22.
+DATA: gt_outtab22_copy          TYPE TABLE OF gs_outtab_type22.
+DATA: gt_outtab22_old           TYPE TABLE OF gs_outtab_type22.
+DATA: gr_outtab22_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab22_col_info      TYPE lvc_s_col.
+DATA: gr_outtab22_row_table     TYPE lvc_s_row.
+
+* FTC
+DATA: ftc_sel_container    TYPE REF TO cl_gui_custom_container,
+      ftc_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      ftc_sel_layout       TYPE lvc_s_layo,
+      ftc_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      ftc_sel_style        TYPE lvc_t_styl,
+      ftc_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      ftc_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      ftc_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type23,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        ftco_date              TYPE zim_in_mast-ftco_date,
+        tl_stat(30)            TYPE c,
+        mgmt_stat(30)          TYPE c,
+        com_stat(30)           TYPE c,
+        case_stat(30)          TYPE c,
+        upd_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_ftc.
+TYPES: END OF gs_outtab_type23.
+
+DATA: gr_outtab23               TYPE gs_outtab_type23.
+DATA: gr_outtab23a              TYPE gs_outtab_type23.
+DATA: gt_outtab23               TYPE TABLE OF gs_outtab_type23.
+DATA: gt_outtab23a              TYPE TABLE OF gs_outtab_type23.
+DATA: gt_outtab23_copy          TYPE TABLE OF gs_outtab_type23.
+DATA: gt_outtab23_old           TYPE TABLE OF gs_outtab_type23.
+DATA: gr_outtab23_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab23_col_info      TYPE lvc_s_col.
+DATA: gr_outtab23_row_table     TYPE lvc_s_row.
+
+
+* Medical Discharge
+DATA: md_sel_container    TYPE REF TO cl_gui_custom_container,
+      md_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      md_sel_layout       TYPE lvc_s_layo,
+      md_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      md_sel_style        TYPE lvc_t_styl,
+      md_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      md_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      md_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type24,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        mdu_date               TYPE zim_in_ftc-mdu_date,
+        md_status              TYPE zim_screen-md_status,
+        status_desc(60)        TYPE c,
+        disp_icon(4)           TYPE c.
+        INCLUDE STRUCTURE zim_in_md.
+TYPES: END OF gs_outtab_type24.
+
+DATA: gr_outtab24               TYPE gs_outtab_type24.
+DATA: gr_outtab24a              TYPE gs_outtab_type24.
+DATA: gt_outtab24               TYPE TABLE OF gs_outtab_type24.
+DATA: gt_outtab24a              TYPE TABLE OF gs_outtab_type24.
+DATA: gt_outtab24_copy          TYPE TABLE OF gs_outtab_type24.
+DATA: gt_outtab24_old           TYPE TABLE OF gs_outtab_type24.
+DATA: gr_outtab24_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab24_col_info      TYPE lvc_s_col.
+DATA: gr_outtab24_row_table     TYPE lvc_s_row.
+
+* Display Document
+DATA: disp_doc_container    TYPE REF TO cl_gui_custom_container,
+      disp_doc_alv          TYPE REF TO cl_gui_alv_grid,
+      disp_doc_layout       TYPE lvc_s_layo,
+      disp_doc_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      disp_doc_style        TYPE lvc_t_styl,
+      disp_doc_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      disp_doc_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      disp_doc_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type26,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        imep_seq_no            TYPE zim_in_doc_d-doc_seq_no,
+        ref_seq_no             TYPE zim_in_doc_d-ref_seq_no,
+        moved(1)               TYPE c,
+        direction(1)           TYPE c,
+        dir_desc(10)           TYPE c,
+        cat_desc(60)           TYPE c,
+        att_icon(4)            TYPE c,
+        body_icon(4)           TYPE c,
+        rec_icon(4)            TYPE c,
+        time_processed         TYPE zim_in_doc_rec-time_processed.
+        INCLUDE STRUCTURE zim_in_doc.
+TYPES: END OF gs_outtab_type26.
+
+DATA: gr_outtab26               TYPE gs_outtab_type26.
+DATA: gr_outtab26b              TYPE gs_outtab_type26.
+DATA: gt_outtab26               TYPE TABLE OF gs_outtab_type26.
+DATA: gt_outtab26a              TYPE TABLE OF gs_outtab_type26.
+DATA: gt_outtab26b              TYPE TABLE OF gs_outtab_type26.
+DATA: gt_outtab26b_old          TYPE TABLE OF gs_outtab_type26.
+DATA: gr_outtab26_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab26_col_info      TYPE lvc_s_col.
+DATA: gr_outtab26_row_table     TYPE lvc_s_row.
+
+* Medical Reports
+DATA: mr_sel_container    TYPE REF TO cl_gui_custom_container,
+      mr_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      mr_sel_layout       TYPE lvc_s_layo,
+      mr_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      mr_sel_style        TYPE lvc_t_styl,
+      mr_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      mr_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      mr_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type27,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        name                   TYPE zim_med-name,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        upd_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c,
+        user_group_desc        TYPE val_text.
+        INCLUDE STRUCTURE zim_in_medrpt.
+TYPES: END OF gs_outtab_type27.
+
+DATA: gr_outtab27               TYPE gs_outtab_type27.
+DATA: gr_outtab27a              TYPE gs_outtab_type27.
+DATA: gt_outtab27               TYPE TABLE OF gs_outtab_type27.
+DATA: gt_outtab27a              TYPE TABLE OF gs_outtab_type27.
+DATA: gt_outtab27_copy          TYPE TABLE OF gs_outtab_type27.
+DATA: gt_outtab27_old           TYPE TABLE OF gs_outtab_type27.
+DATA: gr_outtab27_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab27_col_info      TYPE lvc_s_col.
+DATA: gr_outtab27_row_table     TYPE lvc_s_row.
+
+* FTC Assessment
+DATA: ftcax_sel_container    TYPE REF TO cl_gui_custom_container,
+      ftcax_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      ftcax_sel_layout       TYPE lvc_s_layo,
+      ftcax_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      ftcax_sel_style        TYPE lvc_t_styl,
+      ftcax_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      ftcax_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      ftcax_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type28,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        sima_ref_stat(30)      TYPE c,
+        rec_work_desc(30)      TYPE c,
+        sima_res_stat(30)      TYPE c,
+        app_stat_desc(30)      TYPE c,
+        app_work_desc(30)      TYPE c,
+        upd_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_ftcax.
+TYPES: END OF gs_outtab_type28.
+
+DATA: gr_outtab28               TYPE gs_outtab_type28.
+DATA: gr_outtab28a              TYPE gs_outtab_type28.
+DATA: gt_outtab28               TYPE TABLE OF gs_outtab_type28.
+DATA: gt_outtab28a              TYPE TABLE OF gs_outtab_type28.
+DATA: gt_outtab28_copy          TYPE TABLE OF gs_outtab_type28.
+DATA: gt_outtab28_old           TYPE TABLE OF gs_outtab_type28.
+DATA: gr_outtab28_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab28_col_info      TYPE lvc_s_col.
+DATA: gr_outtab28_row_table     TYPE lvc_s_row.
+
+DATA: dep_sel_container      TYPE REF TO cl_gui_custom_container,
+      dep_sel_alv            TYPE REF TO cl_gui_alv_grid,
+      dep_sel_layout         TYPE lvc_s_layo,
+      dep_sel_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      dep_sel_style          TYPE lvc_t_styl,
+      dep_sel_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      dep_sel_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      dep_sel_functions      TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type29,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        status_desc(30)        TYPE c,
+        cat_desc(30)           TYPE c,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        upd_icon(4)            TYPE c,
+        copy_icon(4)           TYPE c,
+        del_icon(4)            TYPE c,
+        imp_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c,
+        email_icon(4)          TYPE c.
+        INCLUDE STRUCTURE zim_depend.
+TYPES: END OF gs_outtab_type29.
+
+DATA: gr_outtab29               TYPE gs_outtab_type29.
+DATA: gr_outtab29a              TYPE gs_outtab_type29.
+DATA: gt_outtab29               TYPE TABLE OF gs_outtab_type29.
+DATA: gt_outtab29a              TYPE TABLE OF gs_outtab_type29.
+DATA: gt_outtab29_copy          TYPE TABLE OF gs_outtab_type29.
+DATA: gt_outtab29_old           TYPE TABLE OF gs_outtab_type29.
+DATA: gr_outtab29_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab29_col_info      TYPE lvc_s_col.
+DATA: gr_outtab29_row_table     TYPE lvc_s_row.
+
+DATA: clm_sel_container      TYPE REF TO cl_gui_custom_container,
+      clm_sel_alv            TYPE REF TO cl_gui_alv_grid,
+      clm_sel_layout         TYPE lvc_s_layo,
+      clm_sel_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      clm_sel_style          TYPE lvc_t_styl,
+      clm_sel_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      clm_sel_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      clm_sel_functions      TYPE ui_functions.
+
+DATA: epss_adv_container      TYPE REF TO cl_gui_custom_container,
+      epss_adv_alv            TYPE REF TO cl_gui_alv_grid,
+      epss_adv_layout         TYPE lvc_s_layo,
+      epss_adv_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      epss_adv_style          TYPE lvc_t_styl,
+      epss_adv_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      epss_adv_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      epss_adv_functions      TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type30,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        status_desc(30)        TYPE c,
+        reason_desc(50)        TYPE c,
+        duty_desc(30)          TYPE c,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        del_icon(4)            TYPE c,
+        email_icon(4)          TYPE c,
+        imp_icon(4)            TYPE c,
+        ltr_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c,
+        user_processed         TYPE zim_user_processed.
+        INCLUDE STRUCTURE zim_in_claim.
+TYPES: END OF gs_outtab_type30.
+
+DATA: gr_outtab30               TYPE gs_outtab_type30.
+DATA: gr_outtab30a              TYPE gs_outtab_type30.
+DATA: gt_outtab30               TYPE TABLE OF gs_outtab_type30.
+DATA: gt_outtab30a              TYPE TABLE OF gs_outtab_type30.
+DATA: gt_outtab30_copy          TYPE TABLE OF gs_outtab_type30.
+DATA: gt_outtab30_old           TYPE TABLE OF gs_outtab_type30.
+DATA: gr_outtab30_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab30_col_info      TYPE lvc_s_col.
+DATA: gr_outtab30_row_table     TYPE lvc_s_row.
+
+*<<< AZORBA EPSS BRD05
+* Implementing the new Request for Review tab
+DATA: req_sel_container      TYPE REF TO cl_gui_custom_container,
+      req_sel_alv            TYPE REF TO cl_gui_alv_grid,
+      req_sel_layout         TYPE lvc_s_layo,
+      req_sel_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      req_sel_style          TYPE lvc_t_styl,
+      req_sel_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      req_sel_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      req_sel_functions      TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type56,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        review_code(1)            TYPE c,
+        review_desc(30)        TYPE c,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+*        del_icon(4)            TYPE c,
+*        email_icon(4)          TYPE c,
+        imp_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_req_rev.
+TYPES: END OF gs_outtab_type56.
+
+DATA: gr_outtab56               TYPE gs_outtab_type56.
+DATA: gr_outtab56a              TYPE gs_outtab_type56.
+DATA: gt_outtab56               TYPE TABLE OF gs_outtab_type56.
+DATA: gt_outtab56a              TYPE TABLE OF gs_outtab_type56.
+DATA: gt_outtab56_copy          TYPE TABLE OF gs_outtab_type56.
+DATA: gt_outtab56_old           TYPE TABLE OF gs_outtab_type56.
+DATA: gr_outtab56_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab56_col_info      TYPE lvc_s_col.
+DATA: gr_outtab56_row_table     TYPE lvc_s_row.
+
+" Historical Claim Assignments - Case Details Screen
+TYPES: BEGIN OF gs_outtab_type57,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol.
+        INCLUDE STRUCTURE zim_epss_claim_h.
+TYPES: END OF gs_outtab_type57.
+
+DATA: gr_outtab57               TYPE gs_outtab_type57.
+DATA: gr_outtab57a              TYPE gs_outtab_type57.
+DATA: gt_outtab57               TYPE TABLE OF gs_outtab_type57.
+DATA: gt_outtab57a              TYPE TABLE OF gs_outtab_type57.
+DATA: gt_outtab57_copy          TYPE TABLE OF gs_outtab_type57.
+DATA: gt_outtab57_old           TYPE TABLE OF gs_outtab_type57.
+DATA: gr_outtab57_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab57_col_info      TYPE lvc_s_col.
+DATA: gr_outtab57_row_table     TYPE lvc_s_row.
+
+*>>> AZORBA EPSS BRD05
+
+TYPES: BEGIN OF gs_outtab_type58,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         cell_colour            TYPE lvc_t_scol,
+         sel_code(1)            TYPE c,
+         location_desc(50)      TYPE c,
+         nature_desc(50)        TYPE c.
+        INCLUDE STRUCTURE zim_inc_p902_inj.
+TYPES: END OF gs_outtab_type58.
+
+DATA: gr_outtab58               TYPE gs_outtab_type58.
+DATA: gr_outtab58a              TYPE gs_outtab_type58.
+DATA: gt_outtab58               TYPE TABLE OF gs_outtab_type58.
+DATA: gt_outtab58a              TYPE TABLE OF gs_outtab_type58.
+DATA: gt_outtab58_copy          TYPE TABLE OF gs_outtab_type58.
+DATA: gt_outtab58_old           TYPE TABLE OF gs_outtab_type58.
+DATA: gr_outtab58_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab58_col_info      TYPE lvc_s_col.
+DATA: gr_outtab58_row_table     TYPE lvc_s_row.
+
+
+* WC Benefit records to be created
+DATA: mc2_sel_container    TYPE REF TO cl_gui_custom_container,
+      mc2_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      mc2_sel_layout       TYPE lvc_s_layo,
+      mc2_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      mc2_sel_style        TYPE lvc_t_styl,
+      mc2_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      mc2_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      mc2_sel_functions    TYPE ui_functions.
+
+DATA: p905_sel_container    TYPE REF TO cl_gui_custom_container,
+      p905_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      p905_sel_layout       TYPE lvc_s_layo,
+      p905_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      p905_sel_style        TYPE lvc_t_styl,
+      p905_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      p905_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      p905_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type31,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        status_desc(30)        TYPE c,
+        cat_desc(30)           TYPE c,
+        ben_desc(30)           TYPE c,
+        nachn                  TYPE pa0002-nachn,
+        vorna                  TYPE pa0002-vorna,
+        orgeh                  TYPE pa0001-orgeh,
+        orgeh_stext            TYPE hrp1000-stext,
+        cert_type(1)           TYPE c,
+        del_icon(4)            TYPE c,
+        gen_icon(4)            TYPE c,
+        wclmn                  TYPE pa9076-wclmn,
+        mc_ben_status          TYPE zim_in_cert_ben-mc_ben_status.
+        INCLUDE STRUCTURE zim_in_cert.
+TYPES: END OF gs_outtab_type31.
+
+DATA: gr_outtab31               TYPE gs_outtab_type31.
+DATA: gr_outtab31a              TYPE gs_outtab_type31.
+DATA: gt_outtab31               TYPE TABLE OF gs_outtab_type31.
+DATA: gt_outtab31a              TYPE TABLE OF gs_outtab_type31.
+DATA: gt_outtab31_copy          TYPE TABLE OF gs_outtab_type31.
+DATA: gt_outtab31_old           TYPE TABLE OF gs_outtab_type31.
+DATA: gr_outtab31_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab31_col_info      TYPE lvc_s_col.
+DATA: gr_outtab31_row_table     TYPE lvc_s_row.
+
+* Fixed Recoup Amount
+DATA: fix_sel_container      TYPE REF TO cl_gui_custom_container,
+      fix_sel_alv            TYPE REF TO cl_gui_alv_grid,
+      fix_sel_layout         TYPE lvc_s_layo,
+      fix_sel_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      fix_sel_style          TYPE lvc_t_styl,
+      fix_sel_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      fix_sel_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      fix_sel_functions      TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type32,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        status_desc(30)        TYPE c,
+        duty_desc(30)          TYPE c,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        del_icon(4)            TYPE c,
+        imp_icon(4)            TYPE c,
+        desc_icon(4)           TYPE c,
+        doc_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_rec_amt.
+TYPES: END OF gs_outtab_type32.
+
+DATA: gr_outtab32               TYPE gs_outtab_type32.
+DATA: gr_outtab32a              TYPE gs_outtab_type32.
+DATA: gt_outtab32               TYPE TABLE OF gs_outtab_type32.
+DATA: gt_outtab32a              TYPE TABLE OF gs_outtab_type32.
+DATA: gt_outtab32_copy          TYPE TABLE OF gs_outtab_type32.
+DATA: gt_outtab32_old           TYPE TABLE OF gs_outtab_type32.
+DATA: gr_outtab32_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab32_col_info      TYPE lvc_s_col.
+DATA: gr_outtab32_row_table     TYPE lvc_s_row.
+
+DATA: red_pay_container      TYPE REF TO cl_gui_custom_container,
+      red_pay_alv            TYPE REF TO cl_gui_alv_grid,
+      red_pay_layout         TYPE lvc_s_layo,
+      red_pay_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      red_pay_style          TYPE lvc_t_styl,
+      red_pay_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      red_pay_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      red_pay_functions      TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type33,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        del_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_red_pay.
+TYPES: END OF gs_outtab_type33.
+
+DATA: gr_outtab33               TYPE gs_outtab_type33.
+DATA: gr_outtab33a              TYPE gs_outtab_type33.
+DATA: gt_outtab33               TYPE TABLE OF gs_outtab_type33.
+DATA: gt_outtab33a              TYPE TABLE OF gs_outtab_type33.
+DATA: gt_outtab33_copy          TYPE TABLE OF gs_outtab_type33.
+DATA: gt_outtab33_old           TYPE TABLE OF gs_outtab_type33.
+DATA: gr_outtab33_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab33_col_info      TYPE lvc_s_col.
+DATA: gr_outtab33_row_table     TYPE lvc_s_row.
+
+* Email Dependent Declaration
+DATA: dep2_sel_container      TYPE REF TO cl_gui_custom_container,
+      dep2_sel_alv            TYPE REF TO cl_gui_alv_grid,
+      dep2_sel_layout         TYPE lvc_s_layo,
+      dep2_sel_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      dep2_sel_style          TYPE lvc_t_styl,
+      dep2_sel_style_t       TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      dep2_sel_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      dep2_sel_functions      TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type34,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        status_desc(30)        TYPE c,
+        cat_desc(30)           TYPE c,
+        nachn                  TYPE pa0002-nachn,
+        vorna                  TYPE pa0002-vorna,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        gao                    TYPE zim_in_mast-gao,
+        incident               TYPE zim_in_mast-incident,
+        dateincident           TYPE zim_incident-dateincident,
+        upd_icon(4)            TYPE c,
+        depend_sent            TYPE zim_in_cm-depend_sent,
+        orgeh                  TYPE pa0001-orgeh,
+        orgeh_stext            TYPE hrp1000-stext,
+        doc_icon(4)            TYPE c,
+        email_icon(4)          TYPE c.
+        INCLUDE STRUCTURE zim_depend.
+TYPES: END OF gs_outtab_type34.
+
+DATA: gr_outtab34               TYPE gs_outtab_type34.
+DATA: gr_outtab34a              TYPE gs_outtab_type34.
+DATA: gt_outtab34               TYPE TABLE OF gs_outtab_type34.
+DATA: gt_outtab34a              TYPE TABLE OF gs_outtab_type34.
+DATA: gt_outtab34_copy          TYPE TABLE OF gs_outtab_type34.
+DATA: gt_outtab34_old           TYPE TABLE OF gs_outtab_type34.
+DATA: gr_outtab34_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab34_col_info      TYPE lvc_s_col.
+DATA: gr_outtab34_row_table     TYPE lvc_s_row.
+
+* Sectionn 49 Leave
+DATA: s49_sel_container      TYPE REF TO cl_gui_custom_container,
+      s49_sel_alv            TYPE REF TO cl_gui_alv_grid,
+      s49_sel_layout         TYPE lvc_s_layo,
+      s49_sel_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      s49_sel_style          TYPE lvc_t_styl,
+      s49_sel_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      s49_sel_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      s49_sel_functions      TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type35,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        date_from(10)          TYPE c,
+        date_to(10)            TYPE c,
+        lve_begda              TYPE d,
+        lve_endda              TYPE d,
+        incident(10)           TYPE c,
+        qctyp_desc(30)         TYPE c,
+        numbr_2(7)             TYPE p DECIMALS 2,
+        lve_hrs(7)             TYPE p DECIMALS 2,
+        lve_days               TYPE i,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        doc_icon(4)            TYPE c,
+        imp_icon(4)            TYPE c.
+        INCLUDE STRUCTURE pa0416.
+TYPES: END OF gs_outtab_type35.
+
+DATA: gr_outtab35               TYPE gs_outtab_type35.
+DATA: gr_outtab35a              TYPE gs_outtab_type35.
+DATA: gt_outtab35               TYPE TABLE OF gs_outtab_type35.
+DATA: gt_outtab35a              TYPE TABLE OF gs_outtab_type35.
+DATA: gt_outtab35_copy          TYPE TABLE OF gs_outtab_type35.
+DATA: gt_outtab35_old           TYPE TABLE OF gs_outtab_type35.
+DATA: gr_outtab35_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab35_col_info      TYPE lvc_s_col.
+DATA: gr_outtab35_row_table     TYPE lvc_s_row.
+
+* External Employment Activities
+DATA: ext_act_container      TYPE REF TO cl_gui_custom_container,
+      ext_act_alv            TYPE REF TO cl_gui_alv_grid,
+      ext_act_layout         TYPE lvc_s_layo,
+      ext_act_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      ext_act_style          TYPE lvc_t_styl,
+      ext_act_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      ext_act_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      ext_act_functions      TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type36,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        ext_desc(30)           TYPE c,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        upd_icon(4)            TYPE c,
+        del_icon(4)            TYPE c,
+        imp_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_ext.
+TYPES: END OF gs_outtab_type36.
+
+DATA: gr_outtab36               TYPE gs_outtab_type36.
+DATA: gr_outtab36a              TYPE gs_outtab_type36.
+DATA: gt_outtab36               TYPE TABLE OF gs_outtab_type36.
+DATA: gt_outtab36a              TYPE TABLE OF gs_outtab_type36.
+DATA: gt_outtab36_copy          TYPE TABLE OF gs_outtab_type36.
+DATA: gt_outtab36_old           TYPE TABLE OF gs_outtab_type36.
+DATA: gr_outtab36_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab36_col_info      TYPE lvc_s_col.
+DATA: gr_outtab36_row_table     TYPE lvc_s_row.
+
+* Comparable Earnings Amount
+DATA: comp_earn_container       TYPE REF TO cl_gui_custom_container,
+      comp_earn_alv             TYPE REF TO cl_gui_alv_grid,
+      comp_earn_layout          TYPE lvc_s_layo,
+      comp_earn_fieldcat        TYPE TABLE OF lvc_s_fcat,
+      comp_earn_style           TYPE lvc_t_styl,
+      comp_earn_style_t         TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      comp_earn_f4              TYPE lvc_t_f4 WITH HEADER LINE,
+      comp_earn_functions       TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type37,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        del_icon(4)            TYPE c,
+        imp_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_comp.
+TYPES: END OF gs_outtab_type37.
+
+DATA: gr_outtab37               TYPE gs_outtab_type37.
+DATA: gr_outtab37a              TYPE gs_outtab_type37.
+DATA: gt_outtab37               TYPE TABLE OF gs_outtab_type37.
+DATA: gt_outtab37a              TYPE TABLE OF gs_outtab_type37.
+DATA: gt_outtab37_copy          TYPE TABLE OF gs_outtab_type37.
+DATA: gt_outtab37_old           TYPE TABLE OF gs_outtab_type37.
+DATA: gr_outtab37_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab37_col_info      TYPE lvc_s_col.
+DATA: gr_outtab37_row_table     TYPE lvc_s_row.
+
+* WC Leave
+DATA: wc_lve_container      TYPE REF TO cl_gui_custom_container,
+      wc_lve_alv            TYPE REF TO cl_gui_alv_grid,
+      wc_lve_layout         TYPE lvc_s_layo,
+      wc_lve_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      wc_lve_style          TYPE lvc_t_styl,
+      wc_lve_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      wc_lve_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      wc_lve_functions      TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type38,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        lve_desc(30)           TYPE c.
+        INCLUDE STRUCTURE pa0573.
+TYPES: END OF gs_outtab_type38.
+
+DATA: gr_outtab38               TYPE gs_outtab_type38.
+DATA: gr_outtab38a              TYPE gs_outtab_type38.
+DATA: gt_outtab38               TYPE TABLE OF gs_outtab_type38.
+DATA: gt_outtab38a              TYPE TABLE OF gs_outtab_type38.
+DATA: gt_outtab38_copy          TYPE TABLE OF gs_outtab_type38.
+DATA: gt_outtab38_old           TYPE TABLE OF gs_outtab_type38.
+DATA: gr_outtab38_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab38_col_info      TYPE lvc_s_col.
+DATA: gr_outtab38_row_table     TYPE lvc_s_row.
+
+* Self Managed IP payments
+DATA: sm_ip_container      TYPE REF TO cl_gui_custom_container,
+      sm_ip_alv            TYPE REF TO cl_gui_alv_grid,
+      sm_ip_layout         TYPE lvc_s_layo,
+      sm_ip_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      sm_ip_style          TYPE lvc_t_styl,
+      sm_ip_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      sm_ip_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      sm_ip_functions      TYPE ui_functions.
+
+* Self Managed EPSS payments
+DATA: sm_epss_container      TYPE REF TO cl_gui_custom_container,
+      sm_epss_alv            TYPE REF TO cl_gui_alv_grid,
+      sm_epss_layout         TYPE lvc_s_layo,
+      sm_epss_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      sm_epss_style          TYPE lvc_t_styl,
+      sm_epss_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      sm_epss_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      sm_epss_functions      TYPE ui_functions.
+
+* EPSS Period 2 Return to Duty Dates
+DATA: sm_epss_rd_container      TYPE REF TO cl_gui_custom_container,
+      sm_epss_rd_alv            TYPE REF TO cl_gui_alv_grid,
+      sm_epss_rd_layout         TYPE lvc_s_layo,
+      sm_epss_rd_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      sm_epss_rd_style          TYPE lvc_t_styl,
+      sm_epss_rd_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      sm_epss_rd_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      sm_epss_rd_functions      TYPE ui_functions.
+
+* EPSS Other & External Earnings
+DATA: sm_epss_oe_container      TYPE REF TO cl_gui_custom_container,
+      sm_epss_oe_alv            TYPE REF TO cl_gui_alv_grid,
+      sm_epss_oe_layout         TYPE lvc_s_layo,
+      sm_epss_oe_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      sm_epss_oe_style          TYPE lvc_t_styl,
+      sm_epss_oe_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      sm_epss_oe_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      sm_epss_oe_functions      TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type39,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        lgtxt                  TYPE t512t-lgtxt.
+        INCLUDE STRUCTURE pa0014.
+TYPES: END OF gs_outtab_type39.
+
+TYPES: BEGIN OF gs_outtab_type54,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        lgtxt                  TYPE t512t-lgtxt.
+        INCLUDE STRUCTURE zim_in_epss_p2rd.
+TYPES: END OF gs_outtab_type54.
+
+TYPES: BEGIN OF gs_outtab_type55,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        lgtxt                  TYPE t512t-lgtxt,
+        ddtext                 TYPE val_text,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        imp_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_epss_earn.
+TYPES: END OF gs_outtab_type55.
+
+DATA: gr_outtab39               TYPE gs_outtab_type39.
+DATA: gt_outtab39               TYPE TABLE OF gs_outtab_type39.
+DATA: gt_outtab39_copy          TYPE TABLE OF gs_outtab_type39.
+DATA: gt_outtab39_old           TYPE TABLE OF gs_outtab_type39.
+DATA: gr_outtab39_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab39_col_info      TYPE lvc_s_col.
+DATA: gr_outtab39_row_table     TYPE lvc_s_row.
+
+DATA: gr_outtab54               TYPE gs_outtab_type54.
+DATA: gt_outtab54               TYPE TABLE OF gs_outtab_type54.
+DATA: gt_outtab54_copy          TYPE TABLE OF gs_outtab_type54.
+DATA: gt_outtab54_old           TYPE TABLE OF gs_outtab_type54.
+DATA: gr_outtab54_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab54_col_info      TYPE lvc_s_col.
+DATA: gr_outtab54_row_table     TYPE lvc_s_row.
+
+DATA: gr_outtab55               TYPE gs_outtab_type55.
+DATA: gt_outtab55               TYPE TABLE OF gs_outtab_type55.
+DATA: gt_outtab55_copy          TYPE TABLE OF gs_outtab_type55.
+DATA: gt_outtab55_old           TYPE TABLE OF gs_outtab_type55.
+DATA: gr_outtab55_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab55_col_info      TYPE lvc_s_col.
+DATA: gr_outtab55_row_table     TYPE lvc_s_row.
+
+* Deployment Referral
+DATA: depref_sel_container    TYPE REF TO cl_gui_custom_container,
+      depref_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      depref_sel_layout       TYPE lvc_s_layo,
+      depref_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      depref_sel_style        TYPE lvc_t_styl,
+      depref_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      depref_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      depref_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type40,
+       cellstyles             TYPE lvc_t_styl,
+       row_colour(4)          TYPE c,
+       cell_colour            TYPE lvc_t_scol,
+       sel_code(1)            TYPE c,
+       upd_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_deploy.
+TYPES: END OF gs_outtab_type40.
+
+DATA: gr_outtab40               TYPE gs_outtab_type40.
+DATA: gr_outtab40a              TYPE gs_outtab_type40.
+DATA: gt_outtab40               TYPE TABLE OF gs_outtab_type40.
+DATA: gt_outtab40a              TYPE TABLE OF gs_outtab_type40.
+DATA: gt_outtab40_copy          TYPE TABLE OF gs_outtab_type40.
+DATA: gt_outtab40_old           TYPE TABLE OF gs_outtab_type40.
+DATA: gr_outtab40_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab40_col_info      TYPE lvc_s_col.
+DATA: gr_outtab40_row_table     TYPE lvc_s_row.
+
+DATA: depref_lst_container    TYPE REF TO cl_gui_custom_container,
+      depref_lst_alv          TYPE REF TO cl_gui_alv_grid,
+      depref_lst_layout       TYPE lvc_s_layo,
+      depref_lst_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      depref_lst_style        TYPE lvc_t_styl,
+      depref_lst_style_t      TYPE TABLE OF
+                              lvc_s_styl WITH HEADER LINE,
+      depref_lst_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      depref_lst_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type40d,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        status_desc(25)        TYPE c,
+        rank(40)               TYPE c,
+        nachn                  TYPE pa0002-nachn,
+        vorna                  TYPE pa0002-vorna,
+        dep_adv_name           TYPE pa0001-ename,
+        wclmn                  TYPE pa9076-wclmn,
+        prim_injury            TYPE zim_injury_type,
+        prim_inj_desc          TYPE stext,
+        sec_injury             TYPE zim_injury_type,
+        sec_inj_desc           TYPE stext,
+        orgeh                  TYPE orgeh,
+        orgeh_stext            TYPE stext,
+        dateincident           TYPE zim_incident-dateincident,
+        timeincident           TYPE zim_incident-timeincident,
+        suspended(3)           TYPE c.
+        INCLUDE STRUCTURE zim_in_deploy.
+TYPES: END OF gs_outtab_type40d.
+
+DATA: gr_outtab40d             TYPE gs_outtab_type40d.
+DATA: gt_outtab40d             TYPE TABLE OF gs_outtab_type40d.
+DATA: gt_outtab40d_copy        TYPE TABLE OF gs_outtab_type40d.
+DATA: gt_outtab40d_old         TYPE TABLE OF gs_outtab_type40d.
+DATA: gr_outtab40d_row_no      TYPE lvc_s_roid.
+DATA: gr_outtab40d_col_info    TYPE lvc_s_col.
+DATA: gr_outtab40d_row_table   TYPE lvc_s_row.
+
+
+* Deployment - Trial Placement
+DATA: prop_pos_container    TYPE REF TO cl_gui_custom_container,
+      prop_pos_alv          TYPE REF TO cl_gui_alv_grid,
+      prop_pos_layout       TYPE lvc_s_layo,
+      prop_pos_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      prop_pos_style        TYPE lvc_t_styl,
+      prop_pos_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      prop_pos_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      prop_pos_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type41,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        orgeh                  TYPE orgeh,
+        orgeh_stext            TYPE stext,
+        plans_stext            TYPE stext,
+        sup_name               TYPE emnam,
+        outcome_desc(40)       TYPE c,
+        disp_icon(4)           TYPE c,
+        upd_icon(4)            TYPE c,
+        placement_type_desc(60) TYPE c.
+        INCLUDE STRUCTURE zim_in_dep_tp.
+TYPES : END OF gs_outtab_type41.
+
+DATA: gr_outtab41               TYPE gs_outtab_type41.
+DATA: gr_outtab41_old           TYPE gs_outtab_type41.
+DATA: gr_outtab41a              TYPE gs_outtab_type41.
+DATA: gt_outtab41               TYPE TABLE OF gs_outtab_type41.
+DATA: gt_outtab41a              TYPE TABLE OF gs_outtab_type41.
+DATA: gt_outtab41_copy          TYPE TABLE OF gs_outtab_type41.
+DATA: gt_outtab41_old           TYPE TABLE OF gs_outtab_type41.
+DATA: gr_outtab41_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab41_col_info      TYPE lvc_s_col.
+DATA: gr_outtab41_row_table     TYPE lvc_s_row.
+
+*Workcover Certificates
+DATA: wcert_sel_container    TYPE REF TO cl_gui_custom_container,
+      wcert_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      wcert_sel_layout       TYPE lvc_s_layo,
+      wcert_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      wcert_sel_style        TYPE lvc_t_styl,
+      wcert_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      wcert_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      wcert_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type42,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        status_desc(30)        TYPE c,
+        cat_desc(30)           TYPE c,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        cert_type(1)           TYPE c,
+        upd_icon(4)            TYPE c,
+        gen_icon(4)            TYPE c,
+        imp_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c,
+        copy_icon(4)           TYPE c,
+        email_icon(4)          TYPE c,
+        pushing                TYPE zim_in_cap-pushing,
+        driving                TYPE zim_in_cap-driving,
+        bending                TYPE zim_in_cap-bending,
+        cap_sent               TYPE zim_in_cap-cap_sent.
+        INCLUDE STRUCTURE zim_in_cert.
+TYPES: END OF gs_outtab_type42.
+
+DATA: gr_outtab42               TYPE gs_outtab_type42.
+DATA: gr_outtab42a              TYPE gs_outtab_type42.
+DATA: gt_outtab42               TYPE TABLE OF gs_outtab_type42.
+DATA: gt_outtab42a              TYPE TABLE OF gs_outtab_type42.
+DATA: gt_outtab42_copy          TYPE TABLE OF gs_outtab_type42.
+DATA: gt_outtab42_old           TYPE TABLE OF gs_outtab_type42.
+DATA: gr_outtab42_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab42_col_info      TYPE lvc_s_col.
+DATA: gr_outtab42_row_table     TYPE lvc_s_row.
+
+* Deployment - External
+DATA: depext_req_container      TYPE REF TO cl_gui_custom_container,
+      depext_req_alv            TYPE REF TO cl_gui_alv_grid,
+      depext_req_layout         TYPE lvc_s_layo,
+      depext_req_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      depext_req_style          TYPE lvc_t_styl,
+      depext_req_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      depext_req_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      depext_req_functions      TYPE ui_functions.
+
+* Deployment - Meeting
+DATA: mtg_container    TYPE REF TO cl_gui_custom_container,
+      mtg_alv          TYPE REF TO cl_gui_alv_grid,
+      mtg_layout       TYPE lvc_s_layo,
+      mtg_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      mtg_style        TYPE lvc_t_styl,
+      mtg_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      mtg_req_f4       TYPE lvc_t_f4 WITH HEADER LINE,
+      mtg_functions    TYPE ui_functions.
+
+* Deployment - Review
+DATA: review_container    TYPE REF TO cl_gui_custom_container,
+      review_alv          TYPE REF TO cl_gui_alv_grid,
+      review_layout       TYPE lvc_s_layo,
+      review_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      review_style        TYPE lvc_t_styl,
+      review_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      review_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      review_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type43,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        email_icon(4)          TYPE c,
+        desc_icon(4)           TYPE c.
+        INCLUDE STRUCTURE zim_in_dep_ext.
+TYPES: END OF gs_outtab_type43.
+
+DATA: gr_outtab43               TYPE gs_outtab_type43.
+DATA: gr_outtab43_old           TYPE gs_outtab_type43.
+DATA: gr_outtab43a              TYPE gs_outtab_type43.
+DATA: gt_outtab43               TYPE TABLE OF gs_outtab_type43.
+DATA: gt_outtab43a              TYPE TABLE OF gs_outtab_type43.
+DATA: gt_outtab43_copy          TYPE TABLE OF gs_outtab_type43.
+DATA: gt_outtab43_old           TYPE TABLE OF gs_outtab_type43.
+DATA: gr_outtab43_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab43_col_info      TYPE lvc_s_col.
+DATA: gr_outtab43_row_table     TYPE lvc_s_row.
+
+TYPES: BEGIN OF gs_outtab_type44,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c.
+        INCLUDE STRUCTURE zim_in_dep_mtg.
+TYPES: END OF gs_outtab_type44.
+
+DATA: gr_outtab44               TYPE gs_outtab_type44.
+DATA: gr_outtab44_old           TYPE gs_outtab_type44.
+DATA: gr_outtab44a              TYPE gs_outtab_type44.
+DATA: gt_outtab44               TYPE TABLE OF gs_outtab_type44.
+DATA: gt_outtab44a              TYPE TABLE OF gs_outtab_type44.
+DATA: gt_outtab44_copy          TYPE TABLE OF gs_outtab_type44.
+DATA: gt_outtab44_old           TYPE TABLE OF gs_outtab_type44.
+DATA: gr_outtab44_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab44_col_info      TYPE lvc_s_col.
+DATA: gr_outtab44_row_table     TYPE lvc_s_row.
+
+TYPES: BEGIN OF gs_outtab_type45,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c.
+        INCLUDE STRUCTURE zim_in_dep_rev.
+TYPES: END OF gs_outtab_type45.
+
+DATA: gr_outtab45               TYPE gs_outtab_type45.
+DATA: gr_outtab45_old           TYPE gs_outtab_type45.
+DATA: gr_outtab45a              TYPE gs_outtab_type45.
+DATA: gt_outtab45               TYPE TABLE OF gs_outtab_type45.
+DATA: gt_outtab45a              TYPE TABLE OF gs_outtab_type45.
+DATA: gt_outtab45_copy          TYPE TABLE OF gs_outtab_type45.
+DATA: gt_outtab45_old           TYPE TABLE OF gs_outtab_type45.
+DATA: gr_outtab45_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab45_col_info      TYPE lvc_s_col.
+DATA: gr_outtab45_row_table     TYPE lvc_s_row.
+
+* PIAWE History.
+DATA: piawe_hist_container    TYPE REF TO cl_gui_custom_container,
+      piawe_hist_alv          TYPE REF TO cl_gui_alv_grid,
+      piawe_hist_layout       TYPE lvc_s_layo,
+      piawe_hist_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      piawe_hist_style        TYPE lvc_t_styl,
+      piawe_hist_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      piawe_hist_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      piawe_hist_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type46,
+        cellstyles              TYPE lvc_t_styl,
+        row_colour(4)           TYPE c,
+        cell_colour             TYPE lvc_t_scol,
+        sel_code(1)             TYPE c,
+        del_icon(4)             TYPE c,
+        lgtxt                   TYPE t512t-lgtxt,
+        rtext                   TYPE t530f-rtext,
+        manually_entered        TYPE boole_d.
+        INCLUDE STRUCTURE pa0014.
+TYPES: END OF gs_outtab_type46.
+
+DATA: gr_outtab46               TYPE gs_outtab_type46.
+DATA: gt_outtab46               TYPE TABLE OF gs_outtab_type46.
+DATA: gt_outtab46_old           TYPE TABLE OF gs_outtab_type46.
+DATA: gr_outtab46_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab46_col_info      TYPE lvc_s_col.
+DATA: gr_outtab46_row_table     TYPE lvc_s_row.
+
+* Primary Claim History.
+DATA: prim_hist_container     TYPE REF TO cl_gui_custom_container,
+      prim_hist_alv           TYPE REF TO cl_gui_alv_grid,
+      prim_hist_layout        TYPE lvc_s_layo,
+      prim_hist_fieldcat      TYPE TABLE OF lvc_s_fcat,
+      prim_hist_style         TYPE lvc_t_styl,
+      prim_hist_style_t       TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      prim_hist_f4            TYPE lvc_t_f4 WITH HEADER LINE,
+      prim_hist_functions     TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type47,
+       cellstyles              TYPE lvc_t_styl,
+       row_colour(4)           TYPE c,
+       cell_colour             TYPE lvc_t_scol,
+       sel_code(1)             TYPE c.
+        INCLUDE STRUCTURE zim_in_prim.
+TYPES: wclmn                   TYPE pa9076-wclmn,
+       END OF gs_outtab_type47.
+
+DATA: gr_outtab47               TYPE gs_outtab_type47.
+DATA: gt_outtab47               TYPE TABLE OF gs_outtab_type47.
+DATA: gt_outtab47_old           TYPE TABLE OF gs_outtab_type47.
+DATA: gr_outtab47_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab47_col_info      TYPE lvc_s_col.
+DATA: gr_outtab47_row_table     TYPE lvc_s_row.
+
+* External Claim Percentage History.
+DATA: ecp_hist_container      TYPE REF TO cl_gui_custom_container,
+      ecp_hist_alv            TYPE REF TO cl_gui_alv_grid,
+      ecp_hist_layout         TYPE lvc_s_layo,
+      ecp_hist_fieldcat       TYPE TABLE OF lvc_s_fcat,
+      ecp_hist_style          TYPE lvc_t_styl,
+      ecp_hist_style_t        TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      ecp_hist_f4             TYPE lvc_t_f4 WITH HEADER LINE,
+      ecp_hist_functions      TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type48,
+        cellstyles              TYPE lvc_t_styl,
+        row_colour(4)           TYPE c,
+        cell_colour             TYPE lvc_t_scol,
+        sel_code(1)             TYPE c,
+        del_icon(4)             TYPE c.
+        INCLUDE STRUCTURE pa0014.
+TYPES: END OF gs_outtab_type48.
+
+DATA: gr_outtab48               TYPE gs_outtab_type48.
+DATA: gt_outtab48               TYPE TABLE OF gs_outtab_type48.
+DATA: gt_outtab48_old           TYPE TABLE OF gs_outtab_type48.
+DATA: gr_outtab48_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab48_col_info      TYPE lvc_s_col.
+DATA: gr_outtab48_row_table     TYPE lvc_s_row.
+
+DATA: inc_email_container    TYPE REF TO cl_gui_custom_container,
+      inc_email_alv          TYPE REF TO cl_gui_alv_grid,
+      inc_email_layout       TYPE lvc_s_layo,
+      inc_email_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      inc_email_style        TYPE lvc_t_styl,
+      inc_email_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      inc_email_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      inc_email_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type49,
+         cellstyles             TYPE lvc_t_styl,
+         row_colour(4)          TYPE c,
+         cell_colour            TYPE lvc_t_scol,
+         sel_code(1)            TYPE c.
+        INCLUDE STRUCTURE zp902_email_odata.
+TYPES: END OF gs_outtab_type49.
+
+DATA: gr_outtab49               TYPE gs_outtab_type49.
+DATA: gt_outtab49               TYPE TABLE OF gs_outtab_type49.
+DATA: gr_outtab49_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab49_col_info      TYPE lvc_s_col.
+DATA: gr_outtab49_row_table     TYPE lvc_s_row.
+
+
+* IMEP
+DATA: prel_sel_container    TYPE REF TO cl_gui_custom_container,
+      prel_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      prel_sel_layout       TYPE lvc_s_layo,
+      prel_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      prel_sel_style        TYPE lvc_t_styl,
+      prel_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      prel_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      prel_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type50,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        upd_icon(4)            TYPE c,
+        rev_icon(4)            TYPE c,
+        tl_icon(4)             TYPE c,
+        app_icon(4)            TYPE c,
+        ret_icon(4)            TYPE c,
+        notes_icon(4)          TYPE c,
+        tl_app(1)              TYPE c,
+        email_icon(4)          TYPE c.
+        INCLUDE STRUCTURE zim_in_pre_leg.
+TYPES: END OF gs_outtab_type50.
+
+DATA: gr_outtab50               TYPE gs_outtab_type50.
+DATA: gr_outtab50a              TYPE gs_outtab_type50.
+DATA: gt_outtab50               TYPE TABLE OF gs_outtab_type50.
+DATA: gt_outtab50a              TYPE TABLE OF gs_outtab_type50.
+DATA: gt_outtab50_copy          TYPE TABLE OF gs_outtab_type50.
+DATA: gt_outtab50_old           TYPE TABLE OF gs_outtab_type50.
+DATA: gr_outtab50_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab50_col_info      TYPE lvc_s_col.
+DATA: gr_outtab50_row_table     TYPE lvc_s_row.
+
+
+* Pre 88 Invoice
+DATA: prei_sel_container    TYPE REF TO cl_gui_custom_container,
+      prei_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      prei_sel_layout       TYPE lvc_s_layo,
+      prei_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      prei_sel_style        TYPE lvc_t_styl,
+      prei_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      prei_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      prei_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type51,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        upd_icon(4)            TYPE c,
+        rev_icon(4)            TYPE c,
+        app_icon(4)            TYPE c,
+        mgr_icon(4)            TYPE c,
+        proc_icon(4)           TYPE c,
+        ret_icon(4)            TYPE c,
+        notes_icon(4)          TYPE c,
+        source(3)              TYPE c,
+        approved_date          TYPE d,
+        subty                  TYPE subty,
+        objps                  TYPE objps,
+        sprps                  TYPE sprps,
+        endda                  TYPE endda,
+        begda                  TYPE begda,
+        seqnr                  TYPE seqnr,
+        doc_unique             TYPE zim_in_doc_in-doc_unique,
+        doc_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_pre_inv.
+TYPES: END OF gs_outtab_type51.
+
+DATA: gr_outtab51               TYPE gs_outtab_type51.
+DATA: gr_outtab51a              TYPE gs_outtab_type51.
+DATA: gt_outtab51               TYPE TABLE OF gs_outtab_type51.
+DATA: gt_outtab51a              TYPE TABLE OF gs_outtab_type51.
+DATA: gt_outtab51_copy          TYPE TABLE OF gs_outtab_type51.
+DATA: gt_outtab51_old           TYPE TABLE OF gs_outtab_type51.
+DATA: gr_outtab51_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab51_col_info      TYPE lvc_s_col.
+DATA: gr_outtab51_row_table     TYPE lvc_s_row.
+
+
+* Secondary Claims
+DATA: sec_clm_container    TYPE REF TO cl_gui_custom_container,
+      sec_clm_alv          TYPE REF TO cl_gui_alv_grid,
+      sec_clm_layout       TYPE lvc_s_layo,
+      sec_clm_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      sec_clm_style        TYPE lvc_t_styl,
+      sec_clm_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      sec_clm_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      sec_clm_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type52,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        upd_icon(4)            TYPE c,
+        pernr                  TYPE persno,
+        incident               TYPE zhr_inc_identnr,
+        dateincident           TYPE d,
+        wclmn                  TYPE zoh_clm,
+        stats                  TYPE pa9076-stats,
+        stats_desc(30)         TYPE c,
+        ass_status             TYPE zim_scu_ass_status,
+        ass_status_desc        TYPE val_text,
+        current_status         TYPE zim_scu_current_status,
+        current_status_desc    TYPE val_text,
+        main_loc               TYPE numc3,
+        main_injury(80)        TYPE c,
+       END OF gs_outtab_type52.
+
+DATA: gr_outtab52               TYPE gs_outtab_type52.
+DATA: gr_outtab52a              TYPE gs_outtab_type52.
+DATA: gt_outtab52               TYPE TABLE OF gs_outtab_type52.
+DATA: gt_outtab52a              TYPE TABLE OF gs_outtab_type52.
+DATA: gt_outtab52_copy          TYPE TABLE OF gs_outtab_type52.
+DATA: gt_outtab52_old           TYPE TABLE OF gs_outtab_type52.
+DATA: gr_outtab52_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab52_col_info      TYPE lvc_s_col.
+DATA: gr_outtab52_row_table     TYPE lvc_s_row.
+
+
+* Employee Welfare Contacts
+DATA: wel_sel_container    TYPE REF TO cl_gui_custom_container,
+      wel_sel_alv          TYPE REF TO cl_gui_alv_grid,
+      wel_sel_layout       TYPE lvc_s_layo,
+      wel_sel_fieldcat     TYPE TABLE OF lvc_s_fcat,
+      wel_sel_style        TYPE lvc_t_styl,
+      wel_sel_style_t      TYPE TABLE OF lvc_s_styl WITH HEADER LINE,
+      wel_sel_f4           TYPE lvc_t_f4 WITH HEADER LINE,
+      wel_sel_functions    TYPE ui_functions.
+
+TYPES: BEGIN OF gs_outtab_type53,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        cell_colour            TYPE lvc_t_scol,
+        sel_code(1)            TYPE c,
+        disp_icon(4)           TYPE c,
+        contact_rank           TYPE text30,
+        contact_ename          TYPE pad_cname,
+        contacted_by_name(120) TYPE c,
+        contact_method_desc    TYPE val_text,
+        contact_attempt_desc   TYPE val_text.
+        INCLUDE STRUCTURE zwel_contact.
+TYPES: END OF gs_outtab_type53.
+
+DATA: gr_outtab53               TYPE gs_outtab_type53.
+DATA: gt_outtab53               TYPE TABLE OF gs_outtab_type53.
+DATA: gr_outtab53_row_no        TYPE lvc_s_roid.
+DATA: gr_outtab53_col_info      TYPE lvc_s_col.
+DATA: gr_outtab53_row_table     TYPE lvc_s_row.
+
+
+DATA: gt_table_changed     TYPE REF TO cl_alv_changed_data_protocol.
+DATA: gt_table_changed2    TYPE REF TO cl_alv_changed_data_protocol.
+DATA: gt_row_table         TYPE TABLE OF lvc_s_row.
+DATA: gt_row_no            TYPE TABLE OF lvc_s_roid.
+DATA: gr_row_table         TYPE lvc_s_row.
+DATA: gr_row_no            TYPE lvc_s_roid.
+DATA: gr_col_info          TYPE lvc_s_col.
+DATA: gr_row_no2           TYPE lvc_s_roid.
+DATA: gr_col_info2         TYPE lvc_s_col.
+DATA: g_cursor             TYPE REF TO cl_gui_control.
+DATA: gt_ddval             TYPE lvc_t_drop .
+DATA: gs_ddval             TYPE lvc_s_drop .
+DATA: g_subtotals          TYPE REF TO data.
+
+DATA: gs_stylerow         TYPE lvc_s_styl,
+      gt_styletab         TYPE lvc_t_styl,
+      gs_colour           TYPE lvc_s_scol,
+      gt_colour           TYPE lvc_t_scol.
+
+TYPES: BEGIN OF onf4_event_parameters_type,
+        c_fieldname       TYPE lvc_fname,
+        cs_row_no         TYPE lvc_s_roid,
+        cr_event_data     TYPE REF TO cl_alv_event_data,
+        ct_bad_cells      TYPE lvc_t_modi,
+        c_display         TYPE char01,
+       END OF onf4_event_parameters_type.
+
+DATA: f4_params           TYPE onf4_event_parameters_type.
+
+DATA: l_field(30)         TYPE c,
+      l_field1(18)        TYPE c,
+      i(2)                TYPE n,
+      j(2)                TYPE n.
+
+FIELD-SYMBOLS : <fs>,
+                <f1>.
+
+DATA: w_bapiret                 TYPE bapireturn1,
+      w_bapi_key                TYPE bapipakey,
+      w_pskey                   TYPE pskey.
+
+* Smartform fields
+DATA: w_formname               TYPE  tdsfname,
+      w_formname_haz           TYPE  tdsfname,
+      w_formname_legend        TYPE  tdsfname,
+      w_control_parameters     TYPE  ssfctrlop,
+      w_output_options         TYPE  ssfcompop,
+      w_output_info            TYPE  ssfcrescl,
+      w_title_att              TYPE  string,
+      w_title                  TYPE  string,
+      tbl_objbin               TYPE  TABLE OF solix,
+      tbl_pdf                  TYPE  TABLE OF solix,
+      tbl_bp_injury            TYPE  zttim_inc_p902_inj.
+
+
+DATA: wa_incident TYPE zhr_inc_incident.
+DATA: wa_out_infos TYPE zsform_all_otf_line.
+DATA: lt_longt TYPE TABLE OF char255.
+DATA: the_incident TYPE REF TO zcl_form_incident.
+
+DATA : w_incident_form       TYPE zp902_incident_form,
+       tb_injury_form        TYPE zp902_injury_form_t,
+       w_injury_form         TYPE zp902_injury_form.
+
+* Email fields
+TYPES: t_upload               TYPE string.
+
+DATA: tbl_upload_asc         TYPE STANDARD TABLE OF t_upload,
+      rec_upload_asc         TYPE t_upload,
+      tbl_html               TYPE TABLE OF htmlline,
+      rec_html               TYPE htmlline,
+      tbl_filename           TYPE filetable,
+      rec_filename           TYPE string,
+      w_size                 TYPE i.
+
+DATA: tbl_upload_docs TYPE STANDARD TABLE OF docs,
+      rec_upload_docs TYPE docs.
+
+DATA: tbl_upload_bin  TYPE TABLE OF tbl1024,
+      rec_upload_bin  LIKE LINE OF tbl_upload_bin.
+
+DATA: tbl_email_file TYPE zemail_file_attachments
+                      OCCURS 0 WITH HEADER LINE.
+
+TYPES: BEGIN OF gs_email_file,
+        dist_meth              TYPE zim_in_doc_rec-dist_meth,
+        email                  TYPE zim_in_doc_rec-email,
+        fax                    TYPE zim_in_doc_rec-fax,
+        home                   TYPE zim_in_doc_rec-email,
+        sms                    TYPE zim_in_doc_rec-fax,
+        email_body             TYPE zim_ltr_def-email_body,
+        email_att              TYPE zim_ltr_def-email_att,
+        convert_pdf            TYPE zim_ltr_def-convert_pdf,
+        wordfile(256)          TYPE c,
+        bodyfile(256)          TYPE c,
+       END OF gs_email_file.
+
+DATA: gr_email_file            TYPE gs_email_file.
+DATA: gt_email_file            TYPE TABLE OF gs_email_file.
+
+DATA: gr_event_handler     TYPE REF TO zcl_alv_event.
+TYPES: node_table_type TYPE  mtreesnode OCCURS 0 .
+
+* Variables for Supervisor Drag and Drop Screen
+
+*  BDC Variables
+
+* Data transfer table for call transactions and BDC sessions
+DATA:  BEGIN OF tbl_bdcdata OCCURS 100.
+        INCLUDE STRUCTURE bdcdata.
+DATA:  END OF tbl_bdcdata.
+
+* internal table for storing messages returning from a call transaction
+DATA:  BEGIN OF tbl_call_trans_errs OCCURS 100.
+        INCLUDE STRUCTURE bdcmsgcoll.
+DATA:  END OF tbl_call_trans_errs.
+
+* Unique database key (for BDC sessions)
+DATA:    w_qid              TYPE apqi-qid,
+         w_trans            TYPE tstc-tcode,
+         w_keep             TYPE apqi-qerase VALUE abap_true,
+         w_mode             TYPE c,    " call transaction mode
+         w_updt             TYPE c,    " call transaction update type
+         w_sesnam TYPE apqi-groupid VALUE 'ASS_SUP',
+         w_bdccre           TYPE c     " error bdc session created
+                            VALUE 'N'.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'INCIDENT'
+CONSTANTS: BEGIN OF c_incident,
+             tab1 TYPE sy-ucomm VALUE 'INCIDENT_1',
+             tab2 TYPE sy-ucomm VALUE 'INCIDENT_2',
+             tab3 TYPE sy-ucomm VALUE 'INCIDENT_3',
+             tab4 TYPE sy-ucomm VALUE 'INCIDENT_4',
+             tab5 TYPE sy-ucomm VALUE 'INCIDENT_5',
+             tab6 TYPE sy-ucomm VALUE 'INCIDENT_6',
+             tab7 TYPE sy-ucomm VALUE 'INCIDENT_7',
+           END OF c_incident.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'INCIDENT'
+CONTROLS:  incident TYPE TABSTRIP.
+DATA:      BEGIN OF g_incident,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_incident-tab1,
+           END OF g_incident.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'INIT_ASS'
+CONSTANTS: BEGIN OF c_init_ass,
+             tab1 TYPE sy-ucomm VALUE 'INIT_ASS_FC1',
+             tab2 TYPE sy-ucomm VALUE 'INIT_ASS_FC2',
+             tab3 TYPE sy-ucomm VALUE 'INIT_ASS_FC3',
+             tab4 TYPE sy-ucomm VALUE 'INIT_ASS_FC4',
+             tab5 TYPE sy-ucomm VALUE 'INIT_ASS_FC5',
+             tab6 TYPE sy-ucomm VALUE 'INIT_ASS_FC6',
+             tab7 TYPE sy-ucomm VALUE 'INIT_ASS_FC7',
+             tab8 TYPE sy-ucomm VALUE 'INIT_ASS_FC8',
+             tab9 TYPE sy-ucomm VALUE 'INIT_ASS_FC9',
+             tab10 TYPE sy-ucomm VALUE 'INIT_ASS_FC10',
+           END OF c_init_ass.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'INIT_ASS'
+CONTROLS:  init_ass TYPE TABSTRIP.
+DATA:      BEGIN OF g_init_ass,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_init_ass-tab1,
+           END OF g_init_ass.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'INIT_SCU'
+CONSTANTS: BEGIN OF c_init_scu,
+             tab1 TYPE sy-ucomm VALUE 'INIT_SCU_FC1',
+             tab2 TYPE sy-ucomm VALUE 'INIT_SCU_FC2',
+             tab3 TYPE sy-ucomm VALUE 'INIT_SCU_FC3',
+             tab4 TYPE sy-ucomm VALUE 'INIT_SCU_FC4',
+             tab5 TYPE sy-ucomm VALUE 'INIT_SCU_FC5',
+             tab6 TYPE sy-ucomm VALUE 'INIT_SCU_FC6',
+             tab7 TYPE sy-ucomm VALUE 'INIT_SCU_FC7',
+             tab8 TYPE sy-ucomm VALUE 'INIT_SCU_FC8',
+             tab9 TYPE sy-ucomm VALUE 'INIT_SCU_FC9',
+             tab10 TYPE sy-ucomm VALUE 'INIT_SCU_FC10',
+           END OF c_init_scu.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'INIT_SCU'
+CONTROLS:  init_scu TYPE TABSTRIP.
+DATA:      BEGIN OF g_init_scu,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_init_scu-tab1,
+           END OF g_init_scu.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'CASE_ACT'
+CONSTANTS: BEGIN OF c_case_act,
+             tab1 TYPE sy-ucomm VALUE 'CASE_ACT_FC1',
+             tab2 TYPE sy-ucomm VALUE 'CASE_ACT_FC2',
+             tab3 TYPE sy-ucomm VALUE 'CASE_ACT_FC3',
+             tab4 TYPE sy-ucomm VALUE 'CASE_ACT_FC4',
+             tab5 TYPE sy-ucomm VALUE 'CASE_ACT_FC5',
+             tab6 TYPE sy-ucomm VALUE 'CASE_ACT_FC6',
+             tab7 TYPE sy-ucomm VALUE 'CASE_ACT_FC7',
+             tab8 TYPE sy-ucomm VALUE 'CASE_ACT_FC8',
+             tab9 TYPE sy-ucomm VALUE 'CASE_ACT_FC9',
+             tab10 TYPE sy-ucomm VALUE 'CASE_ACT_FC10',
+           END OF c_case_act.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'CASE_ACT'
+CONTROLS:  case_act TYPE TABSTRIP.
+DATA:      BEGIN OF g_case_act,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_case_act-tab1,
+           END OF g_case_act.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'CASE_LEG'
+CONSTANTS: BEGIN OF c_case_leg,
+             tab1 TYPE sy-ucomm VALUE 'CASE_LEG_FC1',
+             tab2 TYPE sy-ucomm VALUE 'CASE_LEG_FC2',
+             tab3 TYPE sy-ucomm VALUE 'CASE_LEG_FC3',
+             tab4 TYPE sy-ucomm VALUE 'CASE_LEG_FC4',
+             tab5 TYPE sy-ucomm VALUE 'CASE_LEG_FC5',
+             tab6 TYPE sy-ucomm VALUE 'CASE_LEG_FC6',
+             tab7 TYPE sy-ucomm VALUE 'CASE_LEG_FC7',
+             tab8 TYPE sy-ucomm VALUE 'CASE_LEG_FC8',
+             tab9 TYPE sy-ucomm VALUE 'CASE_LEG_FC9',
+           END OF c_case_leg.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'CASE_LEG'
+CONTROLS:  case_leg TYPE TABSTRIP.
+DATA:      BEGIN OF g_case_leg,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_case_leg-tab1,
+           END OF g_case_leg.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'CASE_CLO'
+CONSTANTS: BEGIN OF c_case_clo,
+             tab1  TYPE sy-ucomm VALUE 'CASE_CLO_FC1',
+             tab2  TYPE sy-ucomm VALUE 'CASE_CLO_FC2',
+             tab3  TYPE sy-ucomm VALUE 'CASE_CLO_FC3',
+             tab4  TYPE sy-ucomm VALUE 'CASE_CLO_FC4',
+             tab5  TYPE sy-ucomm VALUE 'CASE_CLO_FC5',
+             tab6  TYPE sy-ucomm VALUE 'CASE_CLO_FC6',
+             tab7  TYPE sy-ucomm VALUE 'CASE_CLO_FC7',
+             tab8  TYPE sy-ucomm VALUE 'CASE_CLO_FC8',
+             tab9  TYPE sy-ucomm VALUE 'CASE_CLO_FC9',
+             tab10 TYPE sy-ucomm VALUE 'CASE_CLO_FC10',
+             tab11 TYPE sy-ucomm VALUE 'CASE_CLO_FC11',
+           END OF c_case_clo.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'CASE_CLO'
+CONTROLS:  case_clo TYPE TABSTRIP.
+DATA:      BEGIN OF g_case_clo,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_case_clo-tab1,
+           END OF g_case_clo.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'CASE_MGT'
+CONSTANTS: BEGIN OF c_case_mgt,
+             tab1 TYPE sy-ucomm VALUE 'CASE_MGT_FC1',
+             tab2 TYPE sy-ucomm VALUE 'CASE_MGT_FC2',
+             tab3 TYPE sy-ucomm VALUE 'CASE_MGT_FC3',
+             tab4 TYPE sy-ucomm VALUE 'CASE_MGT_FC4',
+             tab5 TYPE sy-ucomm VALUE 'CASE_MGT_FC5',
+             tab6 TYPE sy-ucomm VALUE 'CASE_MGT_FC6',
+             tab7 TYPE sy-ucomm VALUE 'CASE_MGT_FC7',
+             tab8 TYPE sy-ucomm VALUE 'CASE_MGT_FC8',
+             tab9 TYPE sy-ucomm VALUE 'CASE_MGT_FC9',
+             tab10 TYPE sy-ucomm VALUE 'CASE_MGT_FC10',
+             tab11 TYPE sy-ucomm VALUE 'CASE_MGT_FC11',
+             tab12 TYPE sy-ucomm VALUE 'CASE_MGT_FC12',
+             tab13 TYPE sy-ucomm VALUE 'CASE_MGT_FC13',
+             tab14 TYPE sy-ucomm VALUE 'CASE_MGT_FC14',
+             tab15 TYPE sy-ucomm VALUE 'CASE_MGT_FC15',
+             tab16 TYPE sy-ucomm VALUE 'CASE_MGT_FC16',
+             tab17 TYPE sy-ucomm VALUE 'CASE_MGT_FC17',
+           END OF c_case_mgt.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'CASE_MGT'
+CONTROLS:  case_mgt TYPE TABSTRIP.
+DATA:      BEGIN OF g_case_mgt,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_case_mgt-tab1,
+           END OF g_case_mgt.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'CASE_IP'
+CONSTANTS: BEGIN OF c_case_ip,
+             tab1 TYPE sy-ucomm VALUE 'CASE_IP_FC1',
+             tab2 TYPE sy-ucomm VALUE 'CASE_IP_FC2',
+             tab3 TYPE sy-ucomm VALUE 'CASE_IP_FC3',
+             tab4 TYPE sy-ucomm VALUE 'CASE_IP_FC4',
+             tab5 TYPE sy-ucomm VALUE 'CASE_IP_FC5',
+             tab6 TYPE sy-ucomm VALUE 'CASE_IP_FC6',
+             tab7 TYPE sy-ucomm VALUE 'CASE_IP_FC7',
+             tab8 TYPE sy-ucomm VALUE 'CASE_IP_FC8',
+             tab9 TYPE sy-ucomm VALUE 'CASE_IP_FC9',
+             tab10 TYPE sy-ucomm VALUE 'CASE_IP_FC10',
+             tab11 TYPE sy-ucomm VALUE 'CASE_IP_FC11',
+             tab12 TYPE sy-ucomm VALUE 'CASE_IP_FC12',
+             tab13 TYPE sy-ucomm VALUE 'CASE_IP_FC13',
+           END OF c_case_ip.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'CASE_EPSS'
+CONSTANTS: BEGIN OF c_case_epss,
+             tab1 TYPE sy-ucomm VALUE 'CASE_EPSS_FC1',
+             tab2 TYPE sy-ucomm VALUE 'CASE_EPSS_FC2',
+             tab3 TYPE sy-ucomm VALUE 'CASE_EPSS_FC3',
+             tab4 TYPE sy-ucomm VALUE 'CASE_EPSS_FC4',
+             tab5 TYPE sy-ucomm VALUE 'CASE_EPSS_FC5',
+             tab6 TYPE sy-ucomm VALUE 'CASE_EPSS_FC6',
+             tab7 TYPE sy-ucomm VALUE 'CASE_EPSS_FC7',
+             tab8 TYPE sy-ucomm VALUE 'CASE_EPSS_FC8',
+             tab9 TYPE sy-ucomm VALUE 'CASE_EPSS_FC9',
+             tab10 TYPE sy-ucomm VALUE 'CASE_EPSS_FC10',
+             tab11 TYPE sy-ucomm VALUE 'CASE_EPSS_FC11',
+             tab12 TYPE sy-ucomm VALUE 'CASE_EPSS_FC12',
+             tab13 TYPE sy-ucomm VALUE 'CASE_EPSS_FC13',
+             tab14 TYPE sy-ucomm VALUE 'CASE_EPSS_FC14',
+             tab15 TYPE sy-ucomm VALUE 'CASE_EPSS_FC15',
+             tab16 TYPE sy-ucomm VALUE 'CASE_EPSS_FC16',
+           END OF c_case_epss.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'CASE_IP'
+CONTROLS:  case_ip TYPE TABSTRIP.
+DATA:      BEGIN OF g_case_ip,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_case_ip-tab1,
+           END OF g_case_ip.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'CASE_EPSS'
+CONTROLS:  case_epss TYPE TABSTRIP.
+DATA:      BEGIN OF g_case_epss,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_case_epss-tab1,
+           END OF g_case_epss.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'CASE_SCU'
+CONSTANTS: BEGIN OF c_case_scu,
+             tab1 TYPE sy-ucomm VALUE 'CASE_SCU_FC1',
+             tab2 TYPE sy-ucomm VALUE 'CASE_SCU_FC2',
+             tab3 TYPE sy-ucomm VALUE 'CASE_SCU_FC3',
+             tab4 TYPE sy-ucomm VALUE 'CASE_SCU_FC4',
+             tab5 TYPE sy-ucomm VALUE 'CASE_SCU_FC5',
+             tab6 TYPE sy-ucomm VALUE 'CASE_SCU_FC6',
+             tab7 TYPE sy-ucomm VALUE 'CASE_SCU_FC7',
+             tab8 TYPE sy-ucomm VALUE 'CASE_SCU_FC8',
+             tab9 TYPE sy-ucomm VALUE 'CASE_SCU_FC9',
+             tab10 TYPE sy-ucomm VALUE 'CASE_SCU_FC10',
+             tab11 TYPE sy-ucomm VALUE 'CASE_SCU_FC11',
+           END OF c_case_scu.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'CASE_SCU'
+CONTROLS:  case_scu TYPE TABSTRIP.
+DATA:      BEGIN OF g_case_scu,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_case_scu-tab1,
+           END OF g_case_scu.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'CASE_GAO'
+CONSTANTS: BEGIN OF c_case_gao,
+             tab1 TYPE sy-ucomm VALUE 'CASE_GAO_FC1',
+             tab2 TYPE sy-ucomm VALUE 'CASE_GAO_FC2',
+             tab3 TYPE sy-ucomm VALUE 'CASE_GAO_FC3',
+             tab4 TYPE sy-ucomm VALUE 'CASE_GAO_FC4',
+             tab5 TYPE sy-ucomm VALUE 'CASE_GAO_FC5',
+             tab6 TYPE sy-ucomm VALUE 'CASE_GAO_FC6',
+             tab7 TYPE sy-ucomm VALUE 'CASE_GAO_FC7',
+             tab8 TYPE sy-ucomm VALUE 'CASE_GAO_FC8',
+             tab9 TYPE sy-ucomm VALUE 'CASE_GAO_FC9',
+             tab10 TYPE sy-ucomm VALUE 'CASE_GAO_FC10',
+           END OF c_case_gao.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'CASE_GAO'
+CONTROLS:  case_gao TYPE TABSTRIP.
+DATA:      BEGIN OF g_case_gao,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_case_gao-tab1,
+           END OF g_case_gao.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'CASE_LVE'
+CONSTANTS: BEGIN OF c_case_lve,
+             tab1 TYPE sy-ucomm VALUE 'CASE_LVE_FC1',
+             tab2 TYPE sy-ucomm VALUE 'CASE_LVE_FC2',
+             tab3 TYPE sy-ucomm VALUE 'CASE_LVE_FC3',
+             tab4 TYPE sy-ucomm VALUE 'CASE_LVE_FC4',
+             tab5 TYPE sy-ucomm VALUE 'CASE_LVE_FC5',
+             tab6 TYPE sy-ucomm VALUE 'CASE_LVE_FC6',
+             tab7 TYPE sy-ucomm VALUE 'CASE_LVE_FC7',
+             tab8 TYPE sy-ucomm VALUE 'CASE_LVE_FC8',
+             tab9 TYPE sy-ucomm VALUE 'CASE_LVE_FC9',
+           END OF c_case_lve.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'CASE_LVE'
+CONTROLS:  case_lve TYPE TABSTRIP.
+DATA:      BEGIN OF g_case_lve,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_case_lve-tab1,
+           END OF g_case_lve.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'CASE_IPM'
+CONSTANTS: BEGIN OF c_case_ipm,
+             tab1 TYPE sy-ucomm VALUE 'CASE_IPM_FC1',
+             tab2 TYPE sy-ucomm VALUE 'CASE_IPM_FC2',
+             tab3 TYPE sy-ucomm VALUE 'CASE_IPM_FC3',
+             tab4 TYPE sy-ucomm VALUE 'CASE_IPM_FC4',
+             tab5 TYPE sy-ucomm VALUE 'CASE_IPM_FC5',
+             tab6 TYPE sy-ucomm VALUE 'CASE_IPM_FC6',
+             tab7 TYPE sy-ucomm VALUE 'CASE_IPM_FC7',
+             tab8 TYPE sy-ucomm VALUE 'CASE_IPM_FC8',
+             tab9 TYPE sy-ucomm VALUE 'CASE_IPM_FC9',
+           END OF c_case_ipm.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'CASE_IPM'
+CONTROLS:  case_ipm TYPE TABSTRIP.
+DATA:      BEGIN OF g_case_ipm,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_case_ipm-tab1,
+           END OF g_case_ipm.
+
+*&SPWIZARD: FUNCTION CODES FOR TABSTRIP 'CASE_DEP'
+CONSTANTS: BEGIN OF c_case_dep,
+             tab1  TYPE sy-ucomm VALUE 'CASE_DEP_CD',
+             tab2  TYPE sy-ucomm VALUE 'CASE_DEP_ED',
+             tab3  TYPE sy-ucomm VALUE 'CASE_DEP_REF',
+             tab4  TYPE sy-ucomm VALUE 'CASE_DEP_DEP',
+             tab5  TYPE sy-ucomm VALUE 'CASE_DEP_PL',
+             tab6  TYPE sy-ucomm VALUE 'CASE_DEP_EX',
+             tab7  TYPE sy-ucomm VALUE 'CASE_DEP_CERT',
+             tab8  TYPE sy-ucomm VALUE 'CASE_DEP_RTWP',
+             tab9  TYPE sy-ucomm VALUE 'CASE_DEP_MTG',
+             tab10 TYPE sy-ucomm VALUE 'CASE_DEP_RPT',
+             tab11 TYPE sy-ucomm VALUE 'CASE_DEP_EMP',
+             tab12 TYPE sy-ucomm VALUE 'CASE_DEP_MGR',
+           END OF c_case_dep.
+
+*&SPWIZARD: DATA FOR TABSTRIP 'CASE_DEP'
+CONTROLS:  case_dep TYPE TABSTRIP.
+DATA:      BEGIN OF g_case_dep,
+             subscreen   TYPE sy-dynnr,
+             prog        TYPE sy-repid VALUE 'ZHUOLIMS',
+             pressed_tab TYPE sy-ucomm VALUE c_case_dep-tab1,
+           END OF g_case_dep.
+
+*** CEP66 - CR1812 and CR1878
+*** Global declaration for screen 3415
+* ALV output table structure
+TYPES: BEGIN OF gs_outtab_type3415,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        sel_code(1)            TYPE c,
+        del_icon(4)            TYPE c,
+        imp_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_prim.
+TYPES:  wclmn                  TYPE pa9076-wclmn.
+TYPES: END OF gs_outtab_type3415.
+DATA:  gt_outtab3415           TYPE TABLE OF gs_outtab_type3415,
+       gr_prim_claim           TYPE REF TO zcl_olims_prim_claim,
+       gv_ux_3415              TYPE syucomm.
+
+* ALV data declaration
+DATA: clm_prim_container     TYPE REF TO cl_gui_custom_container,
+      clm_prim_alv           TYPE REF TO cl_gui_alv_grid,
+      clm_prim_layout        TYPE lvc_s_layo,
+      clm_prim_fieldcat      TYPE TABLE OF lvc_s_fcat,
+      clm_prim_style         TYPE lvc_s_styl,
+      clm_prim_style_t       TYPE TABLE OF lvc_t_styl,
+      clm_prim_functions     TYPE ui_functions.
+
+*** Global declaration for screen 3416
+* ALV output table structure
+TYPES: BEGIN OF gs_outtab_type3416,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        sel_code(1)            TYPE c,
+        del_icon(4)            TYPE c,
+        imp_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c.
+        INCLUDE STRUCTURE zim_in_pawe.
+TYPES: END OF gs_outtab_type3416.
+
+TYPES: BEGIN OF gs_pawe_calc.
+        INCLUDE TYPE  zhsdd_pawe.
+TYPES: it_awe_rt     TYPE zhttdd_awe_rt,
+       it_lost       TYPE zhttdd_wc_salary,
+       wkl_sal_date  TYPE datum,
+       END OF gs_pawe_calc.
+DATA:  gt_outtab3416           TYPE TABLE OF gs_outtab_type3416,
+       gr_pawe                 TYPE REF TO zcl_olims_pawe,
+       w_emp_ben               TYPE gs_pawe_calc,
+       w_wkly_pawe             TYPE pad_amt7s,
+       gv_ux_3416              TYPE syucomm,
+       w_lost                  TYPE zim_wc_salary.
+DATA: lt_pawe1  TYPE TABLE OF  zim_in_pawe.
+DATA: p_hist1 TYPE c.
+
+* ALV data declaration
+DATA: clm_pawe_container     TYPE REF TO cl_gui_custom_container,
+      clm_pawe_alv           TYPE REF TO cl_gui_alv_grid,
+      clm_pawe_layout        TYPE lvc_s_layo,
+      clm_pawe_fieldcat      TYPE TABLE OF lvc_s_fcat,
+      clm_pawe_style         TYPE lvc_s_styl,
+      clm_pawe_style_t       TYPE TABLE OF lvc_t_styl,
+      clm_pawe_functions     TYPE ui_functions.
+
+
+*** Global declaration for screen 3417
+* ALV output table structure
+TYPES: BEGIN OF gs_outtab_type3417,
+        cellstyles             TYPE lvc_t_styl,
+        row_colour(4)          TYPE c,
+        sel_code(1)            TYPE c,
+        del_icon(4)            TYPE c,
+        imp_icon(4)            TYPE c,
+        doc_icon(4)            TYPE c,
+        rec_type_desc          TYPE text20.
+        INCLUDE STRUCTURE zim_in_ip.
+TYPES: END OF gs_outtab_type3417.
+
+DATA:  gt_outtab3417           TYPE TABLE OF gs_outtab_type3417,
+       gr_ip_rec               TYPE REF TO zcl_olims_ip_rec,
+       w_record_type           TYPE zim_in_ip-record_type,
+       gv_ux_3417              TYPE syucomm.
+
+* ALV data declaration
+DATA: clm_ip_container     TYPE REF TO cl_gui_custom_container,
+      clm_ip_alv           TYPE REF TO cl_gui_alv_grid,
+      clm_ip_layout        TYPE lvc_s_layo,
+      clm_ip_fieldcat      TYPE TABLE OF lvc_s_fcat,
+      clm_ip_functions     TYPE ui_functions.
+
+* ALV data declaration
+DATA: clm_epss_container     TYPE REF TO cl_gui_custom_container,
+      clm_epss_alv           TYPE REF TO cl_gui_alv_grid,
+      clm_epss_layout        TYPE lvc_s_layo,
+      clm_epss_fieldcat      TYPE TABLE OF lvc_s_fcat,
+      clm_epss_functions     TYPE ui_functions.
+
+* Start of CR3197 DEVK9HRFUU
+DATA: gv_btn_dyn_txt       TYPE smp_dyntxt.
+* End of CR3197 DEVK9HRFUU

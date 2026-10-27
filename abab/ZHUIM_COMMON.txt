@@ -1,0 +1,2741 @@
+*&---------------------------------------------------------------------*
+*&  Include           ZHUIM_COMMON
+*&---------------------------------------------------------------------*
+
+FORM get_employee USING    p_uname
+                  CHANGING p_pernr
+                           p_pernr_name.
+
+  CLEAR: p_pernr, p_pernr_name.
+
+  SELECT SINGLE * FROM  pa0105
+         WHERE  usrty  = '0001'
+         AND    endda  GE sy-datum
+*        AND    begda  LE sy-datum
+         AND    usrid  = p_uname.
+
+  IF  sy-subrc NE 0.
+    CLEAR pa0105.
+  ELSE.
+    p_pernr = pa0105-pernr.
+  ENDIF.
+
+  PERFORM get_employee_name USING    p_pernr
+                            CHANGING p_pernr_name.
+
+ENDFORM.                    " get_employee
+
+*--------------------------------------------------------------------*
+*       Form  get_user
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_PERNR    text
+*      -->P_UNAME    text
+*--------------------------------------------------------------------*
+FORM get_user     USING    p_pernr
+                  CHANGING p_uname.
+
+  CLEAR: p_uname.
+
+  SELECT SINGLE * FROM  pa0105
+         WHERE  pernr  = p_pernr
+         AND    usrty  = '0001'
+         AND    endda  GE sy-datum
+         AND    begda  LE sy-datum.
+
+  IF  sy-subrc NE 0.
+    MESSAGE e999 WITH 'No userid exists for the employee'.
+  ELSE.
+    p_uname = pa0105-usrid.
+  ENDIF.
+
+
+ENDFORM.                    " get_user
+
+*--------------------------------------------------------------------*
+*       Form  get_employee_name
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM get_employee_name USING    p_pernr
+                       CHANGING p_name.
+
+  CLEAR p_name.
+
+  SELECT SINGLE * FROM  pa0002
+         WHERE  pernr  = p_pernr
+         AND    endda  GE sy-datum
+         AND    begda  LE sy-datum.
+  IF sy-subrc = 0.
+    CONCATENATE pa0002-vorna pa0002-nachn INTO p_name
+            SEPARATED BY ' ' .
+  ENDIF.
+
+
+ENDFORM.                    " get_employee_name
+
+*--------------------------------------------------------------------*
+*       Form  GUI_INDICATOR
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_L_COUNT  text
+*      -->P_L_LINES  text
+*--------------------------------------------------------------------*
+FORM gui_indicator  USING    p_count
+                             p_lines.
+
+  DATA: l_per          TYPE i,
+         l_text(50)     TYPE c.
+
+  l_per = p_count * 100 / p_lines.
+  WRITE l_per TO l_text NO-ZERO.
+  SHIFT l_text LEFT DELETING LEADING ' '.
+  CONCATENATE l_text '% Processed' INTO l_text.
+  CALL FUNCTION 'SAPGUI_PROGRESS_INDICATOR'
+    EXPORTING
+      percentage = l_per
+      text       = l_text.
+
+
+ENDFORM.                    " GUI_INDICATOR
+*---------------------------------------------------------------------*
+*       FORM ADD_USER_LINE                                            *
+*---------------------------------------------------------------------*
+*       ........                                                      *
+*---------------------------------------------------------------------*
+*  -->  LINES                                                         *
+*  -->  HEADER                                                        *
+*---------------------------------------------------------------------*
+FORM add_user_line TABLES lines STRUCTURE tline
+                   USING p_length.
+
+  DATA: tan_date(10)  TYPE c,
+        tan_time(8)   TYPE c,
+        tan_uname     TYPE p1000-stext,
+        tan_realo     TYPE hrealo-realo,
+        l_lines       TYPE i,
+        l_length      TYPE i.
+
+  DESCRIBE TABLE lines LINES l_lines.
+  IF l_lines NE 0.
+    CLEAR lines.
+    APPEND lines.
+  ENDIF.
+
+*--- prepare variables -------------------------------------------------
+  WRITE sy-datlo TO tan_date DD/MM/YYYY.
+  WRITE sy-timlo TO tan_time.
+  MOVE sy-uname TO tan_realo.
+  CALL FUNCTION 'RH_READ_OBJECT'
+    EXPORTING
+      plvar           = '!!'
+      otype           = 'US'
+      realo           = tan_realo
+      check_stru_auth = ' '
+    IMPORTING
+      stext           = tan_uname
+    EXCEPTIONS
+      not_found       = 1
+      OTHERS          = 2.
+  IF sy-subrc <> 0.
+    CLEAR tan_uname.
+  ENDIF.
+
+*--- compose first line ------------------------------------------------
+  CLEAR lines.
+  CONCATENATE 'Note created by' tan_uname '('
+              INTO lines-tdline SEPARATED BY ' '.
+  CONCATENATE lines-tdline sy-uname ')'
+              INTO lines-tdline.
+  CONCATENATE lines-tdline 'on' tan_date 'at' tan_time
+              INTO lines-tdline SEPARATED BY ' '.
+  l_length = strlen( lines-tdline ).
+  IF l_length GT p_length.
+    CONCATENATE 'Note created by' tan_uname '('
+                INTO lines-tdline SEPARATED BY ' '.
+    CONCATENATE lines-tdline sy-uname ')'
+                INTO lines-tdline.
+    APPEND lines.
+    CONCATENATE 'Note created on' tan_date 'at' tan_time
+                INTO lines-tdline SEPARATED BY ' '.
+    APPEND lines.
+  ELSE.
+    APPEND lines.
+  ENDIF.
+
+ENDFORM.                    " ADD_USER_LINE
+*--------------------------------------------------------------------*
+*       Form  PROCESS_COMMENT
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_ES_COL_ID  text
+*      -->P_ES_ROW_NO  text
+*--------------------------------------------------------------------*
+FORM process_comment_receipt.
+
+*  data: l_exists(1)  TYPE c,
+*         l_display(1) TYPE c.
+*
+*
+*  PERFORM process_text USING 'ZWCR'
+*                             l_display
+*                             gr_outtab10-date_processed
+*                             gr_outtab10-run_no
+*                             gr_outtab10-seq_no.
+*
+*  PERFORM check_text   USING    gr_outtab10-date_processed
+*                             gr_outtab10-run_no
+*                             gr_outtab10-seq_no
+*                       CHANGING l_exists.
+*  IF l_exists IS INITIAL.
+*    gr_outtab10-notes_icon = icon_text_ina.
+*  ELSE.
+*    gr_outtab10-notes_icon = icon_text_act.
+*  ENDIF.
+
+ENDFORM.                    " PROCESS_COMMENT
+*--------------------------------------------------------------------*
+*       Form  PROCESS_TEXT
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_L_CODE  text
+*      -->P_L_DISPLAY  text
+*      -->P_GR_OUTTAB2_EQUIP_CODE  text
+*      <--P_L_UPDATE  text
+*--------------------------------------------------------------------*
+FORM process_text USING    p_code
+                           p_display
+                           p_date
+                           p_run
+                           p_seq.
+
+
+  DATA: l_user(1)         TYPE c,
+         l_display(1)      TYPE c.
+
+  IF p_display = abap_true.
+    CLEAR l_user.
+  ELSE.
+    l_user = ' '.
+  ENDIF.
+
+
+  CONCATENATE p_date p_run p_seq
+              INTO w_text_key.
+
+
+*  Call the function to update the text
+  CALL FUNCTION 'ZMAINTAIN_TEXT'
+    EXPORTING
+      object      = 'ZPOLICE'
+      id          = p_code
+      language    = 'E'
+      name        = w_text_key
+      displayonly = p_display
+      incl_user   = l_user.
+
+
+ENDFORM.                    " PROCESS_TEXT
+*--------------------------------------------------------------------*
+*       Form  GET_USER_NAME
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_ZFOS_ORDER_USER_ENTERED  text
+*      <--P_ZFOS_SCREE_USER_ENTERED_NAME  text
+*--------------------------------------------------------------------*
+FORM get_user_name  USING    p_user
+                    CHANGING p_name.
+
+  DATA:  l_userid     TYPE hrealo-realo,
+          l_name       TYPE p1000-stext.
+
+  l_userid = p_user.
+
+  CALL FUNCTION 'RH_READ_OBJECT'
+    EXPORTING
+      plvar           = '!!'
+      otype           = 'US'
+      realo           = l_userid
+      check_stru_auth = ' '
+    IMPORTING
+      stext           = l_name
+    EXCEPTIONS
+      not_found       = 1
+      OTHERS          = 2.
+  IF sy-subrc <> 0.
+    CLEAR l_name.
+  ENDIF.
+
+  p_name = l_name.
+
+ENDFORM.                    " GET_USER_NAME
+*--------------------------------------------------------------------*
+*       Form  BACK_SCRN_POPUP
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM back_scrn_popup .
+
+  CLEAR: w_ans, w_exit.
+
+
+** Panaya 2013-01-05 - Replaced call to obsolete function module
+** Panaya 2013-01-05 - 'POPUP_TO_CONFIRM_STEP'(tasks: 276, 295, 284)
+  "Panaya 2013-01-05
+  DATA: pny_text_question1 TYPE string.               "Panaya 2013-01-05
+  CONCATENATE 'Do you want to save'                   "Panaya 2013-01-05
+              'your data first?'                      "Panaya 2013-01-05
+ INTO pny_text_question1 SEPARATED BY space.          "Panaya 2013-01-05
+  "Panaya 2013-01-05
+  CALL FUNCTION 'POPUP_TO_CONFIRM'                    "Panaya 2013-01-05
+      EXPORTING                                       "Panaya 2013-01-05
+          titlebar = 'Back'                           "Panaya 2013-01-05
+          text_question = pny_text_question1          "Panaya 2013-01-05
+          text_button_1 = 'Yes'                       "Panaya 2013-01-05
+          text_button_2 = 'No'                        "Panaya 2013-01-05
+          default_button = '1'                        "Panaya 2013-01-05
+      IMPORTING                                       "Panaya 2013-01-05
+          answer = w_ans.                             "Panaya 2013-01-05
+  "Panaya 2013-01-05
+  IF w_ans = '1'.                                     "Panaya 2013-01-05
+    w_ans = 'J'.                                    "Panaya 2013-01-05
+  ELSEIF w_ans = '2'.                                 "Panaya 2013-01-05
+    w_ans = 'N'.                                    "Panaya 2013-01-05
+  ENDIF.                                              "Panaya 2013-01-05
+
+  CASE w_ans.
+    WHEN 'J'.   "Yes
+      w_code2 = 'SAVE'.
+      w_exit  = abap_true.
+    WHEN 'N'.   "No (Exit)
+      w_exit = 'I'.
+    WHEN 'A'.   "Cancel
+  ENDCASE.
+
+
+ENDFORM.                    " BACK_SCRN_POPUP
+
+*--------------------------------------------------------------------*
+*       Form  DELETE_RECORD_POPUP
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM delete_record_popup .
+
+  CLEAR: w_ans, w_exit.
+
+
+** Panaya 2013-01-05 - Replaced call to obsolete function module
+** Panaya 2013-01-05 - 'POPUP_TO_CONFIRM_STEP'(tasks: 276, 295, 284)
+  "Panaya 2013-01-05
+  DATA: pny_text_question2 TYPE string.               "Panaya 2013-01-05
+  CONCATENATE 'Do you want to delete'                 "Panaya 2013-01-05
+              'the record'                            "Panaya 2013-01-05
+ INTO pny_text_question2 SEPARATED BY space.          "Panaya 2013-01-05
+  "Panaya 2013-01-05
+  CALL FUNCTION 'POPUP_TO_CONFIRM'                    "Panaya 2013-01-05
+      EXPORTING                                       "Panaya 2013-01-05
+          titlebar = 'Delete'                         "Panaya 2013-01-05
+          text_question = pny_text_question2          "Panaya 2013-01-05
+          text_button_1 = 'Yes'                       "Panaya 2013-01-05
+          text_button_2 = 'No'                        "Panaya 2013-01-05
+          default_button = '1'                        "Panaya 2013-01-05
+      IMPORTING                                       "Panaya 2013-01-05
+          answer = w_ans.                             "Panaya 2013-01-05
+  "Panaya 2013-01-05
+  IF w_ans = '1'.                                     "Panaya 2013-01-05
+    w_ans = 'J'.                                    "Panaya 2013-01-05
+  ELSEIF w_ans = '2'.                                 "Panaya 2013-01-05
+    w_ans = 'N'.                                    "Panaya 2013-01-05
+  ENDIF.                                              "Panaya 2013-01-05
+
+  CASE w_ans.
+    WHEN 'J'.   "Yes
+      w_exit  = abap_true.
+    WHEN 'N'.   "No (Exit)
+      w_exit = 'I'.
+    WHEN 'A'.   "Cancel
+  ENDCASE.
+
+
+ENDFORM.                    " DELETE_RECORD_POPUP
+
+*--------------------------------------------------------------------*
+*       Form  NOTIFICATION_ONLY_POPUP
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM notification_only_popup .
+
+  CLEAR: w_ans, w_exit2.
+
+  DATA: pny_text_question2 TYPE string.
+  CONCATENATE 'You have set the Assessment Status to Incident'
+              'Only.  This will close the claim.'
+              'Do you want to continue?'
+ INTO pny_text_question2 SEPARATED BY space.
+
+  CALL FUNCTION 'POPUP_TO_CONFIRM'
+    EXPORTING
+      titlebar       = 'Incident Only'
+      text_question  = pny_text_question2
+      text_button_1  = 'Yes'
+      text_button_2  = 'No'
+      default_button = '1'
+    IMPORTING
+      answer         = w_ans.
+
+  IF w_ans = '1'.
+    w_ans = 'J'.
+  ELSEIF w_ans = '2'.
+    w_ans = 'N'.
+  ENDIF.
+
+  CASE w_ans.
+    WHEN 'J'.   "Yes
+      w_exit2 = abap_true.
+    WHEN 'N'.   "No
+      w_exit2 = 'I'.
+    WHEN 'A'.   "Cancel
+  ENDCASE.
+
+
+ENDFORM.                    " NOTIFICATION_ONLY_POPUP
+
+*--------------------------------------------------------------------*
+*       Form  ZERO_AMOUNT_POPUP
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM zero_amount_popup .
+
+
+
+** Panaya 2013-01-05 - Replaced call to obsolete function module
+** Panaya 2013-01-05 - 'POPUP_TO_CONFIRM_STEP'(tasks: 276, 295, 284)
+  "Panaya 2013-01-05
+  DATA: pny_text_question3 TYPE string.               "Panaya 2013-01-05
+  CONCATENATE 'You are creating a Maternity'          "Panaya 2013-01-05
+              'record for $0.  Is this correct?'      "Panaya 2013-01-05
+ INTO pny_text_question3 SEPARATED BY space.          "Panaya 2013-01-05
+  "Panaya 2013-01-05
+  CALL FUNCTION 'POPUP_TO_CONFIRM'                    "Panaya 2013-01-05
+      EXPORTING                                       "Panaya 2013-01-05
+          titlebar = 'Zero Amount'                    "Panaya 2013-01-05
+          text_question = pny_text_question3          "Panaya 2013-01-05
+          text_button_1 = 'Yes'                       "Panaya 2013-01-05
+          text_button_2 = 'No'                        "Panaya 2013-01-05
+          default_button = '1'                        "Panaya 2013-01-05
+      IMPORTING                                       "Panaya 2013-01-05
+          answer = w_ans.                             "Panaya 2013-01-05
+  "Panaya 2013-01-05
+  IF w_ans = '1'.                                     "Panaya 2013-01-05
+    w_ans = 'J'.                                    "Panaya 2013-01-05
+  ELSEIF w_ans = '2'.                                 "Panaya 2013-01-05
+    w_ans = 'N'.                                    "Panaya 2013-01-05
+  ENDIF.                                              "Panaya 2013-01-05
+
+
+ENDFORM.                    " ZERO_AMOUNT_POPUP
+
+*--------------------------------------------------------------------*
+*       Form  UPDATE_SCREEN_COMMENT
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_GR_OUTTAB4_PERNR  text
+*      -->P_GR_OUTTAB4_WORK_LINE  text
+*      -->P_L_DATE  text
+*      -->P_1719   text
+*--------------------------------------------------------------------*
+FORM update_screen_comment  USING    p_pernr
+                                     p_incident
+                                     p_code1
+                                     p_code2
+                                     p_display.
+
+  DATA: l_user(1)         TYPE c,
+        l_display(1)      TYPE c.
+
+  IF p_display = abap_true.
+    CLEAR l_user.
+  ELSE.
+    l_user = abap_true.
+  ENDIF.
+
+  CONCATENATE p_pernr p_incident p_code1 p_code2
+              INTO w_text_key.
+
+
+*  Call the function to update the text
+  CALL FUNCTION 'ZMAINTAIN_TEXT'
+    EXPORTING
+      object      = 'ZPOLICE'
+      id          = 'ZIM1'
+      language    = 'E'
+      name        = w_text_key
+      displayonly = p_display
+      incl_user   = l_user.
+
+
+
+ENDFORM.                    " UPDATE_SCREEN_COMMENT
+*--------------------------------------------------------------------*
+*       Form  CHECK_TEXT
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_GR_OUTTAB4_PERNR  text
+*      -->P_GR_OUTTAB4_WORK_LINE  text
+*      -->P_L_DATE  text
+*      <--P_L_EXISTS  text
+*--------------------------------------------------------------------*
+FORM check_text             USING    p_text_key
+                            CHANGING p_exists.
+
+
+  SELECT SINGLE * FROM stxh
+         WHERE tdobject = 'ZPOLICE'
+           AND tdname   = p_text_key
+           AND tdid     = 'ZIM1'
+           AND tdspras  = 'E'.
+
+  IF sy-subrc = 0.
+    p_exists = abap_true.
+  ELSE.
+    CLEAR p_exists.
+  ENDIF.
+
+
+ENDFORM.                    " CHECK_TEXT
+
+*--------------------------------------------------------------------*
+*       Form  CHECK_TEXT_2
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_GR_OUTTAB4_PERNR  text
+*      -->P_GR_OUTTAB4_WORK_LINE  text
+*      -->P_L_DATE  text
+*      <--P_L_EXISTS  text
+*--------------------------------------------------------------------*
+FORM check_text_2           USING    p_text_key
+                                     p_sort_ord
+                                     p_desc.
+
+  SELECT SINGLE * FROM stxh
+         WHERE tdobject = 'ZPOLICE'
+           AND tdname   = p_text_key
+           AND tdid     = 'ZIM1'
+           AND tdspras  = 'E'.
+
+  IF sy-subrc = 0.
+    CLEAR gr_outtab16.
+    gr_outtab16-note_key  = p_text_key.
+    gr_outtab16-sort_ord  = p_sort_ord.
+    gr_outtab16-note_desc = p_desc.
+    APPEND gr_outtab16 TO gt_outtab16.
+  ENDIF.
+
+
+ENDFORM.                    " CHECK_TEXT_2
+
+*--------------------------------------------------------------------*
+*       Form  CALL_PA20
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_GR_OUTTAB6_PERNR  text
+*      -->P_GR_OUTTAB6_SUBTY  text
+*      -->P_GR_OUTTAB6_OBJPS  text
+*      -->P_GR_OUTTAB6_SPRPS  text
+*      -->P_GR_OUTTAB6_ENDDA  text
+*      -->P_GR_OUTTAB6_BEGDA  text
+*      -->P_GR_OUTTAB6_SEQNR  text
+*      -->P_1971   text
+*--------------------------------------------------------------------*
+FORM call_pa20  USING    p_pernr
+                         p_subty
+                         p_objps
+                         p_sprps
+                         p_endda
+                         p_begda
+                         p_seqnr
+                         p_infotype.
+
+  DATA: l_date(10)         TYPE c.
+
+* skip main screen
+  REFRESH tbl_bdcdata.
+  PERFORM gen_bdc_header USING 'SAPMP50A'        '1000'.
+  WRITE p_begda TO l_date.
+  PERFORM gen_bdc_field  USING 'RP50G-BEGDA'     l_date.
+  WRITE p_endda TO l_date.
+  PERFORM gen_bdc_field  USING 'RP50G-ENDDA'     l_date.
+  PERFORM gen_bdc_field  USING 'RP50G-PERNR'     p_pernr.
+  PERFORM gen_bdc_field  USING 'RP50G-TIMR6'     abap_true.
+  PERFORM gen_bdc_field  USING 'RP50G-ASKEY'     abap_true.
+  PERFORM gen_bdc_field  USING 'RP50G-CHOIC'     p_infotype.
+  PERFORM gen_bdc_field  USING 'RP50G-SUBTY'     p_subty.
+  PERFORM gen_bdc_field  USING 'RP50G-SEQNR'     p_seqnr.
+  PERFORM gen_bdc_field  USING 'RP50G-SPRPS'     p_sprps.
+  PERFORM gen_bdc_field  USING 'RP50G-OBJPS'     p_objps.
+  PERFORM gen_bdc_field  USING 'BDC_OKCODE'      '=DIS'.
+
+  CALL TRANSACTION 'PA20' USING tbl_bdcdata MODE 'E'.
+
+
+ENDFORM.                                                    " CALL_PA20
+*--------------------------------------------------------------------*
+*       Form  GENERATE_INCIDENT_NO
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      <--P_P9001_IDENTNR  text
+*--------------------------------------------------------------------*
+FORM generate_incident_no  CHANGING p_incident.
+
+
+  DATA:  l_nr_rc(1)                  TYPE c.
+
+  CALL FUNCTION 'NUMBER_GET_NEXT'
+    EXPORTING
+      nr_range_nr             = 'IN'
+      object                  = 'Y_ACCIDENT'
+    IMPORTING
+      number                  = p_incident
+      returncode              = l_nr_rc
+    EXCEPTIONS
+      interval_not_found      = 1
+      number_range_not_intern = 2
+      object_not_found        = 3
+      quantity_is_0           = 4
+      quantity_is_not_1       = 5
+      interval_overflow       = 6
+      buffer_overflow         = 7
+      OTHERS                  = 8.
+  IF sy-subrc <> 0.
+    MESSAGE e999 WITH 'Error generating the next Incident Number'.
+  ENDIF.
+
+
+ENDFORM.                    " GENERATE_INCIDENT_NO
+*--------------------------------------------------------------------*
+*       Form  LOCK_EMPLOYEE
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_P9001_PERNR  text
+*--------------------------------------------------------------------*
+FORM lock_employee  USING    p_pernr
+                             p_infotype.
+
+  CLEAR w_error.
+  CALL FUNCTION 'ENQUEUE_EPPRELE'
+    EXPORTING
+      mode_prel      = abap_true
+      pernr          = p_pernr
+      infty          = p_infotype
+    EXCEPTIONS
+      foreign_lock   = 1
+      system_failure = 2
+      OTHERS         = 3.
+  IF sy-subrc NE 0.
+    w_error = abap_true.
+    CLEAR w_code2.
+  ENDIF.
+
+
+ENDFORM.                    " LOCK_EMPLOYEE
+
+*--------------------------------------------------------------------*
+*       Form  UNLOCK_EMPLOYEE
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_P9001_PERNR  text
+*--------------------------------------------------------------------*
+FORM unlock_employee  USING    p_pernr
+                               p_infotype.
+
+
+  CALL FUNCTION 'DEQUEUE_EPPRELE'
+    EXPORTING
+      mode_prel = abap_true
+      pernr     = p_pernr
+      infty     = p_infotype.
+
+
+ENDFORM.                    " UNLOCK_EMPLOYEE
+*--------------------------------------------------------------------*
+*       Form  GET_EMP_ORGEH
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_GR_OUTTAB4_PERNR  text
+*--------------------------------------------------------------------*
+FORM get_emp_orgeh  USING    p_pernr
+                    CHANGING p_orgeh.
+
+  CLEAR p_orgeh.
+
+  SELECT SINGLE * FROM  pa0001
+         WHERE  pernr  EQ p_pernr
+           AND    endda  GE sy-datum
+           AND    begda  LE sy-datum.
+
+  IF  sy-subrc NE 0.
+    CLEAR pa0001.
+  ENDIF.
+
+* determine if there is a current hda
+  SELECT SINGLE * FROM  pa0509
+       WHERE  pernr  EQ p_pernr
+       AND    sprps  EQ ' '
+       AND    endda  GE sy-datum
+       AND    begda  LE sy-datum.
+  IF sy-subrc = 0.
+* determine the hda org unit
+    SELECT SINGLE * FROM hrp1001
+            WHERE otype =  'S'
+            AND   objid =  pa0509-plans
+            AND   plvar =  c_plvar_01
+            AND   rsign =  'A'
+            AND   relat =  '003'
+            AND   istat =  '1'
+            AND   priox LIKE '%'
+            AND begda <= sy-datum
+            AND endda >= sy-datum.
+    IF sy-subrc = 0.
+      p_orgeh = hrp1001-sobid(8).
+    ENDIF.
+  ENDIF.
+
+  IF p_orgeh IS INITIAL.
+    p_orgeh = pa0001-orgeh.
+  ENDIF.
+
+
+ENDFORM.                    " GET_EMP_ORGEH
+*--------------------------------------------------------------------*
+*       Form  GET_OBJTXT
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_L_ORGEH  text
+*      -->P_1491   text
+*      <--P_L_ORGEH_DESC  text
+*--------------------------------------------------------------------*
+FORM get_objtxt  USING    p_objid
+                          p_otype
+                 CHANGING p_name
+                          p_short.
+
+  DATA:  l_objid      TYPE hrealo-realo,
+          l_name       TYPE p1000-stext,
+          l_short      TYPE p1000-short.
+
+  l_objid = p_objid.
+
+  CALL FUNCTION 'RH_READ_OBJECT'
+    EXPORTING
+      plvar           = c_plvar_01
+      otype           = p_otype
+      realo           = l_objid
+      check_stru_auth = ' '
+    IMPORTING
+      stext           = l_name
+      short           = l_short
+    EXCEPTIONS
+      not_found       = 1
+      OTHERS          = 2.
+  IF sy-subrc <> 0.
+    CLEAR l_name.
+  ENDIF.
+
+  p_name  = l_name.
+  p_short = l_short.
+
+
+
+ENDFORM.                    " GET_OBJTXT
+*--------------------------------------------------------------------*
+*       Form  SAVE_TEXT_CONTACT
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM save_text_contact TABLES tb_outtxt     STRUCTURE gr_outtxt2
+                              tb_outtxt_old STRUCTURE gr_outtxt2
+                       USING  p_code
+                              p_seq
+                              p_user.
+
+  IF tb_outtxt[] NE tb_outtxt_old[].
+    CLEAR w_thead.
+    w_thead-tdobject = 'ZPOLICE'.
+    CONCATENATE zim_in_mast-pernr zim_in_mast-incident p_code p_seq
+                INTO w_text_key.
+    w_thead-tdname   = w_text_key.
+    w_thead-tdid     = 'ZIM1'.
+    w_thead-tdform   = 'SYSTEM'.
+    w_thead-tdstyle  = 'HR_TEM1'.
+    w_thead-tdspras  = 'E'.
+
+    REFRESH tbl_tline.
+    CLEAR tbl_tline.
+
+    IF p_user = abap_true.
+      PERFORM add_user_line TABLES tbl_tline
+                            USING 100.
+    ENDIF.
+
+    LOOP AT tb_outtxt INTO gr_outtxt2.
+      tbl_tline-tdline = gr_outtxt2.
+      APPEND tbl_tline.
+    ENDLOOP.
+
+    CALL FUNCTION 'SAVE_TEXT'
+      EXPORTING
+        header          = w_thead
+        savemode_direct = abap_true
+      TABLES
+        lines           = tbl_tline
+      EXCEPTIONS
+        id              = 1
+        language        = 2
+        name            = 3
+        object          = 4
+        OTHERS          = 5.
+
+  ENDIF.
+
+ENDFORM.                    " SAVE_TEXT_CONTACT
+
+*--------------------------------------------------------------------*
+*       Form  SAVE_TEXT_CONTACT_72
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM save_text_contact_72 TABLES tb_outtxt     STRUCTURE gr_outtxt6
+                              tb_outtxt_old STRUCTURE gr_outtxt6
+                       USING  p_code
+                              p_seq
+                              p_user.
+
+  IF tb_outtxt[] NE tb_outtxt_old[].
+    CLEAR w_thead.
+    w_thead-tdobject = 'ZPOLICE'.
+    CONCATENATE zim_in_mast-pernr zim_in_mast-incident p_code p_seq
+                INTO w_text_key.
+    w_thead-tdname   = w_text_key.
+    w_thead-tdid     = 'ZIM1'.
+    w_thead-tdform   = 'SYSTEM'.
+    w_thead-tdstyle  = 'HR_TEM1'.
+    w_thead-tdspras  = 'E'.
+
+    REFRESH tbl_tline.
+    CLEAR tbl_tline.
+
+    IF p_user = abap_true.
+      PERFORM add_user_line TABLES tbl_tline
+                            USING 100.
+    ENDIF.
+
+    LOOP AT tb_outtxt INTO gr_outtxt6.
+      tbl_tline-tdline = gr_outtxt6.
+      APPEND tbl_tline.
+    ENDLOOP.
+
+    CALL FUNCTION 'SAVE_TEXT'
+      EXPORTING
+        header          = w_thead
+        savemode_direct = abap_true
+      TABLES
+        lines           = tbl_tline
+      EXCEPTIONS
+        id              = 1
+        language        = 2
+        name            = 3
+        object          = 4
+        OTHERS          = 5.
+
+  ENDIF.
+
+ENDFORM.                    " SAVE_TEXT_CONTACT_72
+
+*--------------------------------------------------------------------*
+*       Form  SAVE_TEXT_INCIDENT
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM save_text_incident TABLES tb_outtxt    STRUCTURE gr_outtxt1
+                              tb_outtxt_old STRUCTURE gr_outtxt1
+                       USING  p_code
+                              p_seq.
+
+  IF tb_outtxt[] NE tb_outtxt_old[].
+    CLEAR w_thead.
+    w_thead-tdobject = 'ZPOLICE'.
+    CONCATENATE p9001-pernr p9001-identnr p_code p_seq
+                INTO w_text_key.
+    w_thead-tdname   = w_text_key.
+    w_thead-tdid     = 'ZIM1'.
+    w_thead-tdform   = 'SYSTEM'.
+    w_thead-tdstyle  = 'HR_TEM1'.
+    w_thead-tdspras  = 'E'.
+
+    REFRESH tbl_tline.
+    CLEAR tbl_tline.
+
+    LOOP AT tb_outtxt INTO gr_outtxt1.
+      tbl_tline-tdline = gr_outtxt1.
+      APPEND tbl_tline.
+    ENDLOOP.
+
+    CALL FUNCTION 'SAVE_TEXT'
+      EXPORTING
+        header          = w_thead
+        savemode_direct = abap_true
+      TABLES
+        lines           = tbl_tline
+      EXCEPTIONS
+        id              = 1
+        language        = 2
+        name            = 3
+        object          = 4
+        OTHERS          = 5.
+
+  ENDIF.
+
+ENDFORM.                    " SAVE_TEXT_INCIDENT
+
+*--------------------------------------------------------------------*
+*       Form  SAVE_TEXT_IT9203
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM save_text_it9203 TABLES tb_outtxt    STRUCTURE gr_outtxt1
+                       USING  p_code
+                              p_seq.
+
+  DATA:  lt_longs          TYPE table_of_strings,
+          l_longt           TYPE char255,
+          l_longs           TYPE string,
+          index(3)          TYPE n,
+          act_index         TYPE sytabix,
+          length            TYPE sytabix,
+          maxlen            TYPE sytabix,
+          finish(1)         TYPE c,
+          num(2)            TYPE n,
+          l_cr_lf(2)        TYPE c,
+          stream_text       TYPE string.
+
+  DATA: lt_longt           TYPE char255 OCCURS 0 WITH HEADER LINE.
+  DATA: tb_outtxt2         TYPE gs_outtxt_type2
+                                 OCCURS 0 WITH HEADER LINE.
+
+  tb_outtxt2[] = tb_outtxt[].
+
+  CALL FUNCTION 'CONVERT_TABLE_TO_STRING'
+    EXPORTING
+      i_tabline_length = 100
+    IMPORTING
+      e_string         = stream_text
+    TABLES
+      it_table         = tb_outtxt2.
+
+  CLEAR   : lt_longs, lt_longt.
+  REFRESH : lt_longs, lt_longt.
+  l_cr_lf = cl_abap_char_utilities=>cr_lf.
+  SPLIT  stream_text AT  l_cr_lf INTO TABLE  lt_longs .
+  LOOP AT lt_longs INTO l_longs.
+    length = strlen( l_longs ).
+    IF length <= 75.
+      l_longt = l_longs.
+      APPEND l_longt TO lt_longt.
+    ELSE.
+      act_index = 0.
+      WHILE act_index < length.
+        maxlen = length - act_index.
+        IF maxlen > 75.
+          maxlen = 75.
+        ENDIF.
+        l_longt = l_longs+act_index(maxlen).
+        CLEAR finish.
+        index = 74.
+        WHILE finish  <> abap_true AND index <> 0.
+          IF l_longt+index(1) = ' '.
+            finish = abap_true.
+          ENDIF.
+          index = index - 1.
+        ENDWHILE.
+        index = index + 1.
+        IF index <> 0.
+          l_longt = l_longt(index).
+          APPEND l_longt TO lt_longt.
+          act_index = act_index + index + 1.
+        ELSE.
+          APPEND l_longt TO lt_longt.
+          act_index = act_index + 75.
+        ENDIF.
+      ENDWHILE.
+    ENDIF.
+  ENDLOOP.
+
+
+  CLEAR w_thead.
+  w_thead-tdobject = 'ZPOLICE'.
+  CONCATENATE zim_in_mast-pernr p_seq p_code
+              INTO w_text_key.
+  w_thead-tdname   = w_text_key.
+  w_thead-tdid     = 'ZIM3'.
+  w_thead-tdform   = 'SYSTEM'.
+  w_thead-tdstyle  = 'HR_TEM1'.
+  w_thead-tdspras  = 'E'.
+
+
+  REFRESH tbl_tline.
+  CLEAR tbl_tline.
+
+  LOOP AT lt_longt.
+    tbl_tline-tdline = lt_longt.
+    APPEND tbl_tline.
+  ENDLOOP.
+
+  CALL FUNCTION 'SAVE_TEXT'
+    EXPORTING
+      header          = w_thead
+      savemode_direct = abap_true
+    TABLES
+      lines           = tbl_tline
+    EXCEPTIONS
+      id              = 1
+      language        = 2
+      name            = 3
+      object          = 4
+      OTHERS          = 5.
+
+ENDFORM.                    " SAVE_TEXT_IT9203
+
+*--------------------------------------------------------------------*
+*       Form  DELETE_TEXT
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM delete_text       USING  p_code
+                              p_seq.
+
+  CONCATENATE zim_in_mast-pernr zim_in_mast-incident p_code p_seq
+              INTO w_text_key.
+
+  CALL FUNCTION 'DELETE_TEXT'
+    EXPORTING
+      id              = 'ZIM1'
+      language        = 'E'
+      name            = w_text_key
+      object          = 'ZPOLICE'
+      savemode_direct = ' '
+      textmemory_only = ' '
+      local_cat       = ' '
+    EXCEPTIONS
+      not_found       = 1
+      OTHERS          = 2.
+  IF sy-subrc <> 0.
+  ENDIF.
+
+
+ENDFORM.                    " DELETE_TEXT
+
+*--------------------------------------------------------------------*
+*       Form  LOCK_IM_PERNR
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM lock_im_pernr USING p_pernr.
+
+
+  DATA: l_subrc     TYPE sy-subrc,
+        l_tabix     TYPE sy-tabix,
+        l_key(19)   TYPE c,
+        l_uname(12) TYPE c,
+        l_ename(40) TYPE c.
+
+  DATA: BEGIN OF l_enq OCCURS 100.
+          INCLUDE STRUCTURE seqg3.
+  DATA: END OF l_enq.
+
+  DATA: l_pernr         TYPE zim_in_mast-pernr.
+
+  l_pernr = p_pernr.
+
+
+  CALL FUNCTION 'ENQUEUE_EZIM_IN_MAST'
+    EXPORTING
+      mode_zim_in_mast = 'E'
+      mandt            = sy-mandt
+      pernr            = l_pernr
+      x_pernr          = ' '
+      _scope           = '2'
+      _wait            = ' '
+      _collect         = ' '
+    EXCEPTIONS
+      foreign_lock     = 1
+      system_failure   = 2
+      OTHERS           = 3.
+  IF sy-subrc <> 0.
+    PERFORM unlock_im_pernr USING l_pernr.
+
+    CLEAR:   l_tabix, l_subrc, l_enq, l_key, l_uname.
+    REFRESH: l_enq.
+
+*    CALL FUNCTION 'ENQUE_READ'     "DEVK9HR5A4
+    CALL FUNCTION 'ENQUEUE_READ'                            "DEVK9HR5A4
+      EXPORTING
+        gclient = sy-mandt
+        gname   = ' '
+        garg    = ' '
+        guname  = ' '
+      IMPORTING
+        number  = l_tabix
+        subrc   = l_subrc
+      TABLES
+        enq     = l_enq.
+
+    IF sy-subrc EQ 0.
+      CONCATENATE sy-mandt p_pernr
+        INTO l_key.
+
+      LOOP AT l_enq
+        WHERE gname = 'ZIM_IN_MAST'
+        AND   gobj  = 'EZIM_IN_MAST'
+        AND   garg(11)  = l_key.
+        l_uname = l_enq-guname.
+        EXIT.
+      ENDLOOP.
+
+      PERFORM get_user_name  USING    l_uname
+                             CHANGING l_ename.
+
+      MESSAGE e999 WITH  'Injury Management Case for'
+                         p_pernr
+                         ' is currently locked by '
+                         l_ename.
+    ENDIF.
+  ENDIF.
+
+ENDFORM.                    " LOCK_IM_PERNR
+*--------------------------------------------------------------------*
+*       Form  UNLOCK_IM_PERNR
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_L_PERNR  text
+*--------------------------------------------------------------------*
+FORM unlock_im_pernr  USING    p_pernr.
+
+
+  CALL FUNCTION 'DEQUEUE_EZIM_IN_MAST'
+    EXPORTING
+      mode_zim_in_mast = 'E'
+      mandt            = sy-mandt
+      pernr            = p_pernr
+      x_pernr          = ' '
+      _scope           = '3'
+      _synchron        = ' '
+      _collect         = ' '.
+
+
+ENDFORM.                    " UNLOCK_IM_PERNR
+*--------------------------------------------------------------------*
+*       Form  CALL_NOTES
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_ZIM_IN_MAST_PERNR  text
+*      -->P_ZIM_IN_MAST_INCIDENT  text
+*      -->P_2551   text
+*      -->P_2552   text
+*--------------------------------------------------------------------*
+FORM call_notes  USING    p_pernr
+                          p_incident
+                          p_code
+                          p_seq
+                          p_display.
+
+  CONCATENATE p_pernr p_incident p_code p_seq INTO w_text_key.
+
+  CALL FUNCTION 'Z_NOTES_ENTRY_WITH_HISTORY'
+    EXPORTING
+      i_id            = 'ZIM1'
+      i_name          = w_text_key
+      i_language      = 'E'
+      i_object        = 'ZPOLICE'
+      i_display       = p_display
+      i_display_exist = abap_true
+      i_user          = abap_true.
+
+ENDFORM.                    " CALL_NOTES
+
+*--------------------------------------------------------------------*
+*       Form  CALL_NOTES_2
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_ZIM_IN_MAST_PERNR  text
+*      -->P_ZIM_IN_MAST_INCIDENT  text
+*      -->P_2551   text
+*      -->P_2552   text
+*--------------------------------------------------------------------*
+FORM call_notes_2  USING  p_pernr
+                          p_incident
+                          p_code
+                          p_seq
+                          p_display.
+
+  CONCATENATE p_pernr p_incident p_code p_seq INTO w_text_key.
+
+  CALL FUNCTION 'Z_NOTES_ENTRY'
+    EXPORTING
+      i_id            = 'ZIM1'
+      i_name          = w_text_key
+      i_language      = 'E'
+      i_object        = 'ZPOLICE'
+      i_display       = p_display
+      i_display_exist = ' '
+      i_user          = ' '.
+
+ENDFORM.                    " CALL_NOTES_2
+
+*--------------------------------------------------------------------*
+*       Form  UPDATE_NOTES
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_ZIM_IN_MAST_PERNR  text
+*      -->P_ZIM_IN_MAST_INCIDENT  text
+*      -->P_2551   text
+*      -->P_2552   text
+*--------------------------------------------------------------------*
+FORM update_notes  USING  p_text
+                          p_text2.
+
+
+  CONCATENATE zim_in_mast-pernr zim_in_mast-incident 'CASE'
+              INTO w_text_key.
+  REFRESH : tbl_tline.
+  CLEAR   : tbl_tline, w_thead.
+
+
+  CALL FUNCTION 'READ_TEXT'
+    EXPORTING
+      id                      = 'ZIM1'
+      language                = 'E'
+      name                    = w_text_key
+      object                  = 'ZPOLICE'
+    IMPORTING
+      header                  = w_thead
+    TABLES
+      lines                   = tbl_tline
+    EXCEPTIONS
+      id                      = 1
+      language                = 2
+      name                    = 3
+      not_found               = 4
+      object                  = 5
+      reference_check         = 6
+      wrong_access_to_archive = 7
+      OTHERS                  = 8.
+  IF sy-subrc NE 0.  " No existing notes exist
+    CLEAR w_thead.
+    w_thead-tdobject = 'ZPOLICE'.
+    w_thead-tdname   = w_text_key.
+    w_thead-tdid     = 'ZIM1'.
+    w_thead-tdform   = 'SYSTEM'.
+    w_thead-tdstyle  = 'HR_TEM1'.
+    w_thead-tdspras  = 'E'.
+  ENDIF.
+
+  PERFORM add_user_line TABLES tbl_tline
+                        USING 100.
+
+  CLEAR tbl_tline.
+  tbl_tline-tdline = p_text.
+  TRANSLATE tbl_tline-tdline TO UPPER CASE.
+  APPEND tbl_tline.
+  IF p_text2 IS NOT INITIAL.
+    tbl_tline-tdline = p_text2.
+    TRANSLATE tbl_tline-tdline TO UPPER CASE.
+    APPEND tbl_tline.
+  ENDIF.
+
+  CALL FUNCTION 'SAVE_TEXT'
+    EXPORTING
+      header          = w_thead
+      savemode_direct = abap_true
+    TABLES
+      lines           = tbl_tline
+    EXCEPTIONS
+      id              = 1
+      language        = 2
+      name            = 3
+      object          = 4
+      OTHERS          = 5.
+
+
+ENDFORM.                    " UPDATE_NOTES
+
+*--------------------------------------------------------------------*
+*       Form  UPDATE_NOTES_CM
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_L_TEXT  text
+*      -->P_W_FILENAME  text
+*      -->P_L_TEXT2  text
+*--------------------------------------------------------------------*
+FORM update_notes_cm  USING  p_text
+                             p_text2
+                             p_code.
+
+
+  CONCATENATE zim_in_mast-pernr zim_in_mast-incident p_code
+              INTO w_text_key.
+  REFRESH : tbl_tline.
+  CLEAR   : tbl_tline, w_thead.
+
+
+  CALL FUNCTION 'READ_TEXT'
+    EXPORTING
+      id                      = 'ZIM1'
+      language                = 'E'
+      name                    = w_text_key
+      object                  = 'ZPOLICE'
+    IMPORTING
+      header                  = w_thead
+    TABLES
+      lines                   = tbl_tline
+    EXCEPTIONS
+      id                      = 1
+      language                = 2
+      name                    = 3
+      not_found               = 4
+      object                  = 5
+      reference_check         = 6
+      wrong_access_to_archive = 7
+      OTHERS                  = 8.
+  IF sy-subrc NE 0.  " No existing notes exist
+    CLEAR w_thead.
+    w_thead-tdobject = 'ZPOLICE'.
+    w_thead-tdname   = w_text_key.
+    w_thead-tdid     = 'ZIM1'.
+    w_thead-tdform   = 'SYSTEM'.
+    w_thead-tdstyle  = 'HR_TEM1'.
+    w_thead-tdspras  = 'E'.
+  ENDIF.
+
+  PERFORM add_user_line TABLES tbl_tline
+                        USING 100.
+
+  CLEAR tbl_tline.
+  tbl_tline-tdline = p_text.
+  TRANSLATE tbl_tline-tdline TO UPPER CASE.
+  APPEND tbl_tline.
+  IF p_text2 IS NOT INITIAL.
+    tbl_tline-tdline = p_text2.
+    TRANSLATE tbl_tline-tdline TO UPPER CASE.
+    APPEND tbl_tline.
+  ENDIF.
+
+  CALL FUNCTION 'SAVE_TEXT'
+    EXPORTING
+      header          = w_thead
+      savemode_direct = abap_true
+    TABLES
+      lines           = tbl_tline
+    EXCEPTIONS
+      id              = 1
+      language        = 2
+      name            = 3
+      object          = 4
+      OTHERS          = 5.
+
+
+
+ENDFORM.                    " UPDATE_NOTES_CM
+
+*--------------------------------------------------------------------*
+*       Form  UPDATE_NOTES_CM_4
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_L_TEXT  text
+*      -->P_W_FILENAME  text
+*      -->P_L_TEXT2  text
+*--------------------------------------------------------------------*
+FORM update_notes_cm_4  USING  p_text
+                               p_text2
+                               p_text3
+                               p_text4
+                               p_code.
+
+  DATA: l_date1(10)          TYPE c,
+         l_date2(10)          TYPE c.
+
+  CONCATENATE zim_in_mast-pernr zim_in_mast-incident p_code
+              INTO w_text_key.
+  REFRESH : tbl_tline.
+  CLEAR   : tbl_tline, w_thead.
+
+
+  CALL FUNCTION 'READ_TEXT'
+    EXPORTING
+      id                      = 'ZIM1'
+      language                = 'E'
+      name                    = w_text_key
+      object                  = 'ZPOLICE'
+    IMPORTING
+      header                  = w_thead
+    TABLES
+      lines                   = tbl_tline
+    EXCEPTIONS
+      id                      = 1
+      language                = 2
+      name                    = 3
+      not_found               = 4
+      object                  = 5
+      reference_check         = 6
+      wrong_access_to_archive = 7
+      OTHERS                  = 8.
+  IF sy-subrc NE 0.  " No existing notes exist
+    CLEAR w_thead.
+    w_thead-tdobject = 'ZPOLICE'.
+    w_thead-tdname   = w_text_key.
+    w_thead-tdid     = 'ZIM1'.
+    w_thead-tdform   = 'SYSTEM'.
+    w_thead-tdstyle  = 'HR_TEM1'.
+    w_thead-tdspras  = 'E'.
+  ENDIF.
+
+  PERFORM add_user_line TABLES tbl_tline
+                        USING 100.
+
+  WRITE w_old_disablement_date TO l_date1.
+  WRITE w_new_disablement_date TO l_date2.
+
+  CLEAR tbl_tline.
+  CONCATENATE 'The Date of Disablement has been changed from'
+              l_date1 'to' l_date2 INTO tbl_tline-tdline
+              SEPARATED BY ' '.
+  TRANSLATE tbl_tline-tdline TO UPPER CASE.
+  APPEND tbl_tline.
+  tbl_tline-tdline = p_text.
+  APPEND tbl_tline.
+  IF p_text2 IS NOT INITIAL.
+    tbl_tline-tdline = p_text2.
+    APPEND tbl_tline.
+  ENDIF.
+  IF p_text3 IS NOT INITIAL.
+    tbl_tline-tdline = p_text3.
+    APPEND tbl_tline.
+  ENDIF.
+  IF p_text4 IS NOT INITIAL.
+    tbl_tline-tdline = p_text4.
+    APPEND tbl_tline.
+  ENDIF.
+
+  CALL FUNCTION 'SAVE_TEXT'
+    EXPORTING
+      header          = w_thead
+      savemode_direct = abap_true
+    TABLES
+      lines           = tbl_tline
+    EXCEPTIONS
+      id              = 1
+      language        = 2
+      name            = 3
+      object          = 4
+      OTHERS          = 5.
+
+
+
+ENDFORM.                    " UPDATE_NOTES_CM_4
+
+*--------------------------------------------------------------------*
+*       Form  COPY_NOTES
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_ZIM_IN_MAST_PERNR  text
+*      -->P_ZIM_IN_MAST_INCIDENT  text
+*      -->P_2551   text
+*      -->P_2552   text
+*--------------------------------------------------------------------*
+FORM copy_notes  USING  p_pernr
+                        p_old_incident
+                        p_new_incident
+                        p_key.
+
+
+  CONCATENATE p_pernr p_old_incident p_key
+              INTO w_text_key.
+  REFRESH : tbl_tline.
+  CLEAR   : tbl_tline, w_thead.
+
+
+  CALL FUNCTION 'READ_TEXT'
+    EXPORTING
+      id                      = 'ZIM1'
+      language                = 'E'
+      name                    = w_text_key
+      object                  = 'ZPOLICE'
+    IMPORTING
+      header                  = w_thead
+    TABLES
+      lines                   = tbl_tline
+    EXCEPTIONS
+      id                      = 1
+      language                = 2
+      name                    = 3
+      not_found               = 4
+      object                  = 5
+      reference_check         = 6
+      wrong_access_to_archive = 7
+      OTHERS                  = 8.
+  IF sy-subrc NE 0.  " No existing notes exist
+    EXIT.
+  ENDIF.
+
+  CONCATENATE p_pernr p_new_incident p_key
+              INTO w_thead-tdname.
+
+  CALL FUNCTION 'SAVE_TEXT'
+    EXPORTING
+      header          = w_thead
+      savemode_direct = abap_true
+    TABLES
+      lines           = tbl_tline
+    EXCEPTIONS
+      id              = 1
+      language        = 2
+      name            = 3
+      object          = 4
+      OTHERS          = 5.
+
+
+ENDFORM.                    " COPY_NOTES
+
+*--------------------------------------------------------------------*
+*       Form  COPY_NOTES2
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_ZIM_IN_MAST_PERNR  text
+*      -->P_ZIM_IN_MAST_INCIDENT  text
+*      -->P_2551   text
+*      -->P_2552   text
+*--------------------------------------------------------------------*
+FORM copy_notes2 USING  p_pernr
+                        p_incident
+                        p_old_key
+                        p_new_key.
+
+
+  CONCATENATE p_pernr p_incident p_old_key
+              INTO w_text_key.
+  REFRESH : tbl_tline.
+  CLEAR   : tbl_tline, w_thead.
+
+
+  CALL FUNCTION 'READ_TEXT'
+    EXPORTING
+      id                      = 'ZIM1'
+      language                = 'E'
+      name                    = w_text_key
+      object                  = 'ZPOLICE'
+    IMPORTING
+      header                  = w_thead
+    TABLES
+      lines                   = tbl_tline
+    EXCEPTIONS
+      id                      = 1
+      language                = 2
+      name                    = 3
+      not_found               = 4
+      object                  = 5
+      reference_check         = 6
+      wrong_access_to_archive = 7
+      OTHERS                  = 8.
+  IF sy-subrc NE 0.  " No existing notes exist
+    EXIT.
+  ENDIF.
+
+  CONCATENATE p_pernr p_incident p_new_key
+              INTO w_thead-tdname.
+
+  CALL FUNCTION 'SAVE_TEXT'
+    EXPORTING
+      header          = w_thead
+      savemode_direct = abap_true
+    TABLES
+      lines           = tbl_tline
+    EXCEPTIONS
+      id              = 1
+      language        = 2
+      name            = 3
+      object          = 4
+      OTHERS          = 5.
+
+
+ENDFORM.                    " COPY_NOTES2
+
+*--------------------------------------------------------------------*
+*       Form  CALL_DESC
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_ZIM_IN_MAST_PERNR  text
+*      -->P_ZIM_IN_MAST_INCIDENT  text
+*      -->P_2551   text
+*      -->P_2552   text
+*--------------------------------------------------------------------*
+FORM call_desc   USING    p_pernr
+                          p_incident
+                          p_code
+                          p_seq
+                          p_display.
+
+  CONCATENATE p_pernr p_incident p_code p_seq INTO w_text_key.
+
+  CALL FUNCTION 'Z_NOTES_ENTRY'
+    EXPORTING
+      i_id            = 'ZIM1'
+      i_name          = w_text_key
+      i_language      = 'E'
+      i_object        = 'ZPOLICE'
+      i_display       = p_display
+      i_display_exist = ' '
+      i_user          = ' '.
+
+ENDFORM.                    " CALL_DESC
+*--------------------------------------------------------------------*
+*       Form  GET_DOMAIN_DESC
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_2352   text
+*      -->P_P0000_STAT2  text
+*      <--P_W_EMP_DET_STATUS  text
+*--------------------------------------------------------------------*
+FORM get_domain_desc  USING    p_domain
+                               p_value
+                      CHANGING p_desc.
+
+  CLEAR p_desc.
+
+  w_domvalue_l = p_value.
+  CALL FUNCTION 'DD_DOMVALUE_TEXT_GET'
+    EXPORTING
+      domname  = p_domain
+      value    = w_domvalue_l
+      langu    = 'E'
+    IMPORTING
+      dd07v_wa = w_dd07v
+      rc       = w_rc
+    EXCEPTIONS
+      OTHERS   = 1.
+  IF  w_rc NE 0.
+    CLEAR w_dd07v.
+  ENDIF.
+
+  p_desc = w_dd07v-ddtext.
+
+ENDFORM.                    " GET_DOMAIN_DESC
+*--------------------------------------------------------------------*
+*       Form  RETRIEVE_PA9001_TEXT
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM retrieve_pa9001_text .
+
+  DATA: test              TYPE zhr_inc_tbody,
+        fieldname(30)     TYPE c,
+        fieldname1(30)    TYPE c,
+        lt_longs          TYPE table_of_strings,
+        l_longt           TYPE char255,
+        l_longs           TYPE string,
+        index(3)          TYPE n,
+        act_index         TYPE sytabix,
+        length            TYPE sytabix,
+        maxlen            TYPE sytabix,
+        finish(1)         TYPE c,
+        num(2)            TYPE n,
+        l_cr_lf(2)        TYPE c,
+        l_struc(10)       TYPE c,
+        pkey              TYPE pskey,
+        l_space(3)        TYPE c,
+        l_space_new(3)    TYPE c,
+        tbl_string        TYPE string_table,
+        rec_string        TYPE string,
+        l_lines           TYPE i.
+
+  tx-key-infty = '9001'.
+
+  CLEAR stream_text.
+  REFRESH ptext. CLEAR ptext.
+
+  IMPORT pkey TO pkey ptext TO ptext
+  FROM DATABASE pcl1(tx)
+  ID tx-key.
+  CALL FUNCTION 'CONVERT_TABLE_TO_STRING'
+    EXPORTING
+      i_tabline_length = 72
+    IMPORTING
+      e_string         = stream_text
+    TABLES
+      it_table         = ptext.
+
+* Under some situations the CRLF is split over two lines and when
+* the lines are merged a space is inserted between the CR and the LF.
+
+  l_cr_lf = cl_abap_char_utilities=>cr_lf.
+
+  CONCATENATE l_cr_lf(1) l_cr_lf+1(1)
+              INTO l_space SEPARATED BY ' '.
+
+  CONCATENATE l_cr_lf(1) l_cr_lf+1(1)
+              INTO l_space_new.
+
+  REPLACE ALL OCCURRENCES OF l_space IN stream_text
+          WITH l_space_new.
+
+* Remove any spaces at the beginning of the line
+  SPLIT stream_text AT l_space_new
+        INTO TABLE tbl_string.
+  DESCRIBE TABLE tbl_string LINES l_lines.
+  IF l_lines GT 1.
+    CLEAR stream_text.
+    LOOP AT tbl_string INTO rec_string.
+      IF stream_text IS NOT INITIAL.
+        CONCATENATE stream_text rec_string
+                    INTO stream_text
+                    SEPARATED BY l_cr_lf.
+      ELSE.
+        stream_text = rec_string.
+      ENDIF.
+    ENDLOOP.
+  ENDIF.
+
+
+  SPLIT  stream_text AT  l_cr_lf INTO TABLE  lt_longs .
+  LOOP AT lt_longs INTO l_longs.
+    length = strlen( l_longs ).
+    IF length <= 65.
+      l_longt = l_longs.
+      APPEND l_longt TO lt_longt.
+    ELSE.
+      act_index = 0.
+      WHILE act_index < length.
+        maxlen = length - act_index.
+        IF maxlen > 65.
+          maxlen = 65.
+        ENDIF.
+        l_longt = l_longs+act_index(maxlen).
+        CLEAR finish.
+        index = 64.
+        WHILE finish  <> abap_true AND index <> 0.
+          IF l_longt+index(1) = ' '.
+            finish = abap_true.
+          ENDIF.
+          index = index - 1.
+        ENDWHILE.
+        index = index + 1.
+        IF index <> 0.
+          l_longt = l_longt(index).
+          APPEND l_longt TO lt_longt.
+          act_index = act_index + index + 1.
+        ELSE.
+          APPEND l_longt TO lt_longt.
+          act_index = act_index + 65.
+        ENDIF.
+      ENDWHILE.
+    ENDIF.
+  ENDLOOP.
+
+ENDFORM.                    " RETRIEVE_PA9001_TEXT
+*--------------------------------------------------------------------*
+*       Form  SEND_INSURER_EMAIL
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM send_insurer_email .
+
+
+*  call function 'SSF_FUNCTION_MODULE_NAME'
+*    exporting
+*      formname           = 'ZHR_FORMS_INCIDENT'
+*      variant            = ' '
+*      direct_call        = ' '
+*    importing
+*      fm_name            = w_formname
+*    exceptions
+*      no_form            = 1
+*      no_function_module = 2
+*      others             = 3.
+*  if sy-subrc <> 0.
+** MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+**         WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+*  endif.
+*
+*  clear: w_control_parameters, w_output_options.
+*  w_control_parameters-preview    = abap_true.
+*  w_control_parameters-no_dialog  = abap_true.
+** w_output_options-tddest         = 'LOCL'.
+*  w_output_options-tdimmed        = abap_true.
+*  w_output_options-tddelete       = abap_true.
+*
+*  w_control_parameters-getotf     = abap_true.
+*
+*  call function w_formname
+*    exporting
+*      user_settings      = ''
+*      control_parameters = w_control_parameters
+*      output_options     = w_output_options
+*      incident           = wa_incident
+*      longtext           = lt_longt
+*    importing
+*      job_output_info    = w_output_info.
+*
+*  perform convert_smartform_to_pdf.
+*  perform send_email_p902.
+
+* Change for new P902 System
+
+  DATA: l_incident            TYPE zp902_incident_odata,
+        l_nature              TYPE zp902_nature.
+
+  COMMIT WORK AND WAIT.
+
+  MOVE-CORRESPONDING w_incident_form TO l_incident.
+  l_incident-incident_no  = zim_in_mast-incident.
+  IF wa_incident-sworn IS NOT INITIAL.
+    l_incident-emp_type = 'P'.
+  ELSE.
+    l_incident-emp_type = 'A'.
+  ENDIF.
+
+* Check the bullying flag in the nature
+  LOOP AT gt_outtab1 INTO gr_outtab1.
+    SELECT SINGLE * FROM zp902_nature
+           INTO l_nature
+           WHERE nature_code = gr_outtab1-nature_code.
+    IF sy-subrc = 0.
+      IF l_nature-bullying IS NOT INITIAL.
+        l_incident-bullying = 'X'.
+      ENDIF.
+      IF l_nature-complaint_popup IS NOT INITIAL.
+        l_incident-complaint_popup = 'X'.
+      ENDIF.
+    ENDIF.
+  ENDLOOP.
+
+  CALL METHOD zcl_p902_class=>send_incident_email
+    EXPORTING
+      i_incident_detail = l_incident
+      i_resend          = ' '
+      i_insurer_only    = abap_true
+      i_no_insurer      = ' '.
+
+
+
+ENDFORM.                    " SEND_INSURER_EMAIL
+*--------------------------------------------------------------------*
+*       Form  CONVERT_SMARTFORM_TO_PDF
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM convert_smartform_to_pdf .
+
+  DATA: l_output_info      TYPE ssfcrescl,
+        l_output_otf       TYPE ssfcrescl,
+        t_docs             TYPE TABLE OF docs,
+        t_tlines           TYPE TABLE OF tline,
+        l_pdf_line         TYPE zsform_all_pdf_line,
+        bsize(10)          TYPE n.
+
+
+*  Convert the OFT output of the smartform to PDF
+  CALL FUNCTION 'CONVERT_OTF_2_PDF'
+    IMPORTING
+      bin_filesize           = bsize
+    TABLES
+      otf                    = w_output_info-otfdata
+      doctab_archive         = t_docs
+      lines                  = t_tlines
+    EXCEPTIONS
+      err_conv_not_possible  = 1
+      err_otf_mc_noendmarker = 2
+      OTHERS                 = 3.
+  IF sy-subrc <> 0.
+    CASE sy-subrc.
+      WHEN 1.
+        RAISE err_conv_not_possible.
+      WHEN 2.
+        RAISE err_otf_mc_noendmarker.
+      WHEN OTHERS.
+        RAISE internal_error.
+    ENDCASE.
+  ENDIF.
+
+** Make the linesize suitable for mail attachment
+*  call function 'SX_TABLE_LINE_WIDTH_CHANGE'
+*    exporting
+*      line_width_src              = 134
+*      line_width_dst              = 255
+*    tables
+*      content_in                  = t_tlines
+*      content_out                 = tbl_pdf
+*    exceptions
+*      err_line_width_src_too_long = 1
+*      err_line_width_dst_too_long = 2
+*      err_conv_failed             = 3
+*      others                      = 4.
+*  if sy-subrc <> 0.
+*    case sy-subrc.
+*      when 1.
+*        raise err_line_width_src_too_long.
+*      when 2.
+*        raise err_line_width_dst_too_long.
+*      when 3.
+*        raise err_conv_failed.
+*      when others.
+*        raise internal_error.
+*    endcase.
+*  endif.
+*
+* Problem with file format
+
+  DATA: l_download_file             TYPE string,
+         l_size                      TYPE i.
+
+
+  l_download_file = 'Incident.PDF'.
+
+  PERFORM determine_download_path.
+
+  CONCATENATE w_download_path l_download_file INTO w_filename.
+  l_size = bsize.
+
+  CALL FUNCTION 'GUI_DOWNLOAD'
+    EXPORTING
+      filename     = w_filename
+      filetype     = 'BIN'
+      bin_filesize = l_size
+    TABLES
+      data_tab     = t_tlines.
+
+  CALL METHOD cl_gui_frontend_services=>gui_upload
+    EXPORTING
+      filetype                = 'BIN'
+      filename                = w_filename
+    IMPORTING
+      filelength              = l_size
+    CHANGING
+      data_tab                = tbl_pdf
+    EXCEPTIONS
+      file_open_error         = 1
+      file_read_error         = 2
+      no_batch                = 3
+      gui_refuse_filetransfer = 4
+      invalid_type            = 5
+      no_authority            = 6
+      unknown_error           = 7
+      bad_data_format         = 8
+      header_not_allowed      = 9
+      separator_not_allowed   = 10
+      header_too_long         = 11
+      unknown_dp_error        = 12
+      access_denied           = 13
+      dp_out_of_memory        = 14
+      disk_full               = 15
+      dp_timeout              = 16
+      not_supported_by_gui    = 17
+      error_no_gui            = 18
+      OTHERS                  = 19.
+
+
+
+ENDFORM.                    " CONVERT_SMARTFORM_TO_PDF
+*--------------------------------------------------------------------*
+*       Form  SEND_EMAIL_P902
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM send_email_p902 .
+
+  DATA: l_text(80)        TYPE c,
+         l_count(2)        TYPE n,
+         l_fieldname(8)    TYPE c,
+         l_name(120)       TYPE c.
+
+  FIELD-SYMBOLS : <fs>.
+
+  WRITE wa_incident-pernr TO l_name LEFT-JUSTIFIED.
+  SHIFT l_name LEFT DELETING LEADING '0'.
+  CONCATENATE '(' l_name ')' INTO l_name.
+  CONCATENATE wa_incident-titel wa_incident-vorna wa_incident-nachn
+              l_name INTO l_name SEPARATED BY ' '.
+  REFRESH : tbl_email.
+  CLEAR   : tbl_email.
+  l_count = 1.
+  WHILE l_count LE 12.
+    CONCATENATE 'TEXT-T' l_count INTO l_fieldname.
+    ASSIGN (l_fieldname) TO <fs>.
+    tbl_email-rec = <fs>.
+    REPLACE '&1' IN tbl_email-rec WITH l_name.
+    APPEND tbl_email.
+    ADD 1 TO l_count.
+  ENDWHILE.
+
+  tbl_objbin[] = tbl_pdf[].
+  CONCATENATE '(' wa_incident-identnr ')' INTO l_name.
+  CONCATENATE 'Incident Report' l_name
+              wa_incident-vorna wa_incident-nachn
+              INTO w_title SEPARATED BY ' '.
+  WRITE wa_incident-pernr TO l_name LEFT-JUSTIFIED.
+  SHIFT l_name LEFT DELETING LEADING '0'.
+  CONCATENATE 'Servicenr' l_name
+              INTO w_title_att SEPARATED BY ' '.
+
+  IF wa_incident-pre88 = abap_true.
+    SELECT SINGLE * FROM zhr_inc_mailrec
+           WHERE id = 'ALIA1'.
+  ELSE.
+    SELECT SINGLE * FROM zhr_inc_mailrec
+           WHERE id = 'EML'.
+  ENDIF.
+
+  PERFORM send_email USING zhr_inc_mailrec-email_adr.
+
+
+ENDFORM.                    " SEND_EMAIL_P902
+
+*--------------------------------------------------------------------*
+*       Form  SEND_EMAIL
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_P_PERNR  text
+*      -->P_0084   text
+*--------------------------------------------------------------------*
+FORM send_email USING p_email.
+
+  DATA: lt_internet         TYPE TABLE OF sadrud,
+        ls_internet         TYPE sadrud,
+        ls_objbin           TYPE solisti1,
+        ls_body             TYPE solisti1,
+        lt_body             TYPE TABLE OF solisti1.
+
+  ls_internet-address = p_email.
+
+  IF NOT ls_internet-address IS INITIAL.
+    CLEAR: lt_internet, lt_body.
+
+    APPEND ls_internet TO lt_internet.
+
+    LOOP AT tbl_email.
+      ls_body = tbl_email.
+      APPEND ls_body TO lt_body.
+    ENDLOOP.
+
+    CALL FUNCTION 'ZMAIL'
+      EXPORTING
+        title               = w_title
+        doc_type            = 'PDF'
+        title_attachment    = w_title_att
+*       SPOOL               =
+      TABLES
+        internet_address    = lt_internet
+        body                = lt_body
+        body_attachment_hex = tbl_objbin
+      EXCEPTIONS
+        spool_error         = 1
+        OTHERS              = 2.
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+              WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+  ENDIF.
+
+ENDFORM.                    " send_email
+*--------------------------------------------------------------------*
+*       Form  GET_NOTE_DESC
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_5803   text
+*      -->P_5804   text
+*--------------------------------------------------------------------*
+FORM get_note_desc  USING    p_cat
+                             p_rule.
+
+  SELECT SINGLE * FROM zim_rem
+         WHERE note_cat      = p_cat
+           AND business_rule = p_rule.
+  IF sy-subrc NE 0.
+    CLEAR zim_rem.
+  ENDIF.
+
+ENDFORM.                    " GET_NOTE_DESC
+*--------------------------------------------------------------------*
+*       Form  DISPLAY_USERGUIDE
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_8924   text
+*--------------------------------------------------------------------*
+FORM display_userguide  USING  p_guide.
+
+
+  DATA: l_url(255)             TYPE c.
+
+  SELECT SINGLE * FROM zim_add_file
+    INTO rec_zim_add_file
+    WHERE corr_code = p_guide.
+  IF sy-subrc = 0.
+    l_url = rec_zim_add_file-doc_link.
+  ELSE.
+    CLEAR w_code2.
+    MESSAGE e999 WITH 'Link not found'.
+  ENDIF.
+
+* This function no longer works to open a file on the P drive
+*  CALL FUNCTION 'CALL_BROWSER'
+*    EXPORTING
+*      url                    = l_url
+*      window_name            = 'SAPNet'
+*      new_window             = 'X'
+*    EXCEPTIONS
+*      frontend_not_supported = 1
+*      frontend_error         = 2
+*      prog_not_found         = 3
+*      no_batch               = 4
+*      unspecified_error      = 5
+*      OTHERS                 = 6.
+*  IF sy-subrc NE 0.
+*    MESSAGE i003(1r).
+*  ENDIF.
+
+  PERFORM execute_file USING l_url.
+
+
+ENDFORM.                    " DISPLAY_USERGUIDE
+*--------------------------------------------------------------------*
+*       Form  ADD_R_CAT
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_9068   text
+*--------------------------------------------------------------------*
+FORM add_r_cat  USING    p_cat.
+
+  CLEAR r_cat.
+  r_cat-low = p_cat.
+  r_cat-sign = 'I'.
+  r_cat-option = 'EQ'.
+  APPEND r_cat.
+
+ENDFORM.                    " ADD_R_CAT
+*--------------------------------------------------------------------*
+*       Form  GET_RANK
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_PA0002_TITEL  text
+*      -->P_PA0002_NAMZU  text
+*      <--P_W_MGR_RANK  text
+*--------------------------------------------------------------------*
+FORM get_rank  USING    p_first
+                        p_second
+               CHANGING p_rank.
+
+  IF p_second = 'Detective'.
+    CONCATENATE p_second p_first INTO
+                p_rank SEPARATED BY ' '.
+  ELSEIF p_second IS NOT INITIAL.
+    p_rank = p_second.
+  ELSE.
+    p_rank = p_first.
+  ENDIF.
+
+ENDFORM.                    " GET_RANK
+*--------------------------------------------------------------------*
+*       Form  IMPORT_FILE_SELECTION
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM import_file_selection .
+
+  DATA: l_rc            TYPE i.
+
+  REFRESH : tbl_filename.
+  CLEAR     rec_filename.
+
+  CALL METHOD cl_gui_frontend_services=>file_open_dialog
+    CHANGING
+      file_table = tbl_filename
+      rc         = l_rc.
+
+  DESCRIBE TABLE tbl_filename LINES w_lines.
+  IF w_lines = 0.
+    EXIT.
+  ENDIF.
+
+  READ TABLE tbl_filename INTO rec_filename INDEX 1.
+
+ENDFORM.                    " IMPORT_FILE_SELECTION
+
+*&---------------------------------------------------------------------*
+*&      Form  PROCESS_HTML
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      -->P_GR_OUTTAB01_DOC_LINK  text
+*----------------------------------------------------------------------*
+FORM process_html  USING    p_doc_link.
+
+  DATA : i            TYPE i,
+         j            TYPE i,
+         k            TYPE i,
+         l_flag(1)    TYPE c.
+
+  REFRESH gt_outtxt80.
+  i = 0.
+  j = strlen( p_doc_link ).
+  WHILE j GT 0.
+    IF j GT 80.
+      k = 80.
+    ELSE.
+      k = j.
+    ENDIF.
+    gr_outtxt80-line = p_doc_link+i(k).
+    APPEND gr_outtxt80 TO gt_outtxt80.
+    ADD 80 TO i.
+    SUBTRACT 80 FROM j.
+  ENDWHILE.
+
+  CALL SCREEN 8080 STARTING AT 10 5 ENDING AT 130 23.
+
+  IF w_canc IS INITIAL.
+*   perform find_cr.
+    CLEAR p_doc_link.
+    CALL FUNCTION 'CONVERT_TABLE_TO_STRING'
+      EXPORTING
+        i_tabline_length = 80
+      IMPORTING
+        e_string         = p_doc_link
+      TABLES
+        it_table         = selected_text.
+  ENDIF.
+
+ENDFORM.                    " PROCESS_HTML
+
+*--------------------------------------------------------------------*
+*       Form  REMOVE_PATH
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      <--P_REC_FILENAME  text
+*--------------------------------------------------------------------*
+FORM remove_path  CHANGING p_filename.
+
+  DATA: l_filename         TYPE zim_in_filename,
+         lv_str_len         TYPE i,
+         lv_str_file        TYPE string,
+         lv_chr_ext(3)      TYPE c,
+         i                  TYPE i,
+         j                  TYPE i,
+         k(1)               TYPE c.
+
+  lv_str_file = p_filename.
+  lv_str_len = strlen( lv_str_file ).
+  lv_str_len = lv_str_len - 3.
+  lv_chr_ext = lv_str_file+lv_str_len(3).
+
+* Remove the path from the filename
+  i = 0.
+  lv_str_len = lv_str_len + 3.
+  j = 0.
+  CLEAR l_filename.
+  WHILE i LT lv_str_len.
+    k = p_filename+i(1).
+    IF k = '\'.
+      CLEAR: l_filename, j.
+    ELSE.
+      l_filename+j(1) = k.
+      ADD 1 TO j.
+    ENDIF.
+    ADD 1 TO i.
+  ENDWHILE.
+
+  p_filename = l_filename.
+
+ENDFORM.                    " REMOVE_PATH
+*--------------------------------------------------------------------*
+*       Form  GET_END_DATES
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM get_end_dates .
+
+
+  zim_in_cm-wc_end_date = w_emp_det-gbdat.
+  IF w_emp_det-gesch = '1'.
+    IF w_emp_det-gbdat LE '19520630'.
+      PERFORM end_date USING    65
+                                0
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19531231'.
+      PERFORM end_date USING    65
+                                6
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19550630'.
+      PERFORM end_date USING    66
+                                0
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19561231'.
+      PERFORM end_date USING    66
+                                6
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSE.
+      PERFORM end_date USING    67
+                                0
+                       CHANGING zim_in_cm-wc_end_date.
+    ENDIF.
+  ELSE.
+    IF w_emp_det-gbdat LE '19350630'.
+      PERFORM end_date USING    60
+                                0
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19361231'.
+      PERFORM end_date USING    60
+                                6
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19380630'.
+      PERFORM end_date USING    61
+                                0
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19391231'.
+      PERFORM end_date USING    61
+                                6
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19410630'.
+      PERFORM end_date USING    62
+                                0
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19421231'.
+      PERFORM end_date USING    62
+                                6
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19440630'.
+      PERFORM end_date USING    63
+                                0
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19451231'.
+      PERFORM end_date USING    63
+                                6
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19470630'.
+      PERFORM end_date USING    64
+                                0
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19481231'.
+      PERFORM end_date USING    64
+                                6
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19520630'.
+      PERFORM end_date USING    65
+                                0
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19531231'.
+      PERFORM end_date USING    65
+                                6
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19550630'.
+      PERFORM end_date USING    66
+                                0
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSEIF w_emp_det-gbdat LE '19561231'.
+      PERFORM end_date USING    66
+                                6
+                       CHANGING zim_in_cm-wc_end_date.
+    ELSE.
+      PERFORM end_date USING    67
+                                0
+                       CHANGING zim_in_cm-wc_end_date.
+    ENDIF.
+  ENDIF.
+
+  IF zim_incident-dateincident GT zim_in_cm-wc_end_date.
+    zim_in_cm-wc_end_date = zim_incident-dateincident.
+    PERFORM end_date USING    1
+                              0
+                     CHANGING zim_in_cm-wc_end_date.
+  ELSE.
+* WC Ends 1 year after retirement age
+    PERFORM end_date USING    1
+                              0
+                     CHANGING zim_in_cm-wc_end_date.
+  ENDIF.
+* WC ends the day before
+  SUBTRACT 1 FROM zim_in_cm-wc_end_date.
+
+
+ENDFORM.                    " GET_END_DATES
+*--------------------------------------------------------------------*
+*       Form  END_DATE
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_60     text
+*      -->P_L_YEAR  text
+*      <--P_ZIM_IN_CM_IP_END_DATE  text
+*--------------------------------------------------------------------*
+FORM end_date  USING    p_no
+                        p_mth
+               CHANGING p_date.
+
+  DATA: l_mth(2)       TYPE n,
+         l_yr(2)        TYPE n.
+
+  l_mth = p_mth.
+  l_yr  = p_no.
+
+  CALL FUNCTION 'RP_CALC_DATE_IN_INTERVAL'
+    EXPORTING
+      date      = p_date
+      days      = 0
+      months    = l_mth
+      signum    = '+'
+      years     = l_yr
+    IMPORTING
+      calc_date = p_date.
+
+ENDFORM.                    " END_DATE
+*--------------------------------------------------------------------*
+*       Form  BUILD_SUPER_RANGES
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*--------------------------------------------------------------------*
+FORM build_super_ranges .
+
+  CLEAR   : r_subty.
+  REFRESH : r_subty.
+
+*<<< Added by AZORBA BRD 04 & 05 - New fund codes 9DDL, 9DDM
+  IF w_epss = abap_true.
+    r_subty-low    = '9DDL'.
+    r_subty-high   = '9DDM'.
+  ELSE.
+    r_subty-low    = '9DDA'.
+    r_subty-high   = '9DDH'.
+  ENDIF.
+*>>> Added by AZORBA BRD 04 & 05 - New fund codes 9DDL, 9DDM
+  r_subty-sign   = 'I'.
+  r_subty-option = 'BT'.
+  APPEND r_subty.
+
+ENDFORM.                    " BUILD_SUPER_RANGES
+*--------------------------------------------------------------------*
+*       Form  READ_IT_TEXT
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_PA0015_PERNR  text
+*      -->P_8067   text
+*      -->P_PA0015_SUBTY  text
+*      -->P_PA0015_BEGDA  text
+*      -->P_PA0015_ENDDA  text
+*      -->P_PA0015_SEQNR  text
+*--------------------------------------------------------------------*
+FORM read_it_text USING p_pernr
+                        p_infotype
+                        p_subty
+                        p_begda
+                        p_endda
+                        p_seqnr.
+
+  DATA: tx-key        TYPE pskey.
+  DATA: p_line(78) TYPE c.
+
+  tx-key-pernr = p_pernr.
+  tx-key-infty = p_infotype.
+  tx-key-subty = p_subty.
+  tx-key-begda = p_begda.
+  tx-key-endda = p_endda.
+  tx-key-seqnr = p_seqnr.
+  rp-imp-c1-tx.
+
+  CLEAR: w_text_begda, w_text_endda, w_text_incident.
+  DESCRIBE TABLE ptext LINES w_lines.
+  IF w_lines GE 1.
+    READ TABLE ptext INDEX 1.
+    IF p_subty = 'WCDA' OR
+       p_subty = 'WCDE' OR
+       p_subty = 'WCDR'.
+      w_text_begda = ptext+22(10).
+      w_text_endda = ptext+36(10).
+    ELSE.
+      w_text_begda = ptext+29(10).
+      w_text_endda = ptext+43(10).
+    ENDIF.
+  ENDIF.
+  IF w_lines GE 2.
+    READ TABLE ptext INDEX 2.
+    w_text_incident = ptext+16(10).
+  ENDIF.
+
+
+ENDFORM.                    " READ_IT_TEXT
+
+*--------------------------------------------------------------------*
+*       Form  VALIDATE_DATE
+*--------------------------------------------------------------------*
+*       text
+*--------------------------------------------------------------------*
+*      -->P_TBL_INREC_BEGDA  text
+*      <--P_TBL_ITAB_PER_BEGDA  text
+*--------------------------------------------------------------------*
+FORM validate_date  USING    p_in_datum
+                    CHANGING p_datum.
+
+  DATA: l_input_date(10)          TYPE c,
+         l_date(10)                TYPE c.
+
+  CLEAR: p_datum.
+
+  l_date = p_in_datum.
+
+  CALL FUNCTION 'Z_LSM_DATE_CONVERT'
+    EXPORTING
+      date_in             = l_date
+      date_format_in      = 'DDMY'
+      to_output_format    = abap_true
+*     TO_INTERNAL_FORMAT  = ' '
+    IMPORTING
+      date_out            = l_input_date
+    EXCEPTIONS
+      illegal_date        = 1
+      illegal_date_format = 2
+      no_user_date_format = 3
+      OTHERS              = 4.
+  IF sy-subrc = 0.
+    p_datum(4)   = l_input_date+6(4).
+    p_datum+4(2) = l_input_date+3(2).
+    p_datum+6(2) = l_input_date(2).
+  ENDIF.
+
+ENDFORM.                    " VALIDATE_DATE
+*&---------------------------------------------------------------------*
+*&      Form  GET_TELEPHONE_NO
+*&---------------------------------------------------------------------*
+*       Get telephone number
+*----------------------------------------------------------------------*
+FORM get_telephone_no  USING    pv_pernr  TYPE persno
+                       CHANGING pv_phone  TYPE char20.
+
+  DATA:  ls_pa0006    TYPE pa0006,
+         lv_cnt       TYPE num2     VALUE '03',
+         lv_fname     TYPE string.
+  FIELD-SYMBOLS:
+         <lv_num>     TYPE pa0006-num01.
+
+  CLEAR pv_phone.
+  CHECK pv_pernr IS NOT INITIAL.
+* get telephone number
+  SELECT SINGLE * FROM pa0006 INTO ls_pa0006
+          WHERE pernr = pv_pernr
+            AND subty = '99'
+            AND begda LE sy-datum
+            AND endda GE sy-datum.
+  IF sy-subrc EQ 0.
+    lv_fname = |NUM{ lv_cnt }|.
+    ASSIGN COMPONENT lv_fname OF STRUCTURE ls_pa0006 TO <lv_num>.
+    IF  sy-subrc EQ 0
+    AND <lv_num> IS NOT INITIAL.
+      pv_phone = <lv_num>.
+      EXIT.       "Exit Do loop on first find
+    ENDIF.
+  ENDIF.
+
+ENDFORM.                    " GET_TELEPHONE_NO
+
+*&---------------------------------------------------------------------*
+*&      Form  EXECUTE_FILE
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      -->P_W_DOWNLOAD_FILE  text
+*----------------------------------------------------------------------*
+FORM execute_file  USING    p_file.
+
+  DATA : l_result             TYPE abap_bool,
+         l_file               TYPE string.
+
+  l_file = p_file.
+
+  CALL METHOD cl_gui_frontend_services=>execute
+    EXPORTING
+      document               = l_file
+      synchronous            = 'X'
+      operation              = 'OPEN'
+    EXCEPTIONS
+      cntl_error             = 1
+      error_no_gui           = 2
+      bad_parameter          = 3
+      file_not_found         = 4
+      path_not_found         = 5
+      file_extension_unknown = 6
+      error_execute_failed   = 7
+      synchronous_failed     = 8
+      not_supported_by_gui   = 9
+      OTHERS                 = 10.
+  IF sy-subrc <> 0 AND
+     sy-subrc <> 8.
+    MESSAGE i999(zz) WITH 'Error displaying attachment'.
+  ENDIF.
+
+ENDFORM.                    " EXECUTE_FILE
+
+*&---------------------------------------------------------------------*
+*&      Form  call_welfare_contact
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      -->P_PERNR       text
+*      -->P_CONTACT_NO  text
+*----------------------------------------------------------------------*
+FORM call_welfare_contact USING  p_pernr
+                                 p_contact_no.
+
+
+  DATA : l_result             TYPE abap_bool,
+         l_url                TYPE string,
+         l_spnego             TYPE string,
+         l_zhrfurls           TYPE zhrfurls,
+         l_gateway            TYPE zhrfurls,
+         l_redirect           TYPE zhrfurls.
+
+  IF sy-sysid NE 'DB1'.
+    l_spnego = '&spnego=disabled'.
+  ENDIF.
+
+  "Get Gateway URL of Current System
+  SELECT SINGLE * FROM zhrfurls
+    INTO  l_gateway
+    WHERE urltype = 'GATEWAY'.
+  IF sy-subrc <> 0.
+    CLEAR l_gateway.
+  ENDIF.
+
+  "For SSO it has to be redirected from Portal to Gateway
+  SELECT SINGLE * FROM zhrfurls
+    INTO l_redirect
+    WHERE urltype = 'REDIRECT'.
+  IF sy-subrc NE 0.
+    CLEAR l_redirect.
+  ENDIF.
+
+  CONCATENATE l_redirect-url
+              l_gateway-url
+              '/sap/bc/ui5_ui5/sap/ZH5WEL_CONTACT/index.html?'
+              'contactno=' p_contact_no
+              '&pernr=' p_pernr
+              '&action=V'
+              l_spnego
+              INTO l_url.
+
+
+* Internet Explorer
+  CALL METHOD cl_gui_frontend_services=>execute
+    EXPORTING
+      document               = l_url
+      synchronous            = 'X'
+      operation              = 'OPEN'
+    EXCEPTIONS
+      cntl_error             = 1
+      error_no_gui           = 2
+      bad_parameter          = 3
+      file_not_found         = 4
+      path_not_found         = 5
+      file_extension_unknown = 6
+      error_execute_failed   = 7
+      synchronous_failed     = 8
+      not_supported_by_gui   = 9
+      OTHERS                 = 10.
+  IF sy-subrc <> 0 AND
+     sy-subrc <> 8.
+    MESSAGE i999(zz) WITH 'Error displaying attachment'.
+  ENDIF.
+
+
+
+ENDFORM.                    " MAINTAIN_MR
